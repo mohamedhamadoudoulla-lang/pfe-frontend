@@ -1,0 +1,453 @@
+.step-page {
+  min-height: 100vh;
+  background-color: #f8fafc;
+  padding: 2.5rem 1rem;
+}
+
+.step-container {
+  max-width: 672px;
+  margin: 0 auto;
+}
+
+/* Stepper */
+.stepper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 2.5rem;
+  position: relative;
+}
+
+.stepper-track {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 1.25rem;
+  height: 2px;
+  background-color: #e2e8f0;
+  z-index: 0;
+}
+
+.stepper-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  z-index: 1;
+}
+
+.step-circle {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid;
+  background-color: #ffffff;
+  transition: all 0.3s;
+}
+
+.step-circle.done {
+  background-color: #f59e0b;
+  border-color: #f59e0b;
+  color: #ffffff;
+}
+
+.step-circle.active {
+  border-color: #f59e0b;
+  color: #d97706;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
+}
+
+.step-circle.pending {
+  border-color: #e2e8f0;
+  color: #94a3b8;
+}
+
+.step-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #1e293b;
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .step-label {
+    display: block;
+  }
+}
+
+.step-label.pending {
+  color: #94a3b8;
+}
+
+/* Carte principale */
+.step-card {
+  background: #ffffff;
+  border-radius: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  border: 1px solid #f1f5f9;
+  overflow: hidden;
+}
+
+.step-header {
+  background: linear-gradient(135deg, #292524, #1c1917);
+  padding: 1.75rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.step-header-icon {
+  width: 3rem;
+  height: 3rem;
+  background-color: rgba(245, 158, 11, 0.2);
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  color: #fbbf24;
+  flex-shrink: 0;
+}
+
+.step-header h2 {
+  color: #ffffff;
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0 0 0.25rem 0;
+}
+
+.step-header p {
+  color: #a8a29e;
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+/* Formulaire */
+.step-form {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .form-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+.form-label svg {
+  color: #f59e0b;
+}
+
+.form-input,
+.form-select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid #e2e8f0;
+  background-color: #f8fafc;
+  color: #1e293b;
+  font-size: 0.9375rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+.form-input::placeholder {
+  color: #94a3b8;
+}
+
+.form-input:focus,
+.form-select:focus {
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
+  background-color: #ffffff;
+}
+
+.form-select {
+  appearance: none;
+  cursor: pointer;
+}
+
+/* Boutons type construction */
+.construction-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+
+.construction-btn {
+  padding: 0.75rem 0.5rem;
+  border-radius: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: 2px solid #e2e8f0;
+  background-color: #f8fafc;
+  color: #475569;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s;
+}
+
+.construction-btn:hover {
+  border-color: #cbd5e1;
+}
+
+.construction-btn.selected {
+  border-color: #f59e0b;
+  background-color: #fffbeb;
+  color: #92400e;
+}
+
+/* Options de finition */
+.finition-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .finition-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.finition-opt {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.25rem 1rem;
+  border-radius: 0.75rem;
+  border: 2px solid #e2e8f0;
+  background-color: #f8fafc;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.finition-opt:hover {
+  border-color: #cbd5e1;
+}
+
+.finition-opt.selected-economique {
+  border-color: #10b981;
+  background-color: #ecfdf5;
+}
+
+.finition-opt.selected-standard {
+  border-color: #f59e0b;
+  background-color: #fffbeb;
+}
+
+.finition-opt.selected-haut {
+  border-color: #f97316;
+  background-color: #fff7ed;
+}
+
+.finition-check {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid;
+}
+
+.finition-check.economique {
+  background-color: #ecfdf5;
+  border-color: #10b981;
+  color: #047857;
+}
+
+.finition-check.standard {
+  background-color: #fffbeb;
+  border-color: #f59e0b;
+  color: #92400e;
+}
+
+.finition-check.haut {
+  background-color: #fff7ed;
+  border-color: #f97316;
+  color: #c2410c;
+}
+
+.finition-icon {
+  transition: color 0.2s;
+}
+
+.finition-icon.economique { color: #10b981; }
+.finition-icon.standard   { color: #f59e0b; }
+.finition-icon.haut       { color: #f97316; }
+.finition-icon.inactive   { color: #94a3b8; }
+
+.finition-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.finition-name.economique { color: #047857; }
+.finition-name.standard   { color: #92400e; }
+.finition-name.haut       { color: #c2410c; }
+.finition-name.inactive   { color: #475569; }
+
+.finition-price {
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.finition-price.economique { color: #10b981; }
+.finition-price.standard   { color: #f59e0b; }
+.finition-price.haut       { color: #f97316; }
+.finition-price.inactive   { color: #94a3b8; }
+
+/* Estimation preview */
+.estimate-preview {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, #fffbeb, #fff7ed);
+  border: 1px solid #fde68a;
+  border-radius: 0.75rem;
+  padding: 1rem 1.25rem;
+}
+
+.estimate-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.estimate-icon {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 0.5rem;
+  background-color: #fef3c7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #d97706;
+  flex-shrink: 0;
+}
+
+.estimate-title {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #92400e;
+  margin: 0 0 0.125rem 0;
+}
+
+.estimate-detail {
+  font-size: 0.625rem;
+  color: #d97706;
+  margin: 0;
+}
+
+.estimate-amount {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #92400e;
+  margin: 0;
+}
+
+.estimate-currency {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #d97706;
+  margin-left: 0.25rem;
+}
+
+/* Boutons de navigation */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-top: 0.5rem;
+}
+
+.prev-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.75rem;
+  border: 2px solid #e2e8f0;
+  background: none;
+  color: #475569;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.9375rem;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.prev-btn:hover {
+  border-color: #cbd5e1;
+  background-color: #f8fafc;
+}
+
+.prev-btn svg {
+  transition: transform 0.2s;
+}
+
+.prev-btn:hover svg {
+  transform: translateX(-2px);
+}
+
+.next-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  border: none;
+  background-color: #1c1917;
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.9375rem;
+  transition: background-color 0.2s;
+}
+
+.next-btn:hover {
+  background-color: #292524;
+}
+
+.next-btn svg {
+  transition: transform 0.2s;
+}
+
+.next-btn:hover svg {
+  transform: translateX(2px);
+}

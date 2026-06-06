@@ -1,0 +1,4 @@
+@media (max-width: 900px) {
+  .pp-layout { grid-template-columns: 1fr !important; }
+  .pp-row { grid-template-columns: 1fr !important; }
+}

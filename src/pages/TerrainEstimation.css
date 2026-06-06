@@ -1,0 +1,340 @@
+.te-page {
+  min-height: 100vh;
+  background: #f8fafc;
+  padding: 40px 20px 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.te-progress {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 36px;
+}
+
+.te-progress-step {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  background: #f3f4f6;
+  color: #9ca3af;
+  border: 2px solid #e5e7eb;
+  flex-shrink: 0;
+}
+
+.te-progress-step.done {
+  background: #22c55e;
+  color: white;
+  border-color: #22c55e;
+}
+
+.te-progress-step.active {
+  background: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+}
+
+.te-progress-line {
+  height: 3px;
+  width: 60px;
+  background: #e5e7eb;
+  flex-shrink: 0;
+}
+
+.te-progress-line.active {
+  background: #22c55e;
+}
+
+.te-hero-image {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  margin-bottom: 24px;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+.te-results-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  width: 100%;
+  max-width: 660px;
+  padding: 32px;
+  margin-bottom: 24px;
+}
+
+.te-results-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.te-results-header h2 {
+  font-size: 22px;
+  font-weight: 800;
+  color: #1f2937;
+  margin-bottom: 6px;
+}
+
+.te-results-header p {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.te-results-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.te-result-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  background: #f8fafc;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+}
+
+.te-result-item.total {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(59, 130, 246, 0.03));
+  border-color: rgba(59, 130, 246, 0.2);
+}
+
+.te-result-icon {
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  flex-shrink: 0;
+}
+
+.te-result-content {
+  flex: 1;
+}
+
+.te-result-label {
+  display: block;
+  font-size: 13px;
+  color: #6b7280;
+  margin-bottom: 4px;
+}
+
+.te-result-value {
+  display: block;
+  font-size: 18px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.te-result-value.total {
+  color: #3b82f6;
+  font-size: 22px;
+}
+
+.te-terrains-section {
+  margin-bottom: 24px;
+}
+
+.te-terrains-section h3 {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.te-terrains-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.te-terrain-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 14px;
+  background: #f8fafc;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+}
+
+.te-terrain-name {
+  font-size: 13px;
+  color: #4b5563;
+  font-weight: 500;
+}
+
+.te-terrain-price {
+  font-size: 13px;
+  font-weight: 700;
+  color: #3b82f6;
+}
+
+.te-no-data {
+  font-size: 13px;
+  color: #9ca3af;
+  text-align: center;
+  padding: 16px;
+}
+
+.te-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.te-btn-next {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 20px;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s;
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+}
+
+.te-btn-next:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+}
+
+.te-btn-prev {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 18px;
+  background: white;
+  color: #6b7280;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+.te-btn-prev:hover {
+  border-color: #3b82f6;
+  color: #3b82f6;
+}
+
+.te-error {
+  text-align: center;
+  padding: 32px 20px;
+  background: #fef2f2;
+  border-radius: 12px;
+  border: 1px solid #fecaca;
+}
+
+.te-error p {
+  color: #dc2626;
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+.te-map-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+  padding: 24px;
+  width: 100%;
+  max-width: 660px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+.te-map-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  color: #1f2937;
+}
+
+.te-map-header h3 {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.te-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  gap: 20px;
+}
+
+.te-spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid #e5e7eb;
+  border-top-color: #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.te-loading p {
+  color: #6b7280;
+  font-size: 15px;
+}
+
+@media (max-width: 600px) {
+  .te-page { padding: 24px 12px 48px; }
+  .te-progress-line { width: 36px; }
+  .te-results-card { padding: 24px; }
+  .te-actions { flex-direction: column; }
+  .te-btn-prev { order: 1; }
+}
+
+.te-back-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 20px;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+.te-back-btn:hover {
+  background: #2563eb;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}

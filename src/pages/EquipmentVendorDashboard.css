@@ -1,0 +1,397 @@
+.evd-page {
+  display: flex;
+  min-height: 100vh;
+  background: #f4f6f9;
+}
+
+/* ── Sidebar ── */
+.evd-sidebar {
+  width: 260px;
+  background: linear-gradient(160deg, #1a1a2e 0%, #16213e 100%);
+  padding: 28px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.evd-user {
+  text-align: center;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.evd-avatar {
+  font-size: 48px;
+  background: rgba(255,255,255,0.08);
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
+}
+
+.evd-user h3 { font-size: 15px; font-weight: 700; color: white; margin-bottom: 3px; }
+.evd-user p  { font-size: 11px; color: #999; margin-bottom: 10px; }
+
+.evd-role-tag {
+  background: rgba(226,185,111,0.15);
+  color: #e2b96f;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 20px;
+  display: inline-block;
+}
+
+.evd-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.evd-nav button {
+  background: transparent;
+  border: none;
+  color: #aaa;
+  text-align: left;
+  padding: 11px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.evd-nav button:hover,
+.evd-nav button.active {
+  background: rgba(226,185,111,0.12);
+  color: #e2b96f;
+  font-weight: 600;
+}
+
+.evd-mini-stats {
+  display: flex;
+  justify-content: space-around;
+  background: rgba(255,255,255,0.05);
+  border-radius: 12px;
+  padding: 14px 8px;
+  margin-top: auto;
+}
+
+.evd-mini-stat {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.evd-mini-stat strong { font-size: 18px; font-weight: 800; color: white; }
+.evd-mini-stat span   { font-size: 10px; color: #888; }
+
+/* ── Main ── */
+.evd-main { flex: 1; padding: 32px 28px; overflow-y: auto; }
+
+.evd-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.evd-header h2 { font-size: 22px; font-weight: 800; color: #1a1a2e; margin-bottom: 2px; }
+.evd-header p  { font-size: 13px; color: #888; }
+
+.evd-btn-add {
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  color: white;
+  border: none;
+  padding: 11px 20px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.evd-btn-add:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 16px rgba(26,26,46,0.25);
+}
+
+/* ── Formulaire ── */
+.evd-form {
+  background: white;
+  border-radius: 16px;
+  padding: 26px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.07);
+  border: 1px solid #e8eaf6;
+}
+
+.evd-form-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 18px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #e2b96f;
+  display: inline-block;
+}
+
+.evd-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.evd-field { display: flex; flex-direction: column; gap: 6px; }
+.evd-field.full { grid-column: 1 / -1; }
+
+.evd-field label { font-size: 12px; font-weight: 600; color: #555; }
+
+.evd-field input,
+.evd-field select,
+.evd-field textarea {
+  padding: 10px 12px;
+  border: 1.5px solid #e8e8e8;
+  border-radius: 9px;
+  font-size: 13px;
+  font-family: inherit;
+  background: #fafafa;
+  transition: all 0.2s;
+  resize: vertical;
+}
+
+.evd-field input:focus,
+.evd-field select:focus,
+.evd-field textarea:focus {
+  outline: none;
+  border-color: #e2b96f;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(226,185,111,0.1);
+}
+
+.evd-btn-submit {
+  background: #e2b96f;
+  color: #1a1a2e;
+  border: none;
+  padding: 11px 24px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.evd-btn-submit:hover { background: #c9a05a; }
+
+/* ── Items grid ── */
+.evd-items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 18px;
+}
+
+.evd-item-card {
+  background: white;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  border: 1px solid #f0f0f0;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.evd-item-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.09);
+}
+
+.evd-item-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.evd-item-icon {
+  font-size: 28px;
+  background: #f8f9fa;
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.evd-item-info { flex: 1; }
+.evd-item-info h4 { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-bottom: 2px; }
+.evd-item-info p  { font-size: 11px; color: #888; }
+
+.evd-badge-active {
+  background: #e8f5e9;
+  color: #2e7d32;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.evd-badge-pending {
+  background: #fff8e1;
+  color: #e65100;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.evd-item-desc {
+  font-size: 12px;
+  color: #666;
+  line-height: 1.5;
+  display: -webkit-box;
+          
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.evd-item-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.evd-item-price {
+  font-size: 16px;
+  font-weight: 800;
+  color: #c9a05a;
+}
+
+.evd-btn-delete {
+  background: #fff5f5;
+  border: 1px solid #ffcdd2;
+  color: #e53935;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.evd-btn-delete:hover { background: #ffebee; }
+
+/* ── Empty ── */
+.evd-empty {
+  text-align: center;
+  padding: 70px 20px;
+  background: white;
+  border-radius: 16px;
+}
+
+.evd-empty span { font-size: 56px; display: block; margin-bottom: 14px; }
+.evd-empty h3   { font-size: 18px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+.evd-empty p    { color: #888; font-size: 13px; margin-bottom: 20px; }
+
+/* ── Stats ── */
+.evd-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.evd-stat-card {
+  border-radius: 14px;
+  padding: 22px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.evd-stat-card.blue   { background: #e3f2fd; }
+.evd-stat-card.green  { background: #e8f5e9; }
+.evd-stat-card.orange { background: #fff8e1; }
+
+.evd-stat-card span   { font-size: 32px; }
+.evd-stat-card strong { font-size: 28px; font-weight: 800; color: #1a1a2e; }
+.evd-stat-card p      { font-size: 13px; color: #666; }
+
+.evd-cat-stats {
+  background: white;
+  border-radius: 14px;
+  padding: 24px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.evd-cat-stats h3 {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 18px;
+}
+
+.evd-cat-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.evd-cat-label {
+  font-size: 13px;
+  color: #555;
+  min-width: 120px;
+}
+
+.evd-cat-bar-wrapper {
+  flex: 1;
+  background: #f0f0f0;
+  border-radius: 6px;
+  height: 8px;
+  overflow: hidden;
+}
+
+.evd-cat-bar {
+  height: 100%;
+  background: linear-gradient(135deg, #e2b96f, #c9a05a);
+  border-radius: 6px;
+  transition: width 0.4s ease;
+  min-width: 4px;
+}
+
+.evd-cat-count {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1a1a2e;
+  min-width: 24px;
+  text-align: right;
+}
+
+@media (max-width: 768px) {
+  .evd-page      { flex-direction: column; }
+  .evd-sidebar   { width: 100%; height: auto; position: relative; }
+  .evd-form-grid { grid-template-columns: 1fr; }
+  .evd-stats-grid { grid-template-columns: 1fr; }
+}

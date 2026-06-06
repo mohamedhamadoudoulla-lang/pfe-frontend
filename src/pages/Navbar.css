@@ -1,0 +1,190 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 32px;
+  height: 64px;
+  background: #1a1a2e;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.25);
+}
+
+.navbar-logo {
+  font-size: 20px;
+  font-weight: 800;
+  color: #e2b96f;
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+}
+
+.navbar-link {
+  color: #cccccc;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.navbar-link:hover {
+  color: white;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ── Bouton S'inscrire ── */
+.navbar-btn-register {
+  background: #e2b96f;
+  color: #1a1a2e !important;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 8px 18px;
+  border-radius: 8px;
+  margin-left: 6px;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+.navbar-btn-register:hover { background: #c9a05a; }
+
+/* ── Déconnexion ── */
+.navbar-btn-logout {
+  background: transparent;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  color: #aaa;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 7px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-left: 4px;
+  transition: all 0.2s;
+  font-family: inherit;
+  white-space: nowrap;
+}
+.navbar-btn-logout:hover {
+  border-color: #e74c3c;
+  color: #e74c3c;
+  background: rgba(231, 76, 60, 0.08);
+}
+
+/* ── Mes projets + badge ── */
+.navbar-projects-btn {
+  position: relative;
+  display: inline-flex !important;
+  align-items: center;
+  gap: 6px;
+}
+
+.nb-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 20px;
+  animation: nb-pulse 1.8s ease-in-out infinite;
+  line-height: 1.4;
+}
+
+.nb-accepted {
+  background: #27ae60;
+  color: white;
+}
+
+.nb-pending {
+  background: #e2b96f;
+  color: #1a1a2e;
+}
+
+@keyframes nb-pulse {
+  0%, 100% { transform: scale(1);    opacity: 1;    }
+  50%       { transform: scale(1.12); opacity: 0.85; }
+}
+
+/* ── Mobile ── */
+@media (max-width: 900px) {
+  .navbar        { padding: 0 16px; }
+  .navbar-link   { font-size: 12px; padding: 6px 8px; }
+}
+
+@media (max-width: 600px) {
+  .navbar-logo   { font-size: 16px; }
+  .navbar-links  { gap: 1px; }
+  .navbar-link   { font-size: 11px; padding: 5px 6px; }
+}
+/* Bouton Mes projets avec badges */
+.navbar-projects-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nb-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.nb-badge.nb-accepted {
+  background: #10b981;
+  color: white;
+}
+
+.nb-badge.nb-pending {
+  background: #0b74f5;
+  color: rgb(153, 7, 7);
+} 
+.navbar-projects-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nb-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  min-width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  color: white;
+  background: #ff6b6b;
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.nb-badge.nb-accepted {
+  background: #51cf66;
+}
+
+.nb-pending {
+  background: #ff9500;
+}

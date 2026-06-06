@@ -1,0 +1,100 @@
+.eng-profile-card .eng-stat {
+    /* Styles ici */
+}
+    
+    
+    body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f4f8; /* couleur de fond légère */
+    margin: 0;
+    padding: 0;
+}
+
+.eng-profile-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.eng-profile-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    max-width: 400px;
+    width: 100%;
+}
+
+.eng-profile-hero {
+    background-color: #007bff; /* bleu principal */
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.eng-profile-avatar {
+    font-size: 60px;
+    margin: 20px 0;
+}
+
+.verified-badge {
+    display: inline-block;
+    background-color: #28a745; /* vert pour badge vérifié */
+    border-radius: 12px;
+    padding: 5px 10px;
+    color: white;
+    font-weight: bold;
+}
+
+.eng-profile-body {
+    padding: 20px;
+}
+
+.eng-profile-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.eng-stat {
+    background-color: #e9ecef;
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+}
+
+.eng-stat p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #495057; /* texte gris */
+}
+
+.eng-stat strong {
+    display: block;
+    font-size: 16px;
+    color: #007bff; /* bleu principal pour les valeurs */
+}
+
+.eng-desc {
+    margin-top: 20px;
+}
+
+.eng-desc h3 {
+    color: #007bff; /* bleu pour les titres */
+}
+
+.eng-contact h3 {
+    margin-top: 20px;
+    color: #007bff; /* bleu pour les titres */
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-size: 16px;
+  color: #6b7280;
+}

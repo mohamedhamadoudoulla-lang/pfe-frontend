@@ -1,0 +1,173 @@
+/* ===== EQUIPMENTVENDOR.CSS ===== */
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+  --ev-primary: #2563eb;
+  --ev-green: #10b981;
+  --ev-orange: #f97316;
+  --ev-red: #ef4444;
+  --ev-dark: #0f172a;
+  --ev-mid: #334155;
+  --ev-muted: #64748b;
+  --ev-light: #f8fafc;
+  --ev-border: #e2e8f0;
+  --ev-white: #ffffff;
+  --ev-radius: 14px;
+  --ev-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.06);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+.loading { display: flex; align-items: center; justify-content: center; min-height: 60vh; font-family: 'Inter', sans-serif; color: var(--ev-muted); }
+
+.equipment-vendor-page {
+  font-family: 'Inter', sans-serif;
+  background: var(--ev-light);
+  min-height: 100vh;
+  color: var(--ev-dark);
+}
+
+/* Header */
+.vendor-header {
+  background: var(--ev-white);
+  border-bottom: 1px solid var(--ev-border);
+  padding: 40px 48px 32px;
+}
+.vendor-header h1 {
+  font-family: 'Sora', sans-serif;
+  font-size: clamp(22px, 3vw, 30px);
+  font-weight: 800;
+  color: var(--ev-dark);
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+}
+.vendor-header p { font-size: 14px; color: var(--ev-muted); }
+
+/* Container */
+.vendor-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  padding: 32px 48px 64px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* Section */
+.vendor-section {}
+.vendor-section h2 {
+  font-family: 'Sora', sans-serif;
+  font-size: 16px; font-weight: 700;
+  color: var(--ev-dark);
+  margin-bottom: 18px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--ev-border);
+}
+
+/* Empty */
+.empty-state {
+  background: var(--ev-white);
+  border: 1px dashed var(--ev-border);
+  border-radius: var(--ev-radius);
+  padding: 40px;
+  text-align: center;
+  color: var(--ev-muted);
+  font-size: 14px;
+}
+
+/* Equipment grid (my items) */
+.equipment-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.equipment-card {
+  background: var(--ev-white);
+  border: 1px solid var(--ev-border);
+  border-radius: var(--ev-radius);
+  padding: 16px;
+  box-shadow: var(--ev-shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  transition: transform 0.18s;
+}
+.equipment-card:hover { transform: translateY(-2px); }
+.equipment-card h3 {
+  font-family: 'Sora', sans-serif;
+  font-size: 14px; font-weight: 700;
+  color: var(--ev-dark);
+}
+.equipment-card .price {
+  font-family: 'Sora', sans-serif;
+  font-size: 16px; font-weight: 800;
+  color: var(--ev-primary);
+}
+.equipment-card .category,
+.equipment-card .quality {
+  font-size: 12px; color: var(--ev-muted);
+}
+.delete-btn {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px; font-weight: 600;
+  color: var(--ev-red);
+  background: #fef2f2;
+  border: none;
+  padding: 7px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 8px;
+  align-self: flex-start;
+  transition: background 0.16s;
+}
+.delete-btn:hover { background: var(--ev-red); color: white; }
+
+/* Equipment types (add catalog) */
+.equipment-types {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.type-card {
+  background: var(--ev-white);
+  border: 1px solid var(--ev-border);
+  border-radius: var(--ev-radius);
+  padding: 18px 14px;
+  text-align: center;
+  box-shadow: var(--ev-shadow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  transition: transform 0.18s, box-shadow 0.18s;
+}
+.type-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
+.type-icon { font-size: 32px; }
+.type-card h4 {
+  font-family: 'Sora', sans-serif;
+  font-size: 13px; font-weight: 700;
+  color: var(--ev-dark);
+}
+.type-card p { font-size: 13px; color: var(--ev-primary); font-weight: 600; }
+.add-btn {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px; font-weight: 600;
+  background: var(--ev-primary);
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 4px;
+  transition: background 0.18s;
+  white-space: nowrap;
+}
+.add-btn:hover { background: #1d4ed8; }
+
+@media (max-width: 1024px) {
+  .vendor-container { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  .vendor-header { padding: 28px 20px 24px; }
+  .vendor-container { padding: 20px 16px 48px; }
+  .equipment-grid, .equipment-types { grid-template-columns: 1fr; }
+}

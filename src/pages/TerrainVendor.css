@@ -1,0 +1,186 @@
+/* ===== TERRAINVENDOR.CSS ===== */
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+  --tv-primary: #2563eb;
+  --tv-green: #10b981;
+  --tv-orange: #f97316;
+  --tv-red: #ef4444;
+  --tv-dark: #0f172a;
+  --tv-mid: #334155;
+  --tv-muted: #64748b;
+  --tv-light: #f8fafc;
+  --tv-border: #e2e8f0;
+  --tv-white: #ffffff;
+  --tv-radius: 14px;
+  --tv-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.06);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+.terrain-vendor-page {
+  font-family: 'Inter', sans-serif;
+  background: var(--tv-light);
+  min-height: 100vh;
+  color: var(--tv-dark);
+}
+
+/* Header */
+.vendor-header {
+  background: var(--tv-white);
+  border-bottom: 1px solid var(--tv-border);
+  padding: 40px 48px 32px;
+}
+.vendor-header h1 {
+  font-family: 'Sora', sans-serif;
+  font-size: clamp(22px, 3vw, 30px);
+  font-weight: 800;
+  color: var(--tv-dark);
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+}
+.vendor-header p { font-size: 14px; color: var(--tv-muted); }
+
+/* Container */
+.vendor-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  padding: 32px 48px 64px;
+  max-width: 1280px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+.vendor-section h2 {
+  font-family: 'Sora', sans-serif;
+  font-size: 16px; font-weight: 700;
+  color: var(--tv-dark);
+  margin-bottom: 18px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--tv-border);
+}
+
+/* Empty */
+.empty-state {
+  background: var(--tv-white);
+  border: 1px dashed var(--tv-border);
+  border-radius: var(--tv-radius);
+  padding: 40px;
+  text-align: center;
+  color: var(--tv-muted);
+  font-size: 14px;
+}
+
+/* Terrains list */
+.terrains-list { display: flex; flex-direction: column; gap: 12px; }
+.terrain-item {
+  background: var(--tv-white);
+  border: 1px solid var(--tv-border);
+  border-radius: var(--tv-radius);
+  padding: 16px 18px;
+  box-shadow: var(--tv-shadow);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  transition: transform 0.18s;
+}
+.terrain-item:hover { transform: translateY(-2px); }
+.terrain-title { flex: 1; min-width: 140px; }
+.terrain-title h4 {
+  font-family: 'Sora', sans-serif;
+  font-size: 14px; font-weight: 700;
+  color: var(--tv-dark); margin-bottom: 3px;
+}
+.terrain-title .region { font-size: 12px; color: var(--tv-green); font-weight: 500; }
+
+.terrain-info {
+  display: flex; gap: 10px; flex-wrap: wrap;
+}
+.terrain-info span {
+  font-size: 12px; font-weight: 500;
+  color: var(--tv-mid);
+  background: var(--tv-light);
+  border: 1px solid var(--tv-border);
+  padding: 4px 10px;
+  border-radius: 50px;
+}
+
+.delete-btn {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px; font-weight: 600;
+  color: var(--tv-red);
+  background: #fef2f2;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.16s;
+  white-space: nowrap;
+}
+.delete-btn:hover { background: var(--tv-red); color: white; }
+
+/* Form */
+.add-terrain-form {
+  background: var(--tv-white);
+  border: 1px solid var(--tv-border);
+  border-radius: var(--tv-radius);
+  padding: 24px;
+  box-shadow: var(--tv-shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-group label {
+  font-size: 12px; font-weight: 700;
+  color: var(--tv-mid);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.form-group input,
+.form-group select,
+.form-group textarea {
+  font-family: 'Inter', sans-serif;
+  font-size: 13.5px;
+  color: var(--tv-dark);
+  background: var(--tv-light);
+  border: 1.5px solid var(--tv-border);
+  border-radius: 10px;
+  padding: 11px 14px;
+  outline: none;
+  transition: border-color 0.18s;
+  width: 100%;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus { border-color: var(--tv-primary); background: var(--tv-white); }
+.form-group textarea { resize: vertical; min-height: 90px; }
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+.submit-btn {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px; font-weight: 700;
+  background: var(--tv-primary);
+  color: white;
+  border: none;
+  padding: 13px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.18s;
+  width: 100%;
+}
+.submit-btn:disabled { background: #94a3b8; cursor: not-allowed; }
+.submit-btn:not(:disabled):hover { background: #1d4ed8; }
+
+@media (max-width: 1024px) {
+  .vendor-container { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  .vendor-header { padding: 28px 20px 24px; }
+  .vendor-container { padding: 20px 16px 48px; }
+  .form-row { grid-template-columns: 1fr; }
+  .terrain-item { flex-direction: column; align-items: flex-start; }
+}
