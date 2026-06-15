@@ -39,6 +39,8 @@
   margin-bottom: 4px;
 }
 .vendor-header p { font-size: 14px; color: var(--tv-muted); }
+.vendor-stats { display: flex; gap: 20px; margin-top: 12px; flex-wrap: wrap; }
+.vendor-stats span { font-size: 13px; font-weight: 600; color: var(--tv-mid); background: var(--tv-light); padding: 6px 14px; border-radius: 8px; }
 
 /* Container */
 .vendor-container {
@@ -184,3 +186,17 @@
   .form-row { grid-template-columns: 1fr; }
   .terrain-item { flex-direction: column; align-items: flex-start; }
 }
+
+.terrain-plan-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 14px; background: #eff6ff; color: #3b82f6;
+  border-radius: 8px; font-size: 13px; font-weight: 600;
+  text-decoration: none; width: fit-content; transition: all 0.2s;
+}
+.terrain-plan-link:hover { background: #dbeafe; }
+.terrain-contact { font-size: 13px; color: #64748b; margin: 2px 0; }
+.terrain-status { display: flex; align-items: center; gap: 12px; margin: 4px 0; }
+.terrain-badge { font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; }
+.terrain-badge.available { background: #d1fae5; color: #059669; }
+.terrain-badge.sold { background: #fef3c7; color: #d97706; }
+.terrain-views { font-size: 12px; color: #64748b; }

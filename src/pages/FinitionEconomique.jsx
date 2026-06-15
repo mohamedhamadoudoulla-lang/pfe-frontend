@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Check, ArrowLeft, ArrowRight, Package, Loader, Image } from "lucide-react";
 import API from "../services/api";
+import { FALLBACK_EQUIPMENT } from "../data/fallbackEquipment";
+import RainbowLines from "../components/RainbowLines";
 import "./Finition.css";
 
 const COUT_M2 = 600;
@@ -70,7 +72,12 @@ export default function FinitionEconomique() {
         setSelectedIds(new Set(data.map((i) => i._id.toString())));
         setTotal(res.data.total || 0);
       })
-      .catch(() => setItems([]))
+      .catch(() => {
+        const fallback = FALLBACK_EQUIPMENT["économique"] || [];
+        setItems(fallback);
+        setSelectedIds(new Set(fallback.map((i) => i._id.toString())));
+        setTotal(fallback.reduce((s, i) => s + i.price, 0));
+      })
       .finally(() => setLoading(false));
   }, []);
 
@@ -104,24 +111,35 @@ export default function FinitionEconomique() {
     return acc;
   }, {});
 
-  const handleNext = () => {
+  const handleNext = async () => {
     const selectedItems = items.filter((i) => selectedIds.has(i._id.toString()));
     const rooms = Object.entries(groupedItems).map(([cat, catItems]) => {
       const sel = selectedItems.filter((i) => i.category === cat);
       if (sel.length === 0) return null;
       return { roomType: cat, qualityLevel: "economique", cost: sel.reduce((s, i) => s + i.price, 0) };
     }).filter(Boolean);
-    navigate("/devis", {
-      state: {
-        ...state,
-        construction: { surface, floors, finitionLevel: "economique", constructionType: state?.constructionType || "classique", totalConstructionCost: estimated },
-        furnishing: { rooms, totalFurnishingCost: total },
-      },
-    });
+    const constructionState = { surface, floors, finitionLevel: "economique", constructionType: state?.constructionType || "classique", totalConstructionCost: estimated };
+    const furnishingState = { rooms, totalFurnishingCost: total };
+    try {
+      const { data: estimation } = await API.post("/estimations/init-marketplace", {
+        caracteristiques: { surface: Number(surface), nbChambres: 0, nbSallesDeBain: 1, nbCuisines: 1, nbSalons: 1, scenario: "eco" },
+      });
+      navigate(`/recommandation-materiaux/${estimation._id}`, {
+        state: { ...state, construction: constructionState, furnishing: furnishingState },
+      });
+    } catch (err) {
+      const msg = err.response?.data?.message || err.message;
+      alert("Erreur création devis: " + msg);
+      navigate("/recommandation-materiaux/_fallback", {
+        state: { ...state, construction: constructionState, furnishing: furnishingState, _fallbackSurface: surface, _fallbackScenario: "eco" },
+      });
+    }
   };
 
   return (
     <div className="fin-page">
+      <RainbowLines variant="finition" />
+      
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }

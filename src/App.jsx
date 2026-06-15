@@ -9,6 +9,8 @@ import ScrollToTop from "./components/ScrollToTop";
 import Home from "./pages/Home";
 import Catalogue from "./pages/Catalogue";
 import HouseDetail from "./pages/HouseDetail";
+import TerrainDetail from "./pages/TerrainDetail";
+import Services from "./pages/Services";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import VerifyEmail from "./pages/VerifyEmail";
@@ -28,9 +30,12 @@ import PostProject from "./pages/PostProject";
 import MyProjects from "./pages/MyProjects";
 import TerrainMarketplace from "./pages/TerrainMarketplace";
 import EquipmentMarketplace from "./pages/EquipmentMarketplace";
+import RecommandationsMarketplace from "./pages/RecommandationsMarketplace";
+import RecommandationMateriaux from "./pages/RecommandationMateriaux";
 
 import EngineerDashboard from "./pages/EngineerDashboard";
 import EngineerProjects from "./pages/EngineerProjects";
+import EngineerProfileCreate from "./pages/EngineerProfileCreate";
 
 import SellerDashboard from "./pages/SellerDashboard";
 import TerrainVendor from "./pages/TerrainVendor";
@@ -68,6 +73,13 @@ const AdminOnly = ({ children }) => {
   return children;
 };
 
+const EquipmentSellerOnly = ({ children }) => {
+  const { user } = useAuth();
+  if (!user) return <Navigate to="/login" />;
+  if (user.role !== "equipment_seller") return <Navigate to="/" />;
+  return children;
+};
+
 const SellerOnly = ({ children }) => {
   const { user } = useAuth();
   if (!user) return <Navigate to="/login" />;
@@ -83,7 +95,9 @@ const AppRoutes = () => (
       {/* ── Public ── */}
       <Route path="/"               element={<Home />} />
       <Route path="/catalogue"      element={<Catalogue />} />
+      <Route path="/services"      element={<Services />} />
       <Route path="/maison/:id"     element={<HouseDetail />} />
+      <Route path="/terrain/:id"    element={<TerrainDetail />} />
       <Route path="/ingenieurs"     element={<Engineers />} />
       <Route path="/ingenieur/:id"  element={<EngineerProfile />} />
       <Route path="/login"          element={<Login />} />
@@ -99,7 +113,9 @@ const AppRoutes = () => (
       <Route path="/finition/economique"   element={<ClientOnly><FinitionEconomique /></ClientOnly>} />
       <Route path="/finition/standard"     element={<ClientOnly><FinitionStandard /></ClientOnly>} />
       <Route path="/finition/haut-de-gamme" element={<ClientOnly><FinitionHautDeGamme /></ClientOnly>} />
+      <Route path="/recommandation-materiaux/:estimationId" element={<ClientOnly><RecommandationMateriaux /></ClientOnly>} />
       <Route path="/devis"                 element={<ClientOnly><Quote /></ClientOnly>} />
+      <Route path="/marketplace/:devisId"  element={<ClientOnly><RecommandationsMarketplace /></ClientOnly>} />
       <Route path="/deposer-projet"        element={<ClientOnly><PostProject /></ClientOnly>} />
       <Route path="/mes-projets"           element={<ClientOnly><MyProjects /></ClientOnly>} />
       <Route path="/terrains/marketplace"  element={<ClientOnly><TerrainMarketplace /></ClientOnly>} />
@@ -108,9 +124,10 @@ const AppRoutes = () => (
       {/* ── Ingénieur ── */}
       <Route path="/ingenieur/dashboard" element={<EngineerOnly><EngineerDashboard /></EngineerOnly>} />
       <Route path="/ingenieur/projets"   element={<EngineerOnly><EngineerProjects /></EngineerOnly>} />
+      <Route path="/ingenieur/profil-creation" element={<EngineerOnly><EngineerProfileCreate /></EngineerOnly>} />
 
       {/* ── Vendeur ── */}
-      <Route path="/vendeur/dashboard"    element={<SellerOnly><SellerDashboard /></SellerOnly>} />
+      <Route path="/vendeur/dashboard"    element={<EquipmentSellerOnly><SellerDashboard /></EquipmentSellerOnly>} />
       <Route path="/terrains/ajouter"     element={<SellerOnly><TerrainVendor /></SellerOnly>} />
       <Route path="/equipments/dashboard" element={<SellerOnly><EquipmentVendorDashboard /></SellerOnly>} />
 

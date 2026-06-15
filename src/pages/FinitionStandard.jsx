@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Check, ArrowLeft, ArrowRight, Package, Loader, Image } from "lucide-react";
 import API from "../services/api";
+import { FALLBACK_EQUIPMENT } from "../data/fallbackEquipment";
+import RainbowLines from "../components/RainbowLines";
 import "./Finition.css";
 
 const COUT_M2 = 900;
@@ -58,7 +60,12 @@ export default function FinitionStandard() {
         setSelectedIds(new Set(data.map((i) => i._id.toString())));
         setTotal(res.data.total || 0);
       })
-      .catch(() => setItems([]))
+      .catch(() => {
+        const fallback = FALLBACK_EQUIPMENT["standard"] || [];
+        setItems(fallback);
+        setSelectedIds(new Set(fallback.map((i) => i._id.toString())));
+        setTotal(fallback.reduce((s, i) => s + i.price, 0));
+      })
       .finally(() => setLoading(false));
   }, []);
 
@@ -81,18 +88,35 @@ export default function FinitionStandard() {
 
   const groupedItems = items.reduce((acc, item) => { if (!acc[item.category]) acc[item.category] = []; acc[item.category].push(item); return acc; }, {});
 
-  const handleNext = () => {
+  const handleNext = async () => {
     const sel = items.filter((i) => selectedIds.has(i._id.toString()));
     const rooms = Object.entries(groupedItems).map(([cat, catItems]) => {
       const s = sel.filter((i) => i.category === cat);
       if (s.length === 0) return null;
       return { roomType: cat, qualityLevel: "standard", cost: s.reduce((a, i) => a + i.price, 0) };
     }).filter(Boolean);
-    navigate("/devis", { state: { ...state, construction: { surface, floors, finitionLevel: "standard", constructionType: state?.constructionType || "classique", totalConstructionCost: estimated }, furnishing: { rooms, totalFurnishingCost: total } } });
+    const constructionState = { surface, floors, finitionLevel: "standard", constructionType: state?.constructionType || "classique", totalConstructionCost: estimated };
+    const furnishingState = { rooms, totalFurnishingCost: total };
+    try {
+      const { data: estimation } = await API.post("/estimations/init-marketplace", {
+        caracteristiques: { surface: Number(surface), nbChambres: 0, nbSallesDeBain: 1, nbCuisines: 1, nbSalons: 1, scenario: "standard" },
+      });
+      navigate(`/recommandation-materiaux/${estimation._id}`, {
+        state: { ...state, construction: constructionState, furnishing: furnishingState },
+      });
+    } catch (err) {
+      const msg = err.response?.data?.message || err.message;
+      alert("Erreur création devis: " + msg);
+      navigate("/recommandation-materiaux/_fallback", {
+        state: { ...state, construction: constructionState, furnishing: furnishingState, _fallbackSurface: surface, _fallbackScenario: "standard" },
+      });
+    }
   };
 
   return (
     <div className="fin-page">
+      <RainbowLines variant="finition" />
+      
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }

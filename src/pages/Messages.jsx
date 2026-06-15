@@ -1,23 +1,31 @@
 import { useState, useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import axios from "../services/api";
 import toast from "react-hot-toast";
-import { AnimatedButton } from "@/components/animate";
+import { ArrowLeft, Send } from "lucide-react";
 import "./Messages.css";
 
 export default function Messages() {
   const { userId }              = useParams();
   const { user }                = useAuth();
+  const navigate                = useNavigate();
   const [messages, setMessages] = useState([]);
   const [content, setContent]   = useState("");
   const [loading, setLoading]   = useState(true);
+  const [error, setError]       = useState(false);
+  const [sending, setSending]   = useState(false);
   const bottomRef               = useRef(null);
 
   useEffect(() => {
+    if (!userId || userId === "undefined") {
+      setError(true);
+      setLoading(false);
+      return;
+    }
     axios.get(`/messages/${userId}`)
-      .then(res => setMessages(res.data))
-      .catch(() => toast.error("Erreur chargement"))
+      .then(res => { setMessages(res.data || []); setError(false); })
+      .catch(() => setError(true))
       .finally(() => setLoading(false));
   }, [userId]);
 
@@ -27,20 +35,60 @@ export default function Messages() {
 
   const handleSend = async (e) => {
     e.preventDefault();
-    if (!content.trim()) return;
+    if (!content.trim() || sending || !userId) return;
+    setSending(true);
     try {
-      const res = await axios.post("/messages", { to: userId, content });
+      const res = await axios.post("/messages", { to: userId, content: content.trim() });
       setMessages([...messages, res.data]);
       setContent("");
-    } catch { toast.error("Erreur envoi"); }
+    } catch {
+      toast.error("Erreur envoi message");
+    } finally {
+      setSending(false);
+    }
   };
 
-  if (loading) return <div className="loading">Chargement...</div>;
+  if (loading) return (
+    <div className="messages-page">
+      <div className="messages-container">
+        <div className="messages-header">
+          <button className="msg-back" onClick={() => navigate(-1)}><ArrowLeft size={20} /></button>
+          <div className="messages-avatar">💬</div>
+          <div><h3>Messagerie</h3><p>Chargement...</p></div>
+        </div>
+        <div className="messages-body">
+          <div className="messages-empty"><span>⏳</span><p>Chargement des messages...</p></div>
+        </div>
+      </div>
+    </div>
+  );
+
+  if (error) return (
+    <div className="messages-page">
+      <div className="messages-container">
+        <div className="messages-header">
+          <button className="msg-back" onClick={() => navigate(-1)}><ArrowLeft size={20} /></button>
+          <div className="messages-avatar">💬</div>
+          <div><h3>Messagerie</h3><p>Erreur</p></div>
+        </div>
+        <div className="messages-body">
+          <div className="messages-empty">
+            <span>⚠️</span>
+            <p>Impossible de charger les messages.</p>
+            <button className="msg-retry-btn" onClick={() => { setLoading(true); setError(false); axios.get(`/messages/${userId}`).then(res => { setMessages(res.data || []); setError(false); }).catch(() => setError(true)).finally(() => setLoading(false)); }}>
+              Réessayer
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <div className="messages-page">
       <div className="messages-container">
         <div className="messages-header">
+          <button className="msg-back" onClick={() => navigate(-1)}><ArrowLeft size={20} /></button>
           <div className="messages-avatar">💬</div>
           <div>
             <h3>Messagerie</h3>
@@ -77,9 +125,9 @@ export default function Messages() {
             value={content}
             onChange={e => setContent(e.target.value)}
           />
-          <AnimatedButton type="submit" variant="primary" disabled={!content.trim()}>
-            ➤
-          </AnimatedButton>
+          <button type="submit" className="msg-send-btn" disabled={!content.trim() || sending}>
+            <Send size={18} />
+          </button>
         </form>
       </div>
     </div>

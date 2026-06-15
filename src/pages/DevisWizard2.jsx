@@ -1,13 +1,11 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { AnimatedButton } from "@/components/animate";
-import { ArrowLeft } from "lucide-react";
 import "./DevisWizard2.css";
 
 const STEPS = [
   {
     id: 2,
-    label: "Etape 2",
+    label: "Prestation",
     question: "Quelle est la prestation souhaitée ?",
     subtitle: "Sélectionnez le niveau de réalisation que vous souhaitez",
     options: [
@@ -19,7 +17,7 @@ const STEPS = [
   },
   {
     id: 3,
-    label: "Etape 3",
+    label: "Type maison",
     question: "Quel est le type de maison souhaité ?",
     subtitle: "Le type influence le coût de construction",
     options: [
@@ -30,23 +28,19 @@ const STEPS = [
   },
   {
     id: 4,
-    label: "Etape 4",
+    label: "Construction",
     question: "Quel est le type de construction souhaité ?",
     subtitle: "Le matériau principal de construction",
     options: [
       { value: "traditionnelle", label: "Traditionnelle (parpaing)", icon: "🧱", desc: "Construction classique en parpaing" },
       { value: "brique",         label: "En brique",                 icon: "🔶", desc: "Construction en brique monomur" },
-      { value: "ossature_bois",  label: "Ossature bois",             icon: "🪵", desc: "Structure en bois, écologique" },
-      { value: "monomur",        label: "Monomur",                   icon: "⬜", desc: "Blocs isolants haute performance" },
-      { value: "bioclimatique",  label: "Bioclimatique",             icon: "🌿", desc: "Optimisée pour l'énergie solaire" },
-      { value: "ecologique",     label: "Ecologique",                icon: "♻️", desc: "Matériaux naturels et durables" },
       { value: "non_defini",     label: "Non défini",                icon: "❓", desc: "À définir avec l'ingénieur" },
       { value: "autre",          label: "Autre",                     icon: "📋", desc: "Type de construction spécifique" },
     ],
   },
   {
     id: 5,
-    label: "Etape 5",
+    label: "Finition",
     question: "Quel niveau de finition souhaitez-vous ?",
     subtitle: "Chaque niveau inclut les caractéristiques maison et équipements correspondants",
     options: [
@@ -63,17 +57,12 @@ const FINITION_ROUTES = {
   "haut de gamme": "/finition/haut-de-gamme",
 };
 
-const STEP_PROGRESS = {
-  2: 40,
-  3: 55,
-  4: 70,
-  5: 85,
-};
+const STEP_PROGRESS = { 2: 40, 3: 55, 4: 70, 5: 85 };
 
 export default function DevisWizard2() {
   const location = useLocation();
   const navigate = useNavigate();
-  
+
   const [currentStep, setCurrentStep] = useState(0);
   const [selected, setSelected] = useState(null);
   const [answers, setAnswers] = useState(location.state?.answers || {});
@@ -87,16 +76,14 @@ export default function DevisWizard2() {
 
   const handleNext = () => {
     if (!selected) return;
-
     const newAnswers = { ...answers, [step.id]: selected };
     setAnswers(newAnswers);
-
     if (step.id === 5) {
       const route = FINITION_ROUTES[selected] || "/finition/standard";
       navigate(route, {
-        state: { 
-          fromWizard: true, 
-          answers: newAnswers, 
+        state: {
+          fromWizard: true,
+          answers: newAnswers,
           finitionLevel: selected,
           terrain: location.state?.terrain,
           terrainInput: location.state?.terrainInput,
@@ -104,7 +91,6 @@ export default function DevisWizard2() {
       });
       return;
     }
-
     if (currentStep < STEPS.length - 1) {
       setCurrentStep(currentStep + 1);
       setSelected(null);
@@ -121,60 +107,84 @@ export default function DevisWizard2() {
   };
 
   return (
-    <div className="wizard-container">
-      <header className="wiz-header">
-        <div className="wiz-logo">🏠 SmartBuild</div>
-        <div className="wiz-step-indicator">{step.label} / 5</div>
-      </header>
+    <div className="ca-wrapper">
+      <div className="ribbon-wrap">
+        <svg
+          viewBox="0 0 1000 640"
+          xmlns="http://www.w3.org/2000/svg"
+          className="ca-ribbon-svg"
+          preserveAspectRatio="none"
+        >
+          <defs>
+            <linearGradient id="ribbonGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#c8f400" />
+              <stop offset="40%" stopColor="#ff6a00" />
+              <stop offset="100%" stopColor="#ff2d8b" />
+            </linearGradient>
+          </defs>
+          <path
+            d="M -50 -20 C 100 -20, 180 120, 250 60 C 320 0, 280 200, 220 180 C 160 160, 200 60, 280 60 C 360 60, 500 20, 700 100 C 850 170, 950 150, 1060 130"
+            fill="none"
+            stroke="url(#ribbonGrad)"
+            strokeWidth="30"
+            strokeLinecap="round"
+          />
+        </svg>
+      </div>
 
-      <main className="wiz-main">
-        <div className="progress-bar">
-          <div className="progress-fill" style={{ width: `${progress}%` }}></div>
-          <span className="progress-text">{progress}%</span>
-        </div>
-        <img 
-   src="/images/Questions-rafiki.svg"
-   alt="terrain estimation illustration"
-   className="hero-image"
- />
+      <div className="ca-content">
+        <div className="ca-left">
+          <div className="dw-step-badge">{step.label}</div>
+          <h1 className="ca-title">{step.question}</h1>
+          <p className="ca-subtitle">{step.subtitle}</p>
 
-        <div className="wiz-content">
-          <h1 className="wiz-question">{step.question}</h1>
-          <p className="wiz-subtitle">{step.subtitle}</p>
+          <div className="dw-progress-wrap">
+            <span className="dw-progress-label">{progress}% achevé</span>
+            <div className="dw-progress-track">
+              <div className="dw-progress-fill" style={{ width: `${progress}%` }} />
+            </div>
+          </div>
 
-          <div className="options-container">
-            {step.options.map((option) => (
-              <button
-                key={option.value}
-                className={`option-card ${selected === option.value ? "selected" : ""}`}
-                onClick={() => handleSelectOption(option.value)}
-              >
-                <div className="option-icon">{option.icon}</div>
-                <div className="option-text">
-                  <h3 className="option-label">{option.label}</h3>
-                  <p className="option-desc">{option.desc}</p>
-                </div>
-              </button>
+          <div className="dw-rail">
+            {STEPS.map((s, i) => (
+              <div key={s.id} className={`dw-rail-step ${i <= currentStep ? "done" : ""} ${i === currentStep ? "active" : ""}`}>
+                <span className="dw-rail-num">{i <= currentStep ? "✓" : i + 1}</span>
+                <span className="dw-rail-name">{s.label}</span>
+              </div>
             ))}
           </div>
         </div>
 
-        <div className="wiz-footer">
-          <button 
-            className="btn-back"
-            onClick={handleBack}
-          >
-            ← Revenir
-          </button>
-          <button 
-            className="btn-next"
-            onClick={handleNext}
-            disabled={!selected}
-          >
-            Suivant →
-          </button>
+        <div className="ca-right">
+          <div className="dw-options">
+            {step.options.map((option) => (
+              <button
+                key={option.value}
+                className={`dw-option ${selected === option.value ? "selected" : ""}`}
+                onClick={() => handleSelectOption(option.value)}
+              >
+                <span className="dw-opt-icon">{option.icon}</span>
+                <div className="dw-opt-body">
+                  <strong>{option.label}</strong>
+                  <span className="dw-opt-desc">{option.desc}</span>
+                </div>
+                <span className={`dw-opt-dot ${selected === option.value ? "checked" : ""}`} />
+              </button>
+            ))}
+          </div>
+
+          <div className="dw-nav">
+            <button className="dw-btn-ghost" onClick={handleBack}>
+              ← Revenir
+            </button>
+            {selected && (
+              <button className="ca-btn" onClick={handleNext}>
+                {step.id === 5 ? "Choisir la finition" : "Continuer"} →
+              </button>
+            )}
+          </div>
         </div>
-      </main>
+      </div>
     </div>
   );
 }

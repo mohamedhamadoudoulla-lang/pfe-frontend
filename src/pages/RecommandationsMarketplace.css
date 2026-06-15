@@ -1,0 +1,205 @@
+.marketplace-page {
+  position: relative;
+  min-height: 100vh;
+  background: #f8fafc;
+  font-family: "Inter", -apple-system, sans-serif;
+  padding: 40px 20px 80px;
+}
+
+.mp-header {
+  text-align: center;
+  margin-bottom: 40px;
+  position: relative;
+  z-index: 1;
+}
+.mp-header h1 {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 6px;
+}
+.mp-header p {
+  font-size: 1rem;
+  color: #475569;
+  margin: 0;
+}
+
+.mp-section {
+  max-width: 1200px;
+  margin: 0 auto 48px;
+  position: relative;
+  z-index: 1;
+}
+.mp-section h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 20px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.mp-empty {
+  text-align: center;
+  color: #94a3b8;
+  padding: 40px;
+  font-size: 0.95rem;
+}
+
+.mp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.mp-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid #e2e8f0;
+  transition: 0.2s;
+}
+.mp-card:hover {
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  border-color: #0ea5e9;
+}
+.mp-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.mp-card-header h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  text-transform: capitalize;
+}
+.mp-qte {
+  background: #e0f2fe;
+  color: #0284c7;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.mp-produit {
+  background: #f8fafc;
+  padding: 12px;
+  border-radius: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.mp-produit strong {
+  flex: 1;
+  font-size: 0.9rem;
+  color: #0f172a;
+}
+.mp-prix {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0ea5e9;
+}
+.mp-prix-unit {
+  font-size: 0.78rem;
+  color: #94a3b8;
+  width: 100%;
+}
+
+.mp-toggle-options {
+  background: none;
+  border: none;
+  color: #0ea5e9;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+}
+.mp-toggle-options:hover {
+  text-decoration: underline;
+}
+
+.mp-autres {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 12px;
+  background: #f1f5f9;
+  border-radius: 8px;
+}
+.mp-option-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  color: #334155;
+}
+
+.mp-indispo {
+  color: #ef4444;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.mp-btn-add {
+  margin-top: auto;
+  width: 100%;
+  font-size: 0.85rem;
+  padding: 10px;
+}
+
+.mp-recap {
+  max-width: 500px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  position: relative;
+  z-index: 1;
+}
+.mp-recap-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  font-size: 0.95rem;
+  color: #475569;
+}
+.mp-recap-total {
+  border-top: 2px solid #e2e8f0;
+  margin-top: 4px;
+  padding-top: 12px;
+  font-size: 1.1rem;
+}
+.mp-recap-total span { font-weight: 700; color: #0f172a; }
+.mp-recap-total strong { font-size: 1.3rem; color: #0ea5e9; }
+
+.mp-btn-all {
+  margin-top: 16px;
+  width: 100%;
+  font-size: 1rem;
+  padding: 14px;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  font-size: 1.1rem;
+  color: #64748b;
+}
+
+@media (max-width: 768px) {
+  .marketplace-page { padding: 24px 12px 60px; }
+  .mp-header h1 { font-size: 1.3rem; }
+  .mp-grid { grid-template-columns: 1fr; }
+}

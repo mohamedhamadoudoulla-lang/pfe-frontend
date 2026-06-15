@@ -111,6 +111,8 @@ export default function UserProfile() {
         .profile-tab-btn { display: flex; align-items: center; gap: 8px; padding: 10px 20px; border: none; border-radius: 10px; font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; background: white; color: #64748b; border: 1px solid #e2e8f0; }
         .profile-tab-btn:hover { border-color: #3b82f6; color: #3b82f6; }
         .profile-tab-btn.active { background: #3b82f6; color: white; border-color: #3b82f6; }
+        .profile-back-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; background: white; color: #3b82f6; border: 2px solid #3b82f6; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; margin-bottom: 24px; transition: all 0.2s; font-family: inherit; }
+        .profile-back-btn:hover { background: #3b82f6; color: white; }
         .profile-section-title { font-size: 18px; font-weight: 700; color: #1e293b; margin-bottom: 16px; }
         .profile-card { background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 24px; margin-bottom: 16px; }
         .profile-info-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
@@ -173,6 +175,9 @@ export default function UserProfile() {
       `}</style>
 
       <div className="profile-container">
+        <button className="profile-back-btn" onClick={() => navigate(-1)}>
+          <ArrowLeft size={18} /> Retour
+        </button>
         <ScrollReveal direction="down">
           <AnimatedCard className="profile-header-card" whileHover={{ scale: 1.01 }}>
             <div className="profile-avatar-large">{user?.name?.[0]?.toUpperCase() || "U"}</div>

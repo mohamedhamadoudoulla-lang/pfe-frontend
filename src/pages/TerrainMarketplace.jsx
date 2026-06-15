@@ -1,8 +1,50 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { getTerrains } from "../services/api";
 import { AnimatedButton, AnimatedCard, AnimatedStagger, AnimatedStaggerItem, ScrollReveal } from "@/components/animate";
 import "./TerrainMarketplace.css";
+
+const FALLBACK_TERRAINS = [
+  {
+    _id: "terrain-fallback-1",
+    title: "Terrain habitation ind. en vente",
+    region: "Kairouan",
+    city: "Kairouan",
+    surface: 447,
+    pricePerM2: 738,
+    totalPrice: 330000,
+    description: "À vendre, un terrain d'habitation d'une superficie de 447 m², bénéficiant d'un emplacement idéal dans un quartier résidentiel calme et sécurisé.",
+    images: ["https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&q=80"],
+    isAvailable: true,
+    seller: { name: "Kairouan Invest Sarl", phone: "+21628842842" },
+  },
+  {
+    _id: "terrain-fallback-2",
+    title: "Terrain habitation ind. en vente",
+    region: "Sfax",
+    city: "Route Gremda",
+    surface: 1052,
+    pricePerM2: 309,
+    totalPrice: 325000,
+    description: "Ce terrain de superficie 1052 m², situé dans un quartier calme et résidentiel à route de Gremda km7, dispose de deux façades.",
+    images: ["https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&q=80"],
+    isAvailable: true,
+    seller: { name: "Tecnocasa Sfax", phone: "+21674400000" },
+  },
+  {
+    _id: "terrain-fallback-3",
+    title: "Terrain habitation collective en vente",
+    region: "Sfax",
+    city: "Route De Tunis",
+    surface: 920,
+    pricePerM2: 701,
+    totalPrice: 645000,
+    description: "Ce terrain de superficie 920 m² est situé sur la ceinture Bourguiba, route de Tunis km3.",
+    images: ["https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&q=80"],
+    isAvailable: true,
+    seller: { name: "Tecnocasa Sfax", phone: "+21674400000" },
+  },
+];
 
 export default function TerrainMarketplace() {
   const [terrains, setTerrains] = useState([]);
@@ -13,8 +55,8 @@ export default function TerrainMarketplace() {
 
   useEffect(() => {
     getTerrains()
-      .then((res) => setTerrains(res.data))
-      .catch(() => setTerrains([]))
+      .then((res) => setTerrains(res.data.length > 0 ? res.data : FALLBACK_TERRAINS))
+      .catch(() => setTerrains(FALLBACK_TERRAINS))
       .finally(() => setLoading(false));
   }, []);
 
@@ -86,7 +128,11 @@ export default function TerrainMarketplace() {
                 <AnimatedCard className="terrain-card" whileHover={{ scale: 1.02 }}>
                   {/* Image placeholder — remplacer par <img> quand dispo */}
                   <div className="terrain-card-img">
-                    <span>🏞️</span>
+                    {terrain.images?.[0] ? (
+                      <img src={terrain.images[0]} alt={terrain.title} className="terrain-card-image" />
+                    ) : (
+                      <span>🏞️</span>
+                    )}
                     <div className="terrain-region-tag">📍 {terrain.region}</div>
                   </div>
 
@@ -123,12 +169,15 @@ export default function TerrainMarketplace() {
                     variant="primary"
                     onClick={() =>
                       navigate("/terrain/estimation", {
-                        state: { region: terrain.region, surface: terrain.surface },
+                        state: { terrain: terrain, region: terrain.region, surface: terrain.surface },
                       })
                     }
                   >
                     Choisir ce terrain →
                   </AnimatedButton>
+                  <Link to={`/terrain/${terrain._id}`} className="tm-detail-link">
+                    Voir détails →
+                  </Link>
                 </AnimatedCard>
               </ScrollReveal>
             ))}

@@ -1,438 +1,175 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { login, register } from "../services/api";
+import { register } from "../services/api";
 import { useAuth } from "../context/AuthContext";
 import toast from "react-hot-toast";
-import {
-  Eye, EyeOff, Mail, Lock, User, Phone,
-  MapPin, Globe, Shield, Building2,
-  Home, TrendingUp, Users, Zap,
-} from "lucide-react";
+import { Eye, EyeOff, User, Mail, Phone, MapPin, Globe, Lock } from "lucide-react";
 import "./Login.css";
 
-const AVATAR_OPTIONS = [
-  { id: 1, name: "Architecte",     initials: "AR", color: "#3b82f6" },
-  { id: 2, name: "Constructeur",   initials: "CO", color: "#06b6d4" },
-  { id: 3, name: "Ingénieur",      initials: "IN", color: "#8b5cf6" },
-  { id: 4, name: "Entrepreneur",   initials: "EN", color: "#ec4899" },
-  { id: 5, name: "Maître d'ouvrage", initials: "MO", color: "#f59e0b" },
-  { id: 6, name: "Estimateur",     initials: "ES", color: "#10b981" },
+const ROLES = [
+  { value: "user",             icon: "🏠", label: "Particulier" },
+  { value: "engineer",         icon: "👷", label: "Ingénieur" },
+  { value: "terrain_seller",   icon: "🏗️", label: "Vendeur terrain" },
+  { value: "equipment_seller", icon: "🛋️", label: "Vendeur équipement" },
 ];
 
-const REDIRECT = {
-  admin:            "/admin/dashboard",
-  engineer:         "/ingenieur/dashboard",
-  terrain_seller:   "/terrains/ajouter",
-  equipment_seller: "/equipments/dashboard",
-  user:             "/terrain/localisation",
-};
+const languages = [
+  "afrikaans","বাংলা","Catalogne","Čeština","Dansk","Allemand",
+  "Ελληνικά","Anglais","Espagnol","Finlande","Français","Hindi",
+  "magyar","Bahasa Indonesia","Íslenska","Italien","日本語","한국어",
+  "Lietuvių","Latviešu","Néerlandais","Norsk","Polski","Portugais",
+  "Română","Русский","Slovène",
+];
 
-const getRedirectPath = (role) => REDIRECT[role] || "/terrain/localisation";
-
-export default function BuilderLogin() {
-  const [isLogin, setIsLogin] = useState(true);
-  const [formLogin, setFormLogin] = useState({ email: "", password: "" });
-  const [formRegister, setFormRegister] = useState({
-    name: "", email: "", phone: "",
-    password: "", confirmPassword: "",
-    address: "", country: "",
-    role: "user",
-    avatar: AVATAR_OPTIONS[0],
-  });
-  const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [errors, setErrors] = useState({});
-
-  const { loginUser } = useAuth();
+export default function Register() {
   const navigate = useNavigate();
+  const { loginUser } = useAuth();
 
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const [form, setForm] = useState({
+    name: "", email: "", phone: "", country: "", address: "",
+    password: "", confirmPassword: "", role: "user",
+  });
+  const [showPwd, setShowPwd] = useState(false);
+  const [showConfPwd, setShowConfPwd] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const validateEmail = (email) => {
-    if (!email) return "";
-    return emailRegex.test(email) ? "" : "Format email invalide";
-  };
-
-  const handleChangeLogin = (e) => {
-    const { name, value } = e.target;
-    setFormLogin(prev => ({ ...prev, [name]: value }));
-    if (name === "email") setErrors(prev => ({ ...prev, loginEmail: validateEmail(value) }));
-  };
-
-  const handleChangeRegister = (e) => {
-    const { name, value } = e.target;
-    setFormRegister(prev => ({ ...prev, [name]: value }));
-    if (name === "email") setErrors(prev => ({ ...prev, regEmail: validateEmail(value) }));
-  };
-
-  const handleAvatarSelect = (avatar) => setFormRegister({ ...formRegister, avatar });
+  const update = (key, val) => setForm((p) => ({ ...p, [key]: val }));
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const err = validateEmail(formLogin.email);
-    if (err) { toast.error(err); return; }
-    if (formLogin.password.length < 6) { toast.error("Mot de passe trop court"); return; }
+    if (form.password !== form.confirmPassword) { toast.error("Les mots de passe ne correspondent pas"); return; }
+    if (form.password.length < 6) { toast.error("Mot de passe trop court (6 min)"); return; }
     setLoading(true);
     try {
-      const res = await login(formLogin);
-      const role = res.data.user.role;
-      loginUser(res.data.user, res.data.token);
-      toast.success("Connexion réussie !");
-      navigate(getRedirectPath(role));
-    } catch (err) {
-      toast.error(err.response?.data?.message || "Email ou mot de passe incorrect");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleSubmitRegister = async (e) => {
-    e.preventDefault();
-    const err = validateEmail(formRegister.email);
-    if (err) { toast.error(err); return; }
-    if (formRegister.password !== formRegister.confirmPassword) {
-      toast.error("Les mots de passe ne correspondent pas !");
-      return;
-    }
-    if (formRegister.password.length < 6) {
-      toast.error("Le mot de passe doit contenir au moins 6 caractères !");
-      return;
-    }
-    setLoading(true);
-    try {
-      const { confirmPassword, avatar, ...dataToSend } = formRegister;
-      const res = await register(dataToSend);
-      const role = res.data.user.role;
-      loginUser(res.data.user, res.data.token);
-      toast.success("Inscription réussie !");
-      navigate(getRedirectPath(role));
+      const { confirmPassword, ...data } = form;
+      const res = await register(data);
+      if (res.data.needsVerification) {
+        toast.success(res.data.message || "Veuillez vérifier votre email.");
+        navigate("/login");
+      } else {
+        const REDIRECTS = { admin: "/admin/dashboard", engineer: "/ingenieur/dashboard", terrain_seller: "/terrains/ajouter", equipment_seller: "/equipments/dashboard", user: "/devis-wizard" };
+        loginUser(res.data.user, res.data.token);
+        toast.success("Compte créé !");
+        navigate(REDIRECTS[res.data.user.role] || "/devis-wizard");
+      }
     } catch (err) {
       toast.error(err.response?.data?.message || "Erreur inscription");
-    } finally {
-      setLoading(false);
-    }
+    } finally { setLoading(false); }
   };
 
   return (
-    <div className="builder-login-container">
-      <div className="builder-login-wrapper">
+    <div className="ca-wrapper">
+      <div className="ribbon-wrap">
+        <svg
+          viewBox="0 0 1000 640"
+          xmlns="http://www.w3.org/2000/svg"
+          className="ca-ribbon-svg"
+          preserveAspectRatio="none"
+        >
+          <defs>
+            <linearGradient id="ribbonGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#c8f400" />
+              <stop offset="40%" stopColor="#ff6a00" />
+              <stop offset="100%" stopColor="#ff2d8b" />
+            </linearGradient>
+          </defs>
+          <path
+            d="M -40 540 C 90 540, 170 380, 260 440 C 350 500, 320 600, 240 580 C 160 560, 190 460, 290 450 C 420 438, 540 420, 660 320 C 760 235, 880 210, 1040 240"
+            fill="none"
+            stroke="url(#ribbonGrad)"
+            strokeWidth="30"
+            strokeLinecap="round"
+          />
+        </svg>
+      </div>
 
-        <div className="builder-form-section">
-          {isLogin ? (
-
-            <div className="builder-card">
-              <div className="builder-header">
-                <div className="builder-logo-badge">
-                  <Building2 size={32} />
-                </div>
-                <h2>Bienvenue</h2>
-                <p>Connectez-vous à votre espace SmartBuild</p>
-              </div>
-
-              <form onSubmit={handleSubmit} className="builder-form">
-                <div className="form-group">
-                  <label>Email professionnel</label>
-                  <div className="input-wrapper">
-                    <Mail size={18} className="input-icon" />
-                    <input
-                      name="email"
-                      type="email"
-                      placeholder="vous@construction.com"
-                      value={formLogin.email}
-                      onChange={handleChangeLogin}
-                      required
-                    />
-                  </div>
-                  {errors.loginEmail && <span className="field-error">{errors.loginEmail}</span>}
-                </div>
-
-                <div className="form-group">
-                  <label>Mot de passe</label>
-                  <div className="input-wrapper">
-                    <Lock size={18} className="input-icon" />
-                    <input
-                      name="password"
-                      type={showPassword ? "text" : "password"}
-                      placeholder="••••••••"
-                      value={formLogin.password}
-                      onChange={handleChangeLogin}
-                      required
-                    />
-                    <button
-                      type="button"
-                      className="toggle-password"
-                      onClick={() => setShowPassword(!showPassword)}
-                    >
-                      {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
-                    </button>
-                  </div>
-                </div>
-
-                <div className="form-options">
-                  <label className="remember-me">
-                    <input type="checkbox" />
-                    <span>Se souvenir de moi</span>
-                  </label>
-                </div>
-
-                <button className="builder-btn builder-btn-primary" disabled={loading}>
-                  {loading ? <><span className="spinner"></span>Connexion en cours...</> : <>Se connecter</>}
-                </button>
-              </form>
-
-              <div className="divider"><span>ou</span></div>
-              <div className="builder-footer">
-                <p>Pas encore de compte ?</p>
-                <button className="switch-form-btn" onClick={() => setIsLogin(false)}>
-                  Créer un compte gratuitement
-                </button>
-              </div>
-            </div>
-
-          ) : (
-
-            <div className="builder-card builder-register-card">
-              <div className="builder-header">
-                <div className="builder-logo-badge">
-                  <Building2 size={32} />
-                </div>
-                <h2>Créer un compte</h2>
-                <p>Rejoignez SmartBuild en quelques étapes</p>
-              </div>
-
-              <form onSubmit={handleSubmitRegister} className="builder-form">
-
-                <div className="avatar-section">
-                  <label className="avatar-label">Choisissez votre profil</label>
-                  <div className="avatar-grid">
-                    {AVATAR_OPTIONS.map((av) => (
-                      <button
-                        key={av.id}
-                        type="button"
-                        className={`avatar-button ${formRegister.avatar.id === av.id ? "selected" : ""}`}
-                        onClick={() => handleAvatarSelect(av)}
-                        title={av.name}
-                      >
-                        <div
-                          className="avatar-circle"
-                          style={{ backgroundColor: av.color }}
-                        >
-                          {av.initials}
-                        </div>
-                        <span className="avatar-name">{av.name}</span>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="form-group">
-                  <label>Nom complet</label>
-                  <div className="input-wrapper">
-                    <User size={18} className="input-icon" />
-                    <input
-                      name="name"
-                      type="text"
-                      placeholder="Ahmed Ben Ali"
-                      value={formRegister.name}
-                      onChange={handleChangeRegister}
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div className="form-group">
-                  <label>Email professionnel</label>
-                  <div className="input-wrapper">
-                    <Mail size={18} className="input-icon" />
-                    <input
-                      name="email"
-                      type="email"
-                      placeholder="vous@construction.com"
-                      value={formRegister.email}
-                      onChange={handleChangeRegister}
-                      required
-                    />
-                  </div>
-                  {errors.regEmail && <span className="field-error">{errors.regEmail}</span>}
-                </div>
-
-                <div className="form-group">
-                  <label>Téléphone</label>
-                  <div className="input-wrapper">
-                    <Phone size={18} className="input-icon" />
-                    <input
-                      name="phone"
-                      type="tel"
-                      placeholder="+216 XX XXX XXX"
-                      value={formRegister.phone}
-                      onChange={handleChangeRegister}
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div className="form-group">
-                  <label>Pays</label>
-                  <div className="input-wrapper select-wrapper">
-                    <Globe size={18} className="input-icon" />
-                    <select
-                      name="country"
-                      value={formRegister.country}
-                      onChange={handleChangeRegister}
-                      required
-                    >
-                      <option value="">Sélectionner un pays</option>
-                      <option value="Tunisia">Tunisie</option>
-                      <option value="Algeria">Algérie</option>
-                      <option value="Morocco">Maroc</option>
-                      <option value="France">France</option>
-                      <option value="Belgium">Belgique</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div className="form-group">
-                  <label>Adresse</label>
-                  <div className="input-wrapper">
-                    <MapPin size={18} className="input-icon" />
-                    <input
-                      name="address"
-                      type="text"
-                      placeholder="Rue, Ville"
-                      value={formRegister.address}
-                      onChange={handleChangeRegister}
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div className="form-group">
-                  <label>Mot de passe</label>
-                  <div className="input-wrapper">
-                    <Lock size={18} className="input-icon" />
-                    <input
-                      name="password"
-                      type="password"
-                      placeholder="Minimum 6 caractères"
-                      value={formRegister.password}
-                      onChange={handleChangeRegister}
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div className="form-group">
-                  <label>Confirmation mot de passe</label>
-                  <div className="input-wrapper">
-                    <Lock size={18} className="input-icon" />
-                    <input
-                      name="confirmPassword"
-                      type={showConfirmPassword ? "text" : "password"}
-                      placeholder="Confirmez votre mot de passe"
-                      value={formRegister.confirmPassword}
-                      onChange={handleChangeRegister}
-                      required
-                    />
-                    <button
-                      type="button"
-                      className="toggle-password"
-                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    >
-                      {showConfirmPassword ? <Eye size={18} /> : <EyeOff size={18} />}
-                    </button>
-                  </div>
-                </div>
-
-                <div className="form-group">
-                  <label>Choisissez votre profil</label>
-                  <div className="profile-cards">
-                    {[
-                      { value: "user",          icon: "🏠", label: "Particulier",         desc: "Je veux construire ma maison et estimer mon budget",         color: "#3b82f6" },
-                      { value: "engineer",       icon: "👷", label: "Ingénieur",            desc: "Je propose mes services de génie civil et construction",       color: "#10b981" },
-                      { value: "terrain_seller", icon: "🏗️", label: "Vendeur terrain",     desc: "Je publie des terrains à vendre pour les acheteurs",          color: "#f59e0b" },
-                      { value: "equipment_seller", icon: "🛋️", label: "Vendeur équipement", desc: "Je vends des meubles et équipements pour la maison",         color: "#8b5cf6" },
-                      { value: "admin",          icon: "⚙️", label: "Administrateur",       desc: "Je gère et supervise toute la plateforme SmartBuild",        color: "#ef4444" },
-                    ].map((p) => (
-                      <div
-                        key={p.value}
-                        className={`profile-card ${formRegister.role === p.value ? "selected" : ""}`}
-                        onClick={() => setFormRegister({ ...formRegister, role: p.value })}
-                        style={{ "--card-color": p.color }}
-                      >
-                        <div className="profile-card-icon">{p.icon}</div>
-                        <div className="profile-card-text">
-                          <span className="profile-card-label">{p.label}</span>
-                          <span className="profile-card-desc">{p.desc}</span>
-                        </div>
-                        <div className="profile-card-check">
-                          {formRegister.role === p.value ? "✓" : ""}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {formRegister.role === "admin" && (
-                  <div className="admin-alert">
-                    <Shield size={16} />
-                    <span>Compte administrateur — accès complet au tableau de bord</span>
-                  </div>
-                )}
-
-                <button className="builder-btn builder-btn-primary" disabled={loading}>
-                  {loading ? <><span className="spinner"></span>Création en cours...</> : <>Créer mon compte</>}
-                </button>
-              </form>
-
-              <div className="builder-footer">
-                <p>Déjà inscrit ?</p>
-                <button className="switch-form-btn" onClick={() => setIsLogin(true)}>
-                  Se connecter
-                </button>
-              </div>
-            </div>
-          )}
+      <div className="ca-content">
+        <div className="ca-left">
+          <h1 className="ca-title">Créer un compte</h1>
+          <p className="ca-subtitle">Rejoignez SmartBuild en quelques étapes</p>
         </div>
 
-        <div className="builder-branding">
-          <div className="builder-brand-content">
-            <div className="builder-brand-logo">
-              <div className="logo-icon">
-                <Home size={56} />
+        <div className="ca-right">
+          <form onSubmit={handleSubmit}>
+            <div className="reg-row">
+              <div className="inp-wrap">
+                <span className="ca-input-icon"><User size={17} /></span>
+                <input className="ca-input" placeholder="Ahmed Ben Ali" value={form.name} onChange={(e) => update("name", e.target.value)} required />
               </div>
-            </div>
-            <h1>SmartBuild</h1>
-            <p className="builder-brand-subtitle">Plateforme intelligente de devis immobilier</p>
-
-            <div className="features-list">
-              <div className="feature-item">
-                <TrendingUp size={20} />
-                <p>Devis en 5 minutes</p>
-              </div>
-              <div className="feature-item">
-                <Users size={20} />
-                <p>Connectez vos pros</p>
-              </div>
-              <div className="feature-item">
-                <Zap size={20} />
-                <p>Technologie IA</p>
+              <div className="inp-wrap">
+                <span className="ca-input-icon"><Mail size={17} /></span>
+                <input className="ca-input" type="email" placeholder="vous@smartbuild.tn" value={form.email} onChange={(e) => update("email", e.target.value)} required />
               </div>
             </div>
 
-            <div className="builder-brand-stats">
-              <div className="builder-brand-stat">
-                <div className="stat-value">5K+</div>
-                <div className="stat-label">Projets/an</div>
+            <div className="reg-row">
+              <div className="inp-wrap">
+                <span className="ca-input-icon"><Phone size={17} /></span>
+                <input className="ca-input" type="tel" placeholder="+216 XX XXX XXX" value={form.phone} onChange={(e) => update("phone", e.target.value)} required />
               </div>
-              <div className="builder-brand-stat">
-                <div className="stat-value">4.9★</div>
-                <div className="stat-label">Satisfaction</div>
+              <div className="inp-wrap">
+                <span className="ca-input-icon"><Globe size={17} /></span>
+                <select className="ca-input ca-select" value={form.country} onChange={(e) => update("country", e.target.value)} required>
+                  <option value="">Sélectionner un pays</option>
+                  <option value="Tunisia">Tunisie</option>
+                  <option value="Algeria">Algérie</option>
+                  <option value="Morocco">Maroc</option>
+                  <option value="France">France</option>
+                  <option value="Belgium">Belgique</option>
+                </select>
               </div>
             </div>
+
+            <div className="reg-row">
+              <div className="inp-wrap">
+                <span className="ca-input-icon"><MapPin size={17} /></span>
+                <input className="ca-input" placeholder="Rue, Ville" value={form.address} onChange={(e) => update("address", e.target.value)} required />
+              </div>
+              <div className="inp-wrap" />
+            </div>
+
+            <div className="reg-row">
+              <div className="inp-wrap">
+                <span className="ca-input-icon"><Lock size={17} /></span>
+                <input className="ca-input" type={showPwd ? "text" : "password"} placeholder="Mot de passe" value={form.password} onChange={(e) => update("password", e.target.value)} required />
+                <button type="button" className="ca-eye" onClick={() => setShowPwd(!showPwd)}>{showPwd ? <Eye size={17} /> : <EyeOff size={17} />}</button>
+              </div>
+              <div className="inp-wrap">
+                <span className="ca-input-icon"><Lock size={17} /></span>
+                <input className="ca-input" type={showConfPwd ? "text" : "password"} placeholder="Confirmez" value={form.confirmPassword} onChange={(e) => update("confirmPassword", e.target.value)} required />
+                <button type="button" className="ca-eye" onClick={() => setShowConfPwd(!showConfPwd)}>{showConfPwd ? <Eye size={17} /> : <EyeOff size={17} />}</button>
+              </div>
+            </div>
+
+            <div className="ca-roles-row">
+              {ROLES.map((r) => (
+                <div
+                  key={r.value}
+                  className={`ca-role-card-h ${form.role === r.value ? "selected" : ""}`}
+                  onClick={() => update("role", r.value)}
+                >
+                  <span className="ca-role-icon-h">{r.icon}</span>
+                  <span className="ca-role-label-h">{r.label}</span>
+                </div>
+              ))}
+            </div>
+
+            <button className="ca-btn ca-btn-full" type="submit" disabled={loading}>
+              {loading ? "Création en cours..." : "Créer mon compte"}
+            </button>
+          </form>
+
+          <div className="ca-switch">
+            <span>Déjà inscrit ?</span>
+            <button className="ca-link-btn" onClick={() => navigate("/login")}>Se connecter</button>
           </div>
         </div>
+      </div>
 
+      <div className="ca-languages">
+        {languages.map((lang) => (
+          <span key={lang} className="ca-lang-item">{lang}</span>
+        ))}
       </div>
     </div>
   );

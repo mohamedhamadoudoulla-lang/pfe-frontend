@@ -1,7 +1,22 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useState, useEffect } from "react";
-import { Home, User, LogOut, FileText, Settings, ChevronDown } from "lucide-react";
+import {
+  LayoutGrid,
+  Ruler,
+  Users,
+  User,
+  LogOut,
+  FileText,
+  ChevronDown,
+  ClipboardList,
+  LayoutDashboard,
+  Map,
+  Package,
+  ShieldCheck,
+  Building2,
+  Home,
+} from "lucide-react";
 import API from "../services/api";
 import toast from "react-hot-toast";
 import "./Navbar.css";
@@ -53,6 +68,9 @@ export default function Navbar() {
   return (
     <nav className="navbar">
       <Link to="/" className="navbar-logo">
+        <div className="navbar-logo-icon">
+          <Building2 size={22} />
+        </div>
         <span className="navbar-logo-text">
           <span className="smart">Smart</span>
           <span className="build">Build</span>
@@ -60,30 +78,52 @@ export default function Navbar() {
       </Link>
 
       <div className="navbar-links">
+        <Link to="/" className="navbar-link">
+          <Home size={16} className="nav-icon" />
+          <span className="nav-label">Accueil</span>
+        </Link>
         {!user && (
           <>
             <Link to="/catalogue" className="navbar-link">
-              Catalogue
+              <LayoutGrid size={16} className="nav-icon" />
+              <span className="nav-label">Catalogue</span>
+            </Link>
+            <Link to="/services" className="navbar-link">
+              <Building2 size={16} className="nav-icon" />
+              <span className="nav-label">Services</span>
+            </Link>
+            <Link to="/ingenieurs" className="navbar-link">
+              <Users size={16} className="nav-icon" />
+              <span className="nav-label">Ingénieurs</span>
             </Link>
             <Link to="/login" className="navbar-link">
-              Se connecter
+              <span className="nav-label">Se connecter</span>
             </Link>
-            <Link to="/register" className="navbar-btn-register">
-              S'inscrire
-            </Link>
+
           </>
         )}
 
         {user?.role === "user" && (
           <>
             <Link to="/catalogue" className="navbar-link">
-              Catalogue
+              <LayoutGrid size={16} className="nav-icon" />
+              <span className="nav-label">Catalogue</span>
+            </Link>
+            <Link to="/services" className="navbar-link">
+              <Building2 size={16} className="nav-icon" />
+              <span className="nav-label">Services</span>
             </Link>
             <Link to="/devis-wizard" className="navbar-link">
-              Estimer
+              <Ruler size={16} className="nav-icon" />
+              <span className="nav-label">Estimer</span>
+            </Link>
+            <Link to="/terrains/marketplace" className="navbar-link">
+              <Map size={16} className="nav-icon" />
+              <span className="nav-label">Terrains</span>
             </Link>
             <Link to="/mes-projets" className="navbar-link">
-              Mes projets
+              <ClipboardList size={16} className="nav-icon" />
+              <span className="nav-label">Projets</span>
               {acceptedCount > 0 && (
                 <span className="nb-badge nb-accepted">{acceptedCount}</span>
               )}
@@ -97,10 +137,12 @@ export default function Navbar() {
         {user?.role === "engineer" && (
           <>
             <Link to="/ingenieur/projets" className="navbar-link">
-              Projets
+              <ClipboardList size={16} className="nav-icon" />
+              <span className="nav-label">Projets</span>
             </Link>
             <Link to="/ingenieur/dashboard" className="navbar-link">
-              Dashboard
+              <LayoutDashboard size={16} className="nav-icon" />
+              <span className="nav-label">Dashboard</span>
             </Link>
           </>
         )}
@@ -108,10 +150,12 @@ export default function Navbar() {
         {user?.role === "terrain_seller" && (
           <>
             <Link to="/terrains/ajouter" className="navbar-link">
-              Mes terrains
+              <Map size={16} className="nav-icon" />
+              <span className="nav-label">Mes terrains</span>
             </Link>
             <Link to="/vendeur/dashboard" className="navbar-link">
-              Dashboard
+              <LayoutDashboard size={16} className="nav-icon" />
+              <span className="nav-label">Dashboard</span>
             </Link>
           </>
         )}
@@ -119,14 +163,16 @@ export default function Navbar() {
         {user?.role === "equipment_seller" && (
           <>
             <Link to="/equipments/dashboard" className="navbar-link">
-              Catalogue
+              <Package size={16} className="nav-icon" />
+              <span className="nav-label">Catalogue</span>
             </Link>
           </>
         )}
 
         {user?.role === "admin" && (
           <Link to="/admin/dashboard" className="navbar-link">
-            Admin
+            <ShieldCheck size={16} className="nav-icon" />
+            <span className="nav-label">Admin</span>
           </Link>
         )}
 
@@ -146,7 +192,7 @@ export default function Navbar() {
               <span className="navbar-username">{user.name}</span>
               <ChevronDown
                 className={`navbar-arrow ${showDropdown ? "rotate" : ""}`}
-                size={16}
+                size={14}
               />
             </button>
 
@@ -157,7 +203,7 @@ export default function Navbar() {
                   className="navbar-dropdown-item"
                   onClick={() => setShowDropdown(false)}
                 >
-                  <User size={18} />
+                  <User size={16} />
                   Mon profil
                 </Link>
 
@@ -167,15 +213,15 @@ export default function Navbar() {
                     className="navbar-dropdown-item"
                     onClick={() => setShowDropdown(false)}
                   >
-                    <FileText size={18} />
+                    <FileText size={16} />
                     Mes projets
                   </Link>
                 )}
 
-                <div className="navbar-dropdown-divider"></div>
+                <div className="navbar-dropdown-divider" />
 
                 <button className="navbar-dropdown-item logout" onClick={handleLogout}>
-                  <LogOut size={18} />
+                  <LogOut size={16} />
                   Deconnexion
                 </button>
               </div>

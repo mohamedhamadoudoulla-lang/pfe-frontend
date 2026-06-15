@@ -5,6 +5,7 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import { AnimatedButton, AnimatedCard, ScrollReveal } from "@/components/animate";
 import { ArrowRight, ArrowLeft, MapPin, Ruler, DollarSign, Check, Home } from "lucide-react";
+import RainbowLines from "../components/RainbowLines";
 import "./TerrainEstimation.css";
 
 delete L.Icon.Default.prototype._getIconUrl;
@@ -24,6 +25,18 @@ export default function TerrainEstimation() {
   useEffect(() => {
     if (!state?.region || !state?.surface) {
       navigate("/terrain/localisation");
+      return;
+    }
+    if (state?.terrain) {
+      setResult({
+        region: state.terrain.region,
+        surface: state.terrain.surface,
+        avgPricePerM2: state.terrain.pricePerM2,
+        estimatedTotal: state.terrain.totalPrice,
+        terrains: [state.terrain],
+        source: "terrain_selected",
+      });
+      setLoading(false);
       return;
     }
     estimateTerrain({ region: state.region, surface: state.surface })
@@ -51,7 +64,8 @@ export default function TerrainEstimation() {
   );
 
   return (
-    <div style={{ minHeight: "100vh", padding: "40px 20px", maxWidth: "1100px", margin: "0 auto", fontFamily: "'Inter', sans-serif" }}>
+    <div style={{ minHeight: "100vh", padding: "40px 20px", maxWidth: "1100px", margin: "0 auto", fontFamily: "'Inter', sans-serif", position: "relative", zIndex: 1 }}>
+      <RainbowLines variant="estimation" />
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }

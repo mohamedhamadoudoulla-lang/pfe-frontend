@@ -1,0 +1,351 @@
+* { box-sizing: border-box; }
+
+.td-page {
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  min-height: 100vh;
+  background: #f8fafc;
+  color: #1e293b;
+  padding: 24px 16px 60px;
+}
+
+.td-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.td-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #475569;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px 0;
+  margin-bottom: 16px;
+  transition: color 0.15s;
+}
+.td-back-btn:hover { color: #2563eb; }
+
+/* Hero */
+.td-hero-img {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+.td-hero-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.td-hero-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 24px;
+  background: linear-gradient(transparent, rgba(0,0,0,0.7));
+  color: white;
+}
+.td-hero-title {
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+.td-hero-location {
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  opacity: 0.85;
+}
+
+/* Grid */
+.td-grid {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 20px;
+}
+
+/* Cards */
+.td-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 6px rgba(0,0,0,0.04);
+}
+
+.td-section-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 14px;
+}
+
+/* Plan */
+.td-plan-wrap {
+  border-radius: 10px;
+  overflow: hidden;
+  background: #f8fafc;
+}
+.td-plan-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 10px;
+  cursor: zoom-in;
+  transition: transform 0.2s;
+}
+.td-plan-img:hover { transform: scale(1.02); }
+.td-plan-hint { font-size: 12px; color: #94a3b8; text-align: center; margin-top: 8px; }
+
+/* Price card */
+.td-price-card {
+  text-align: center;
+  padding: 28px 20px;
+}
+.td-price-value {
+  font-size: 32px;
+  font-weight: 800;
+  color: #2563eb;
+}
+.td-price-currency {
+  font-size: 18px;
+  font-weight: 600;
+  color: #64748b;
+}
+.td-price-detail {
+  font-size: 13px;
+  color: #64748b;
+  margin-top: 4px;
+}
+
+/* Features */
+.td-features {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.td-feature {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #475569;
+}
+.td-feature span { color: #94a3b8; min-width: 120px; }
+.td-feature strong { color: #0f172a; }
+
+/* Description */
+.td-desc {
+  font-size: 13px;
+  line-height: 1.7;
+  color: #475569;
+}
+
+/* Fees */
+.td-fees {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.td-fee-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  padding: 6px 0;
+}
+.td-fee-row span { color: #475569; }
+.td-fee-row strong { color: #0f172a; font-weight: 700; }
+.td-fee-credit div { text-align: right; }
+.td-fee-calc {
+  display: block;
+  font-size: 11px;
+  color: #2563eb;
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-top: 2px;
+  text-decoration: underline;
+}
+
+/* Nearby */
+.td-nearby-group {
+  margin-bottom: 14px;
+}
+.td-nearby-category {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0f172a;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+.td-nearby-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: #475569;
+  padding: 4px 0 4px 22px;
+}
+.td-nearby-dist {
+  font-weight: 600;
+  color: #64748b;
+  font-size: 11px;
+}
+
+/* Sidebar */
+.td-sidebar {
+  position: sticky;
+  top: 20px;
+  align-self: start;
+}
+
+/* Seller card */
+.td-seller-card {
+  border: 1px solid #e2e8f0;
+}
+
+/* Form */
+.td-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.td-form-row {
+  display: flex;
+  gap: 10px;
+}
+.td-form-row .td-form-group { flex: 1; }
+.td-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.td-form-group label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #334155;
+}
+.td-form-group input,
+.td-form-group textarea {
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  font-size: 13px;
+  padding: 8px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  outline: none;
+  transition: 0.15s;
+  background: #f8fafc;
+}
+.td-form-group input:focus,
+.td-form-group textarea:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+  background: white;
+}
+.td-form-group textarea { resize: vertical; }
+
+.td-privacy {
+  font-size: 10px;
+  color: #94a3b8;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.td-submit-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  background: #2563eb;
+  color: white;
+  cursor: pointer;
+  transition: 0.15s;
+}
+.td-submit-btn:hover { background: #1d4ed8; }
+
+.td-submitted {
+  text-align: center;
+  padding: 24px 12px;
+  color: #16a34a;
+}
+.td-submitted p { font-size: 14px; font-weight: 600; margin-top: 8px; }
+.td-submitted-sub { font-size: 12px !important; font-weight: 400 !important; color: #64748b; }
+
+/* Agency card */
+.td-agency-card {
+  border: 1px solid #e2e8f0;
+}
+.td-agency-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 8px;
+}
+.td-agency-detail {
+  font-size: 12px;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+.td-agency-badge {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: #fef9c3;
+  color: #854d0e;
+  padding: 2px 10px;
+  border-radius: 50px;
+}
+
+/* Loading */
+.td-loading-screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: #94a3b8;
+  font-size: 14px;
+}
+.td-loading-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #e2e8f0;
+  border-top-color: #2563eb;
+  border-radius: 50%;
+  animation: td-spin 0.7s linear infinite;
+}
+@keyframes td-spin { to { transform: rotate(360deg); } }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .td-grid { grid-template-columns: 1fr; }
+  .td-sidebar { position: static; }
+  .td-hero-img { height: 200px; }
+  .td-hero-title { font-size: 18px; }
+  .td-price-value { font-size: 26px; }
+  .td-form-row { flex-direction: column; gap: 0; }
+}

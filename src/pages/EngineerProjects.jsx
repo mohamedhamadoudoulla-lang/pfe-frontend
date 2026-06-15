@@ -12,7 +12,9 @@ export default function EngineerProjects() {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("all");
-  const [applyForm, setApplyForm] = useState({ projectId: null, message: "", price: "" });
+  const [expandedId, setExpandedId] = useState(null);
+  const [applyForm, setApplyForm] = useState({ projectId: null, message: "" });
+  const [cvFile, setCvFile] = useState(null);
   const [sending, setSending] = useState(false);
 
   useEffect(() => {
@@ -35,14 +37,15 @@ export default function EngineerProjects() {
       return;
     }
     setSending(true);
+    const formData = new FormData();
+    formData.append("projectId", projectId);
+    formData.append("message", applyForm.message);
+    if (cvFile) formData.append("cv", cvFile);
     try {
-      await API.post("/applications", {
-        projectId,
-        message: applyForm.message,
-        price: applyForm.price,
-      });
+      await API.post("/applications", formData);
       toast.success("✅ Candidature envoyée !");
-      setApplyForm({ projectId: null, message: "", price: "" });
+      setApplyForm({ projectId: null, message: "" });
+      setCvFile(null);
     } catch (err) {
       toast.error(err.response?.data?.message || "Erreur envoi");
     } finally {
@@ -274,6 +277,25 @@ body {
   line-height: 1.6;
 }
 
+/* ── Toggle / Expanded ───────────────────────────────────── */
+.eng-toggle-btn {
+  width: 100%; padding: 8px; background: transparent; border: 1px solid var(--border);
+  border-radius: var(--radius-sm); font-family: inherit; font-size: 0.8rem;
+  font-weight: 600; color: var(--text-tertiary); cursor: pointer;
+  transition: all 0.2s;
+}
+.eng-toggle-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+.eng-expanded {
+  display: flex; flex-direction: column; gap: 8px;
+  padding: 12px; background: var(--bg-secondary); border-radius: var(--radius-sm);
+}
+.eng-exp-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; }
+.eng-exp-row span { color: var(--text-tertiary); }
+.eng-exp-row strong { color: var(--text-primary); }
+.eng-exp-desc span { font-size: 0.8rem; font-weight: 600; color: var(--text-tertiary); display: block; margin-bottom: 4px; }
+.eng-exp-desc p { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; }
+
 /* ── Card details ─────────────────────────────────────────── */
 .eng-card-details {
   display: grid;
@@ -461,6 +483,40 @@ body {
   color: var(--text-secondary);
 }
 
+/* ── CV Input ────────────────────────────────────────────── */
+.eng-cv-input {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 12px;
+}
+.eng-cv-input label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+.eng-cv-input input[type="file"] {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+}
+.eng-cv-name {
+  font-size: 0.8rem;
+  color: var(--primary);
+  font-weight: 500;
+}
+
+.eng-applied-badge {
+  display: block;
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--success);
+  background: #ecfdf5;
+  padding: 10px;
+  border-radius: var(--radius-sm);
+  margin-top: 12px;
+}
+
 /* ── Responsive ───────────────────────────────────────────── */
 @media (max-width: 768px) {
   .eng-projects-page {
@@ -581,7 +637,68 @@ body {
                         <strong>{Number(project.budget).toLocaleString()} DT</strong>
                       </div>
                     )}
+                    {project.constructionType && (
+                      <div className="eng-detail">
+                        <span>🏗️ Type</span>
+                        <strong>{project.constructionType}</strong>
+                      </div>
+                    )}
+                    {project.status === "ouvert" && project.deadline && (
+                      <div className="eng-detail">
+                        <span>📅 Date limite</span>
+                        <strong>{new Date(project.deadline).toLocaleDateString("fr-TN")}</strong>
+                      </div>
+                    )}
                   </div>
+
+                  {/* Voir plus */}
+                  <button
+                    className="eng-toggle-btn"
+                    onClick={() => setExpandedId(expandedId === project._id ? null : project._id)}
+                  >
+                    {expandedId === project._id ? "▲ Moins de détails" : "▼ Voir plus de détails"}
+                  </button>
+
+                  {expandedId === project._id && (
+                    <div className="eng-expanded">
+                      {project.region && (
+                        <div className="eng-exp-row">
+                          <span>📍 Région</span>
+                          <strong>{project.region}</strong>
+                        </div>
+                      )}
+                      {project.terrainSurface && (
+                        <div className="eng-exp-row">
+                          <span>📐 Surface terrain</span>
+                          <strong>{project.terrainSurface} m²</strong>
+                        </div>
+                      )}
+                      {project.nature && (
+                        <div className="eng-exp-row">
+                          <span>🏗️ Nature</span>
+                          <strong>{project.nature}</strong>
+                        </div>
+                      )}
+                      {project.prestation && (
+                        <div className="eng-exp-row">
+                          <span>🔧 Prestation</span>
+                          <strong>{project.prestation}</strong>
+                        </div>
+                      )}
+                      {project.administratif && (
+                        <div className="eng-exp-row">
+                          <span>📋 Administratif</span>
+                          <strong>{project.administratif}</strong>
+                        </div>
+                      )}
+                      {project.description && (
+                        <div className="eng-exp-desc">
+                          <span>📝 Description complète</span>
+                          <p>{project.description}</p>
+                        </div>
+                      )}
+                    </div>
+                  )}
 
                   {/* Client */}
                   <div className="eng-card-client">
@@ -611,15 +728,16 @@ body {
                         }
                         rows={4}
                       />
-                      <div className="eng-apply-row">
+                      <div className="eng-cv-input">
+                        <label>📎 Joindre mon CV (PDF)</label>
                         <input
-                          type="number"
-                          placeholder="Votre tarif estimé (DT)"
-                          value={applyForm.price}
-                          onChange={(e) =>
-                            setApplyForm({ ...applyForm, price: e.target.value })
-                          }
+                          type="file"
+                          accept="application/pdf"
+                          onChange={(e) => setCvFile(e.target.files[0] || null)}
                         />
+                        {cvFile && <span className="eng-cv-name">{cvFile.name}</span>}
+                      </div>
+                      <div className="eng-apply-row">
                         <AnimatedButton
                           className="btn-send-apply"
                           variant="primary"
@@ -630,20 +748,23 @@ body {
                         </AnimatedButton>
                         <AnimatedButton
                           className="btn-cancel-apply"
-                          onClick={() =>
-                            setApplyForm({ projectId: null, message: "", price: "" })
-                          }
+                          onClick={() => {
+                            setApplyForm({ projectId: null, message: "" });
+                            setCvFile(null);
+                          }}
                         >
                           Annuler
                         </AnimatedButton>
                       </div>
                     </div>
+                  ) : project.hasApplied ? (
+                    <span className="eng-applied-badge">✅ Déjà postulé</span>
                   ) : (
                     <AnimatedButton
                       className="btn-postuler"
                       variant="primary"
                       onClick={() =>
-                        setApplyForm({ projectId: project._id, message: "", price: "" })
+                        setApplyForm({ projectId: project._id, message: "" })
                       }
                       disabled={project.status !== "ouvert"}
                     >

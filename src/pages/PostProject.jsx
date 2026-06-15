@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { createProject } from "../services/api";
 import toast from "react-hot-toast";
 import { ArrowLeft, Send } from "lucide-react";
+import RainbowLines from "../components/RainbowLines";
 import "./PostProject.css";
 
 export default function PostProject() {
@@ -12,7 +13,6 @@ export default function PostProject() {
   const [form, setForm] = useState({
     title: "",
     description: "",
-    region: "",
   });
 
   const handleChange = (e) => {
@@ -21,8 +21,8 @@ export default function PostProject() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!form.title || !form.description || !form.region) {
-      toast.error("Veuillez remplir tous les champs");
+    if (!form.title) {
+      toast.error("Veuillez remplir le titre du projet");
       return;
     }
     setLoading(true);
@@ -38,7 +38,8 @@ export default function PostProject() {
   };
 
   return (
-    <div style={{ minHeight: "100vh", padding: "40px 20px", maxWidth: "800px", margin: "0 auto", fontFamily: "'Inter', sans-serif" }}>
+    <div style={{ minHeight: "100vh", padding: "40px 20px", maxWidth: "800px", margin: "0 auto", fontFamily: "'Inter', sans-serif", position: "relative", zIndex: 1 }}>
+      <RainbowLines variant="postproject" />
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -92,9 +93,6 @@ export default function PostProject() {
                 <button className="pp-btn-submit" onClick={() => navigate("/quote")}>
                   <Send size={16} /> Generer le devis
                 </button>
-                <button className="pp-btn-cancel" onClick={() => { setPublished(false); setForm({ title: "", description: "", region: "" }); }}>
-                  Publier un autre
-                </button>
               </div>
             </div>
           ) : (
@@ -102,20 +100,12 @@ export default function PostProject() {
               <form onSubmit={handleSubmit}>
                 <div className="pp-form-group">
                   <label>Titre du projet *</label>
-                  <input type="text" name="title" placeholder="Ex: Construction maison a Tunis" value={form.title} onChange={handleChange} required />
+                  <input type="text" name="title" placeholder="Ex: Construction maison à Tunis" value={form.title} onChange={handleChange} required />
                 </div>
 
                 <div className="pp-form-group">
-                  <label>Description *</label>
-                  <textarea name="description" placeholder="Decrivez votre projet..." value={form.description} onChange={handleChange} required />
-                </div>
-
-                <div className="pp-form-group">
-                  <label>Region *</label>
-                  <select name="region" value={form.region} onChange={handleChange} required>
-                    <option value="">Selectionner une region</option>
-                    {["Tunis", "Sfax", "Sousse", "Kairouan", "Bizerte", "Gabes", "Ariana", "Gafsa", "Monastir", "Nabeul", "Medenine", "Kasserine", "Beja", "Jendouba", "Ben Arous"].map(r => <option key={r} value={r}>{r}</option>)}
-                  </select>
+                  <label>Ajouter un commentaire</label>
+                  <textarea name="description" placeholder="Ajoutez un commentaire ou des précisions sur votre projet..." value={form.description} onChange={handleChange} />
                 </div>
 
                 <div className="pp-actions">

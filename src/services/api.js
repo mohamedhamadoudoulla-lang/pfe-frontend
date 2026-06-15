@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://pfe-backend-yepy.onrender.com/api", 
+  baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
 });
 
 API.interceptors.request.use((config) => {
@@ -24,6 +24,7 @@ export const getEngineers     = ()       => API.get("/engineers");
 export const getEngineer      = (id)     => API.get(`/engineers/${id}`);
 
 export const getTerrains      = ()       => API.get("/terrains");
+export const getTerrain       = (id)     => API.get(`/terrains/${id}`);
 export const estimateTerrain  = (params) => API.get("/terrains/estimate", { params });
 
 export const calculate        = (data)   => API.post("/estimations/calculate", data);

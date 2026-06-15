@@ -2,7 +2,8 @@ import { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { AnimatedButton, AnimatedCard, AnimatedFade } from "@/components/animate";
-import { Printer, RotateCcw, ArrowLeft } from "lucide-react";
+import { Printer, RotateCcw, ArrowLeft, MapPin } from "lucide-react";
+import RainbowLines from "../components/RainbowLines";
 import "./Quote.css";
 
 const PRIX_M2 = {
@@ -101,13 +102,14 @@ export default function Quote() {
 
   if (loading) return <div className="loading">Generation du devis...</div>;
 
-  const { terrain, terrainInput, construction, furnishing, selectedProducts } = state || {};
+  const { terrain, terrainInput, construction, furnishing, selectedProducts, materiauxConstruction, totalMateriaux } = state || {};
 
   const terrainCost = terrain?.estimatedTotal || 0;
   const constructionCost = construction?.totalConstructionCost || 0;
   const furnishingCost = furnishing?.totalFurnishingCost || 0;
   const productsCost = selectedProducts?.reduce((sum, p) => sum + (p.price || 0), 0) || 0;
-  const totalCost = terrainCost + constructionCost + furnishingCost + productsCost;
+  const materiauxCost = totalMateriaux || 0;
+  const totalCost = terrainCost + constructionCost + furnishingCost + productsCost + materiauxCost;
 
   const handlePrint = () => window.print();
   const handleRestart = () => navigate("/devis-wizard");
@@ -119,7 +121,8 @@ export default function Quote() {
   });
 
   return (
-    <>
+    <div style={{ position: "relative", zIndex: 1, minHeight: "100vh" }}>
+      <RainbowLines variant="quote" />
       <Fireworks active={showFireworks} />
       <AnimatedFade direction="up">
         <div className="quote-page">
@@ -142,13 +145,25 @@ export default function Quote() {
 
             {terrain && (
               <div className="quote-section">
-                <h3>Terrain - {terrainInput?.region}</h3>
+                <h3><MapPin size={16} /> Terrain - {terrainInput?.region || "Non spécifié"}</h3>
                 <div className="quote-row">
                   <span>Surface</span>
-                  <span>{terrainInput?.surface} m2</span>
+                  <span>{terrainInput?.surface} m²</span>
                 </div>
+                {terrainInput?.address && (
+                  <div className="quote-row">
+                    <span>Adresse</span>
+                    <span>{terrainInput.address}</span>
+                  </div>
+                )}
+                {terrainInput?.lat && terrainInput?.lng && (
+                  <div className="quote-row">
+                    <span>Coordonnées</span>
+                    <span>{Number(terrainInput.lat).toFixed(5)}, {Number(terrainInput.lng).toFixed(5)}</span>
+                  </div>
+                )}
                 <div className="quote-row">
-                  <span>Prix moyen / m2</span>
+                  <span>Prix moyen / m²</span>
                   <span>{terrain?.avgPricePerM2?.toLocaleString()} DT</span>
                 </div>
                 <div className="quote-row total">
@@ -185,6 +200,22 @@ export default function Quote() {
                 <span>{constructionCost.toLocaleString()} DT</span>
               </div>
             </div>
+
+            {materiauxConstruction && materiauxConstruction.length > 0 && (
+              <div className="quote-section">
+                <h3>🧱 Matériaux de construction</h3>
+                {materiauxConstruction.map((m, i) => (
+                  <div key={i} className="quote-row">
+                    <span>{m.type} ({m.quantite} {m.unite})</span>
+                    <span>{m.sousTotal?.toLocaleString()} DT</span>
+                  </div>
+                ))}
+                <div className="quote-row total">
+                  <span>Sous-total matériaux</span>
+                  <span>{materiauxCost.toLocaleString()} DT</span>
+                </div>
+              </div>
+            )}
 
             {furnishing && furnishing.rooms && furnishing.rooms.length > 0 && (
               <div className="quote-section">
@@ -249,8 +280,9 @@ export default function Quote() {
               </div>
             </div>
           )}
+
         </div>
       </AnimatedFade>
-    </>
+    </div>
   );
 }
