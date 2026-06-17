@@ -42,6 +42,7 @@ import SellerDashboard from "./pages/SellerDashboard";
 import TerrainVendor from "./pages/TerrainVendor";
 import EquipmentVendorDashboard from "./pages/EquipmentVendorDashboard";
 import VendorProducts from "./pages/VendorProducts";
+import PanierPage from "./pages/PanierPage";
 import ChooseEngineer from "./pages/ChooseEngineer";
 
 import AdminDashboard from "./pages/AdminDashboard";
@@ -123,6 +124,7 @@ const AppRoutes = () => (
       <Route path="/mes-projets"           element={<ClientOnly><MyProjects /></ClientOnly>} />
       <Route path="/terrains/marketplace"  element={<ClientOnly><TerrainMarketplace /></ClientOnly>} />
       <Route path="/equipments/marketplace" element={<ClientOnly><EquipmentMarketplace /></ClientOnly>} />
+      <Route path="/panier"                element={<PrivateRoute><PanierPage /></PrivateRoute>} />
 
       {/* ── Ingénieur ── */}
       <Route path="/ingenieur/dashboard" element={<EngineerOnly><EngineerDashboard /></EngineerOnly>} />

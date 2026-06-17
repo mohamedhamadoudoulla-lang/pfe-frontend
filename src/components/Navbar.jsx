@@ -16,6 +16,7 @@ import {
   ShieldCheck,
   Building2,
   Home,
+  ShoppingCart,
 } from "lucide-react";
 import API from "../services/api";
 import toast from "react-hot-toast";
@@ -27,6 +28,7 @@ export default function Navbar() {
   const [pendingCount, setPending] = useState(0);
   const [acceptedCount, setAccepted] = useState(0);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [cartCount, setCartCount] = useState(0);
 
   useEffect(() => {
     if (user?.role !== "user") return;
@@ -37,6 +39,9 @@ export default function Navbar() {
         setAccepted(apps.filter((a) => a.status === "acceptee").length);
       })
       .catch(() => {});
+    API.get("/panier/moi")
+      .then((res) => setCartCount(res.data?.items?.length || 0))
+      .catch(() => setCartCount(0));
   }, [user]);
 
   const handleLogout = () => {
@@ -120,6 +125,19 @@ export default function Navbar() {
             <Link to="/terrains/marketplace" className="navbar-link">
               <Map size={16} className="nav-icon" />
               <span className="nav-label">Terrains</span>
+            </Link>
+            <Link to="/equipments/marketplace" className="navbar-link">
+              <Package size={16} className="nav-icon" />
+              <span className="nav-label">Equipements</span>
+            </Link>
+            <Link to="/panier" className="navbar-link" style={{ position: "relative" }}>
+              <ShoppingCart size={16} className="nav-icon" />
+              <span className="nav-label">Panier</span>
+              {cartCount > 0 && (
+                <span className="nb-badge nb-pending" style={{ position: "absolute", top: -4, right: -8, minWidth: 18, height: 18, fontSize: 10, borderRadius: 9, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  {cartCount}
+                </span>
+              )}
             </Link>
             <Link to="/mes-projets" className="navbar-link">
               <ClipboardList size={16} className="nav-icon" />

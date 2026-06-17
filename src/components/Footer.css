@@ -1,8 +1,17 @@
-.footer {
-  background: var(--primary);
-  color: #888;
-  text-align: center;
-  padding: 24px;
-  font-size: 13px;
-  margin-top: auto;
+.ft-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 36px;
+}
+
+@media (max-width: 768px) {
+  .ft-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .ft-grid {
+    grid-template-columns: 1fr !important;
+  }
 }

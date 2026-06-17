@@ -68,4 +68,12 @@ export const deleteProduct      = (id)    => API.delete(`/products/${id}`);
 // Vendor orders
 export const getVendorOrders    = ()      => API.get("/equipment/vendor/orders");
 
+// Panier
+export const getPanier          = ()      => API.get("/panier/moi");
+export const ajouterAuPanier    = (data)  => API.post("/panier/ajouter", data);
+export const supprimerDuPanier  = (id)    => API.delete(`/panier/${id}`);
+export const modifierQuantite   = (id, data) => API.put(`/panier/${id}`, data);
+export const viderPanier        = ()      => API.delete("/panier");
+export const validerCommande    = ()      => API.post("/panier/valider");
+
 export default API;
