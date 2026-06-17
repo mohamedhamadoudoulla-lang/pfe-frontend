@@ -7,7 +7,8 @@ import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
 
 import Home from "./pages/Home";
-import Catalogue from "./pages/Catalogue";
+import PropertyCatalog from "./pages/PropertyCatalog";
+import PropertyDetail from "./pages/PropertyDetail";
 import HouseDetail from "./pages/HouseDetail";
 import TerrainDetail from "./pages/TerrainDetail";
 import Services from "./pages/Services";
@@ -40,6 +41,7 @@ import EngineerProfileCreate from "./pages/EngineerProfileCreate";
 import SellerDashboard from "./pages/SellerDashboard";
 import TerrainVendor from "./pages/TerrainVendor";
 import EquipmentVendorDashboard from "./pages/EquipmentVendorDashboard";
+import VendorProducts from "./pages/VendorProducts";
 import ChooseEngineer from "./pages/ChooseEngineer";
 
 import AdminDashboard from "./pages/AdminDashboard";
@@ -94,8 +96,9 @@ const AppRoutes = () => (
     <Routes>
       {/* ── Public ── */}
       <Route path="/"               element={<Home />} />
-      <Route path="/catalogue"      element={<Catalogue />} />
+      <Route path="/catalogue"      element={<PropertyCatalog />} />
       <Route path="/services"      element={<Services />} />
+      <Route path="/property/:id"   element={<PropertyDetail />} />
       <Route path="/maison/:id"     element={<HouseDetail />} />
       <Route path="/terrain/:id"    element={<TerrainDetail />} />
       <Route path="/ingenieurs"     element={<Engineers />} />
@@ -128,8 +131,9 @@ const AppRoutes = () => (
 
       {/* ── Vendeur ── */}
       <Route path="/vendeur/dashboard"    element={<EquipmentSellerOnly><SellerDashboard /></EquipmentSellerOnly>} />
+      <Route path="/vendeur/produits"     element={<EquipmentSellerOnly><VendorProducts /></EquipmentSellerOnly>} />
       <Route path="/terrains/ajouter"     element={<SellerOnly><TerrainVendor /></SellerOnly>} />
-      <Route path="/equipments/dashboard" element={<SellerOnly><EquipmentVendorDashboard /></SellerOnly>} />
+      <Route path="/equipments/dashboard" element={<EquipmentSellerOnly><VendorProducts /></EquipmentSellerOnly>} />
 
       {/* ── Admin ── */}
       <Route path="/admin/dashboard" element={<AdminOnly><AdminDashboard /></AdminOnly>} />

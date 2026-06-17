@@ -58,4 +58,14 @@ export const deleteAdminUser    = (id)    => API.delete(`/admin/users/${id}`);
 export const verifyEngineer     = (id)    => API.put(`/admin/engineers/${id}/verify`);
 export const createAdminUser    = (data)  => API.post("/admin/create-admin", data);
 
+// Products (vendor)
+export const getVendorProducts  = ()      => API.get("/products/vendor");
+export const getAllProducts      = ()      => API.get("/products");
+export const addProduct         = (data)  => API.post("/products", data);
+export const updateProduct      = (id, data) => API.put(`/products/${id}`, data);
+export const deleteProduct      = (id)    => API.delete(`/products/${id}`);
+
+// Vendor orders
+export const getVendorOrders    = ()      => API.get("/equipment/vendor/orders");
+
 export default API;

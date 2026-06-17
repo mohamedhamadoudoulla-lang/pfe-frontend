@@ -162,6 +162,14 @@ export default function Navbar() {
 
         {user?.role === "equipment_seller" && (
           <>
+            <Link to="/vendeur/dashboard" className="navbar-link">
+              <LayoutDashboard size={16} className="nav-icon" />
+              <span className="nav-label">Dashboard</span>
+            </Link>
+            <Link to="/vendeur/produits" className="navbar-link">
+              <Package size={16} className="nav-icon" />
+              <span className="nav-label">Mes Produits</span>
+            </Link>
             <Link to="/equipments/dashboard" className="navbar-link">
               <Package size={16} className="nav-icon" />
               <span className="nav-label">Catalogue</span>

@@ -68,7 +68,7 @@ export default function MyProjects() {
             <p className="mp-subtitle">
               {projects.length} projet(s) · {totalPending} candidature(s) en attente · {allAccepted.length} acceptée(s)
             </p>
-            <AnimatedButton className="mp-btn-new-project" variant="primary" onClick={() => navigate("/deposer-projet")}>
+            <AnimatedButton className="mp-btn-new-project" variant="primary" onClick={() => navigate("/devis-wizard")}>
               <Plus size={18} />
               Nouveau projet
             </AnimatedButton>

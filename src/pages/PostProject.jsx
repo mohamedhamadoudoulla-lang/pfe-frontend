@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { createProject } from "../services/api";
 import toast from "react-hot-toast";
 import { ArrowLeft, Send } from "lucide-react";
@@ -8,6 +8,7 @@ import "./PostProject.css";
 
 export default function PostProject() {
   const navigate = useNavigate();
+  const { state } = useLocation();
   const [loading, setLoading] = useState(false);
   const [published, setPublished] = useState(false);
   const [form, setForm] = useState({
@@ -27,7 +28,17 @@ export default function PostProject() {
     }
     setLoading(true);
     try {
-      await createProject(form);
+      await createProject({
+        ...form,
+        estimationId: state?.estimationId,
+        terrain: state?.terrain,
+        terrainInput: state?.terrainInput,
+        construction: state?.construction,
+        furnishing: state?.furnishing,
+        materiauxConstruction: state?.materiauxConstruction,
+        totalMateriaux: state?.totalMateriaux,
+        totalCost: state?.totalCost,
+      });
       toast.success("Projet publie avec succes !");
       setPublished(true);
     } catch (error) {
@@ -90,8 +101,8 @@ export default function PostProject() {
               <h2>Projet publie avec succes !</h2>
               <p>Les ingenieurs partenaires peuvent desormais voir et repondre a votre projet.</p>
               <div className="pp-actions">
-                <button className="pp-btn-submit" onClick={() => navigate("/quote")}>
-                  <Send size={16} /> Generer le devis
+                <button className="pp-btn-submit" onClick={() => navigate("/mes-projets")}>
+                  <Send size={16} /> Voir mes projets
                 </button>
               </div>
             </div>

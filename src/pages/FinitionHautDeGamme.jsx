@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Check, ArrowLeft, ArrowRight, Package, Loader, Image } from "lucide-react";
+import { Check, ArrowLeft, ArrowRight, Package, Loader, Image, Store, MapPin, Mail, Phone } from "lucide-react";
 import API from "../services/api";
 import { FALLBACK_EQUIPMENT } from "../data/fallbackEquipment";
 import RainbowLines from "../components/RainbowLines";
@@ -100,6 +100,7 @@ export default function FinitionHautDeGamme() {
     try {
       const { data: estimation } = await API.post("/estimations/init-marketplace", {
         caracteristiques: { surface: Number(surface), nbChambres: 0, nbSallesDeBain: 1, nbCuisines: 1, nbSalons: 1, scenario: "premium" },
+        selectedEquipmentIds: Array.from(selectedIds),
       });
       navigate(`/recommandation-materiaux/${estimation._id}`, {
         state: { ...state, construction: constructionState, furnishing: furnishingState },
@@ -185,6 +186,14 @@ export default function FinitionHautDeGamme() {
         .fin-item-card.selected .fin-card-price { color: #6d28d9; animation: finPriceBounceViolet 0.4s ease-out; }
         @keyframes finPriceBounceViolet { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
         .fin-card-unit { font-size: 10px; color: #9ca3af; }
+        .fin-shop-badge { display: flex; align-items: center; gap: 4px; font-size: 9px; color: #6b7280; background: #f0f4ff; padding: 3px 8px; border-radius: 6px; margin-top: 6px; }
+        .fin-shop-badge svg { flex-shrink: 0; }
+        .fin-shop-summary { background: white; border: 1px solid #e5e7eb; border-radius: 14px; padding: 16px 20px; margin-bottom: 16px; }
+        .fin-shop-summary h3 { font-size: 14px; font-weight: 700; color: #1f2937; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        .fin-shop-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 0; border-bottom: 1px solid #f3f4f6; }
+        .fin-shop-item:last-child { border-bottom: none; }
+        .fin-shop-name { font-size: 13px; font-weight: 700; color: #1f2937; }
+        .fin-shop-detail { font-size: 11px; color: #6b7280; display: flex; align-items: center; gap: 4px; margin-top: 2px; }
         .fin-cta-bar { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid #e5e7eb; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; box-shadow: 0 -4px 24px rgba(0,0,0,0.1); z-index: 100; backdrop-filter: blur(10px); animation: finSlideUp 0.4s ease-out; }
         .fin-cta-info h3 { font-size: 14px; font-weight: 700; color: #1f2937; }
         .fin-cta-info p { font-size: 12px; color: #9ca3af; margin-top: 2px; }
@@ -297,6 +306,12 @@ export default function FinitionHautDeGamme() {
                           <div className="fin-card-body">
                             <div className="fin-card-name">{item.name}</div>
                             <div className="fin-card-desc">{item.description}</div>
+                            {item.shopName && (
+                              <div className="fin-shop-badge">
+                                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                                {item.shopName}
+                              </div>
+                            )}
                             <div className="fin-card-footer">
                               <div>
                                 <span className="fin-card-price">{item.price.toLocaleString()} DT</span>
@@ -314,6 +329,39 @@ export default function FinitionHautDeGamme() {
           )}
         </div>
       </div>
+
+      {(() => {
+        const selectedItems = items.filter((i) => selectedIds.has(i._id.toString()));
+        const shops = [];
+        const seen = new Set();
+        selectedItems.forEach((item) => {
+          if (item.shopName && !seen.has(item.shopName)) {
+            seen.add(item.shopName);
+            shops.push({ name: item.shopName, email: item.shopEmail, address: item.shopAddress, phone: item.shopPhone });
+          }
+        });
+        if (shops.length === 0) return null;
+        return (
+          <div className="fin-container">
+            <div className="fin-shop-summary">
+              <h3><Store size={16} /> Boutiques associees</h3>
+              {shops.map((s, i) => (
+                <div key={i} className="fin-shop-item">
+                  <div style={{ width: 36, height: 36, borderRadius: 8, background: "#eff6ff", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                    <Store size={16} color="#3b82f6" />
+                  </div>
+                  <div>
+                    <div className="fin-shop-name">{s.name}</div>
+                    {s.email && <div className="fin-shop-detail"><Mail size={10} /> {s.email}</div>}
+                    {s.address && <div className="fin-shop-detail"><MapPin size={10} /> {s.address}</div>}
+                    {s.phone && <div className="fin-shop-detail"><Phone size={10} /> {s.phone}</div>}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      })()}
 
       <div className="fin-cta-bar">
         <div className="fin-cta-info">

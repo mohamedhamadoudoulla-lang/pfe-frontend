@@ -38,6 +38,7 @@ export default function SellerDashboard() {
 
   const [form, setForm] = useState({
     name: "", category: "carrelage", qualityLevel: "economique", unit: "piece", price: "", description: "", image: "",
+    shopName: "", shopEmail: "", shopAddress: "", shopPhone: "",
   });
 
   useEffect(() => {
@@ -54,7 +55,7 @@ export default function SellerDashboard() {
       const res = await axios.post("/equipment", form);
       setEquipments([res.data, ...equipments]);
       setShowForm(false);
-      setForm({ name: "", category: "carrelage", qualityLevel: activePackage, unit: "piece", price: "", description: "", image: "" });
+      setForm({ name: "", category: "carrelage", qualityLevel: activePackage, unit: "piece", price: "", description: "", image: "", shopName: "", shopEmail: "", shopAddress: "", shopPhone: "" });
       toast.success("Equipement ajoute !");
     } catch (err) {
       toast.error(err.response?.data?.message || "Erreur");
@@ -82,6 +83,10 @@ export default function SellerDashboard() {
       price: item.price,
       description: item.description || "",
       image: item.image || "",
+      shopName: item.shopName || "",
+      shopEmail: item.shopEmail || "",
+      shopAddress: item.shopAddress || "",
+      shopPhone: item.shopPhone || "",
     });
   };
 
@@ -261,7 +266,7 @@ export default function SellerDashboard() {
                 </div>
                 <div className="sd-form-group">
                   <label>Prix (DT)</label>
-                  <input type="number" placeholder="Ex: 120" value={form.price} onChange={(e) => setForm({ ...form, price: e.target.value })} required />
+                  <input type="number" min="0" step="0.01" placeholder="Ex: 120" value={form.price} onChange={(e) => setForm({ ...form, price: e.target.value })} required />
                 </div>
                 <div className="sd-form-group">
                   <label>Image (URL)</label>
@@ -270,6 +275,25 @@ export default function SellerDashboard() {
                 <div className="sd-form-group full">
                   <label>Description</label>
                   <textarea placeholder="Decrivez le produit..." value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} />
+                </div>
+                <div className="sd-form-group full" style={{ borderTop: "1px solid #e5e7eb", paddingTop: 14, marginTop: 4 }}>
+                  <label style={{ fontSize: 13, color: "#3b82f6", marginBottom: 10, display: "block" }}>Informations boutique</label>
+                </div>
+                <div className="sd-form-group">
+                  <label>Nom de la boutique</label>
+                  <input placeholder="Ex: Maison Du Batiment" value={form.shopName} onChange={(e) => setForm({ ...form, shopName: e.target.value })} />
+                </div>
+                <div className="sd-form-group">
+                  <label>Email de la boutique</label>
+                  <input type="email" placeholder="contact@boutique.tn" value={form.shopEmail} onChange={(e) => setForm({ ...form, shopEmail: e.target.value })} />
+                </div>
+                <div className="sd-form-group">
+                  <label>Adresse de la boutique</label>
+                  <input placeholder="Rue, ville, governement" value={form.shopAddress} onChange={(e) => setForm({ ...form, shopAddress: e.target.value })} />
+                </div>
+                <div className="sd-form-group">
+                  <label>Telephone de la boutique</label>
+                  <input placeholder="XX XXX XXX" value={form.shopPhone} onChange={(e) => setForm({ ...form, shopPhone: e.target.value })} />
                 </div>
               </div>
               <div className="sd-form-actions">
@@ -315,7 +339,7 @@ export default function SellerDashboard() {
                           <div className="sd-edit-bar">
                             <span style={{ fontSize: 11, fontWeight: 700, color: pkg?.color }}>Modifier</span>
                             <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
-                              <input className="sd-edit-input" value={editForm.price} type="number" placeholder="Prix" onChange={(e) => setEditForm({ ...editForm, price: e.target.value })} />
+                              <input className="sd-edit-input" value={editForm.price} type="number" min="0" step="0.01" placeholder="Prix" onChange={(e) => setEditForm({ ...editForm, price: e.target.value })} />
                               <select className="sd-edit-select" value={editForm.category} onChange={(e) => setEditForm({ ...editForm, category: e.target.value })}>
                                 {CATEGORIES.map((c) => <option key={c.value} value={c.value}>{c.label}</option>)}
                               </select>

@@ -55,6 +55,7 @@ export default function RecommandationMateriaux() {
     navigate("/devis", {
       state: {
         ...state,
+        estimationId,
         materiauxConstruction: data.lignes,
         totalMateriaux: data.totalMateriaux,
       },

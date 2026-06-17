@@ -39,6 +39,7 @@ export default function Register() {
     e.preventDefault();
     if (form.password !== form.confirmPassword) { toast.error("Les mots de passe ne correspondent pas"); return; }
     if (form.password.length < 6) { toast.error("Mot de passe trop court (6 min)"); return; }
+    if (!form.email.includes("@")) { toast.error("Veuillez entrer un email valide (doit contenir @)"); return; }
     setLoading(true);
     try {
       const { confirmPassword, ...data } = form;

@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import API from "../services/api";
 import { AnimatedButton, AnimatedCard, AnimatedFade } from "@/components/animate";
 import { Printer, RotateCcw, ArrowLeft, MapPin } from "lucide-react";
 import RainbowLines from "../components/RainbowLines";
@@ -102,7 +103,7 @@ export default function Quote() {
 
   if (loading) return <div className="loading">Generation du devis...</div>;
 
-  const { terrain, terrainInput, construction, furnishing, selectedProducts, materiauxConstruction, totalMateriaux } = state || {};
+  const { terrain, terrainInput, construction, furnishing, selectedProducts, materiauxConstruction, totalMateriaux, estimationId } = state || {};
 
   const terrainCost = terrain?.estimatedTotal || 0;
   const constructionCost = construction?.totalConstructionCost || 0;
@@ -116,9 +117,21 @@ export default function Quote() {
   const handleFindEngineer = () => navigate("/choisir-ingenieur", {
     state: { totalCost, terrainInput, construction, furnishing }
   });
-  const handlePostProject = () => navigate("/deposer-projet", {
-    state: { fromQuote: true, totalCost }
-  });
+  const handlePostProject = () => {
+    navigate("/deposer-projet", {
+      state: {
+        fromQuote: true,
+        totalCost,
+        estimationId,
+        terrain,
+        terrainInput,
+        construction,
+        furnishing,
+        materiauxConstruction,
+        totalMateriaux,
+      }
+    });
+  };
 
   return (
     <div style={{ position: "relative", zIndex: 1, minHeight: "100vh" }}>

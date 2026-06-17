@@ -23,7 +23,7 @@ export default function EngineerDashboard() {
   const [conversations, setConversations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("projects");
-  const [applyForm, setApplyForm] = useState({ projectId: null, message: "", price: "" });
+  const [applyForm, setApplyForm] = useState({ projectId: null, message: "" });
   const [selectedConv, setSelectedConv] = useState(null);
   const [msgContent, setMsgContent] = useState("");
   const [convMessages, setConvMessages] = useState([]);
@@ -82,9 +82,9 @@ export default function EngineerDashboard() {
   const handleApply = async (projectId) => {
     if (!applyForm.message) { toast.error("Veuillez rediger un message"); return; }
     try {
-      await axios.post("/applications", { projectId, message: applyForm.message, price: applyForm.price });
+      await axios.post("/applications", { projectId, message: applyForm.message });
       toast.success("Candidature envoyee !");
-      setApplyForm({ projectId: null, message: "", price: "" });
+      setApplyForm({ projectId: null, message: "" });
       const res = await getApplications();
       setProjects(res.data);
     } catch (err) {
@@ -230,6 +230,16 @@ export default function EngineerDashboard() {
         .ed-apply-btns { display: flex; gap: 8px; }
         .ed-apply-send { flex: 1; padding: 10px; background: #3b82f6; color: white; border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; }
         .ed-apply-cancel { padding: 10px 16px; background: white; color: #64748b; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 13px; cursor: pointer; }
+        .ed-devis { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 16px; margin-bottom: 12px; }
+        .ed-devis h4 { font-size: 13px; font-weight: 700; color: #1e293b; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+        .ed-devis-section { margin-bottom: 12px; }
+        .ed-devis-section-title { font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; padding-bottom: 4px; border-bottom: 1px solid #e2e8f0; }
+        .ed-devis-row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 12px; }
+        .ed-devis-row span:first-child { color: #64748b; }
+        .ed-devis-row span:last-child { font-weight: 600; color: #1e293b; }
+        .ed-devis-row.total { border-top: 2px solid #e2e8f0; margin-top: 6px; padding-top: 8px; }
+        .ed-devis-row.total span { font-size: 14px; font-weight: 700; color: #2563eb; }
+        .ed-devis-materials { max-height: 150px; overflow-y: auto; }
         @media (max-width: 900px) { .ed-sidebar { width: 220px; } .ed-main { margin-left: 220px; } .ed-msg-layout { grid-template-columns: 1fr; } }
       `}</style>
 
@@ -302,6 +312,7 @@ export default function EngineerDashboard() {
                       <div className="ed-card-top">
                         <div>
                           <div className="ed-card-title">{project.title}</div>
+                          {project.user?.name && <div className="ed-card-location"><User size={12} /> {project.user.name}</div>}
                           {project.region && <div className="ed-card-location"><MapPin size={12} /> {project.region}</div>}
                         </div>
                         <span style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#22c55e", display: "block", marginTop: "4px" }}></span>
@@ -312,17 +323,72 @@ export default function EngineerDashboard() {
                         {project.budget && <span className="ed-card-chip"><DollarSign size={11} /> {Number(project.budget).toLocaleString()} DT</span>}
                         {project.finitionLevel && <span className="ed-card-chip"><Star size={11} /> {project.finitionLevel}</span>}
                       </div>
+
+                      {(project.devis && project.devis.totalCost > 0) && (
+                        <div className="ed-devis">
+                          <h4><FileText size={14} /> Devis du client</h4>
+
+                          {project.devis.terrain && project.devis.terrain.totalTerrainCost > 0 && (
+                            <div className="ed-devis-section">
+                              <div className="ed-devis-section-title">Terrain</div>
+                              {project.devis.terrain.region && <div className="ed-devis-row"><span>Region</span><span>{project.devis.terrain.region}</span></div>}
+                              {project.devis.terrain.surface > 0 && <div className="ed-devis-row"><span>Surface</span><span>{project.devis.terrain.surface} m2</span></div>}
+                              {project.devis.terrain.pricePerM2 > 0 && <div className="ed-devis-row"><span>Prix/m2</span><span>{project.devis.terrain.pricePerM2.toLocaleString()} DT</span></div>}
+                              {project.devis.terrain.totalTerrainCost > 0 && <div className="ed-devis-row total"><span>Sous-total</span><span>{project.devis.terrain.totalTerrainCost.toLocaleString()} DT</span></div>}
+                            </div>
+                          )}
+
+                          {project.devis.construction && project.devis.construction.totalConstructionCost > 0 && (
+                            <div className="ed-devis-section">
+                              <div className="ed-devis-section-title">Construction</div>
+                              {project.devis.construction.surface > 0 && <div className="ed-devis-row"><span>Surface</span><span>{project.devis.construction.surface} m2</span></div>}
+                              {project.devis.construction.floors > 1 && <div className="ed-devis-row"><span>Etages</span><span>{project.devis.construction.floors}</span></div>}
+                              {project.devis.construction.constructionType && <div className="ed-devis-row"><span>Type</span><span>{project.devis.construction.constructionType}</span></div>}
+                              {project.devis.construction.finitionLevel && <div className="ed-devis-row"><span>Finition</span><span>{project.devis.construction.finitionLevel}</span></div>}
+                              {project.devis.construction.totalConstructionCost > 0 && <div className="ed-devis-row total"><span>Sous-total</span><span>{project.devis.construction.totalConstructionCost.toLocaleString()} DT</span></div>}
+                            </div>
+                          )}
+
+                          {project.devis.furnishing?.rooms?.length > 0 && (
+                            <div className="ed-devis-section">
+                              <div className="ed-devis-section-title">Ameublement</div>
+                              {project.devis.furnishing.rooms.map((r, i) => (
+                                <div key={i} className="ed-devis-row"><span>{r.roomType} ({r.qualityLevel})</span><span>{r.cost?.toLocaleString()} DT</span></div>
+                              ))}
+                              {project.devis.furnishing.totalFurnishingCost > 0 && <div className="ed-devis-row total"><span>Sous-total</span><span>{project.devis.furnishing.totalFurnishingCost.toLocaleString()} DT</span></div>}
+                            </div>
+                          )}
+
+                          {project.devis.materiauxConstruction?.length > 0 && (
+                            <div className="ed-devis-section">
+                              <div className="ed-devis-section-title">Materiaux construction</div>
+                              <div className="ed-devis-materials">
+                                {project.devis.materiauxConstruction.map((m, i) => (
+                                  <div key={i} className="ed-devis-row"><span>{m.type} ({m.quantite} {m.unite})</span><span>{m.sousTotal?.toLocaleString()} DT</span></div>
+                                ))}
+                              </div>
+                              {project.devis.totalMateriaux > 0 && <div className="ed-devis-row total"><span>Sous-total</span><span>{project.devis.totalMateriaux.toLocaleString()} DT</span></div>}
+                            </div>
+                          )}
+
+                          {project.devis.totalCost > 0 && (
+                            <div className="ed-devis-section" style={{ borderTop: "2px solid #2563eb", paddingTop: 10, marginTop: 6 }}>
+                              <div className="ed-devis-row total"><span>Total general estime</span><span>{project.devis.totalCost.toLocaleString()} DT</span></div>
+                            </div>
+                          )}
+                        </div>
+                      )}
+
                       {applyForm.projectId === project._id ? (
                         <div className="ed-apply-form">
                           <textarea placeholder="Redigez votre message de candidature..." rows={3} value={applyForm.message} onChange={(e) => setApplyForm({ ...applyForm, message: e.target.value })} />
-                          <input type="number" placeholder="Votre tarif estime (DT)" value={applyForm.price} onChange={(e) => setApplyForm({ ...applyForm, price: e.target.value })} />
                           <div className="ed-apply-btns">
                             <button className="ed-apply-send" onClick={() => handleApply(project._id)}>Envoyer</button>
-                            <button className="ed-apply-cancel" onClick={() => setApplyForm({ projectId: null, message: "", price: "" })}>Annuler</button>
+                            <button className="ed-apply-cancel" onClick={() => setApplyForm({ projectId: null, message: "" })}>Annuler</button>
                           </div>
                         </div>
                       ) : (
-                        <button className="ed-card-btn" onClick={() => setApplyForm({ projectId: project._id, message: "", price: "" })}>
+                        <button className="ed-card-btn" onClick={() => setApplyForm({ projectId: project._id, message: "" })}>
                           Postuler a ce projet
                         </button>
                       )}

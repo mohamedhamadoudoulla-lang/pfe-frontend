@@ -39,6 +39,7 @@ export default function EquipmentVendorDashboard() {
 
   const [form, setForm] = useState({
     name: "", category: "carrelage", qualityLevel: "economique", unit: "piece", price: "", description: "", image: "",
+    shopName: "", shopEmail: "", shopAddress: "", shopPhone: "",
   });
 
   useEffect(() => {
@@ -68,7 +69,7 @@ export default function EquipmentVendorDashboard() {
       const res = await API.post("/equipment", form);
       setItems([res.data, ...items]);
       setShowForm(false);
-      setForm({ name: "", category: "carrelage", qualityLevel: activePackage, unit: "piece", price: "", description: "", image: "" });
+      setForm({ name: "", category: "carrelage", qualityLevel: activePackage, unit: "piece", price: "", description: "", image: "", shopName: "", shopEmail: "", shopAddress: "", shopPhone: "" });
       toast.success("Equipement ajoute au pack " + pkg?.label);
     } catch (err) {
       toast.error(err.response?.data?.message || "Erreur");
@@ -96,6 +97,10 @@ export default function EquipmentVendorDashboard() {
       price: item.price,
       description: item.description || "",
       image: item.image || "",
+      shopName: item.shopName || "",
+      shopEmail: item.shopEmail || "",
+      shopAddress: item.shopAddress || "",
+      shopPhone: item.shopPhone || "",
     });
   };
 
@@ -274,7 +279,7 @@ export default function EquipmentVendorDashboard() {
                 </div>
                 <div className="evd-form-group">
                   <label>Prix (DT)</label>
-                  <input type="number" placeholder="Ex: 120" value={form.price} onChange={(e) => setForm({ ...form, price: e.target.value })} required />
+                  <input type="number" min="0" step="0.01" placeholder="Ex: 120" value={form.price} onChange={(e) => setForm({ ...form, price: e.target.value })} required />
                 </div>
                 <div className="evd-form-group">
                   <label>Image (URL)</label>
@@ -283,6 +288,25 @@ export default function EquipmentVendorDashboard() {
                 <div className="evd-form-group full">
                   <label>Description</label>
                   <textarea placeholder="Decrivez le produit..." value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} />
+                </div>
+                <div className="evd-form-group full" style={{ borderTop: "1px solid #e5e7eb", paddingTop: 14, marginTop: 4 }}>
+                  <label style={{ fontSize: 13, color: "#3b82f6", marginBottom: 10, display: "block" }}>Informations boutique</label>
+                </div>
+                <div className="evd-form-group">
+                  <label>Nom de la boutique</label>
+                  <input placeholder="Ex: Maison Du Batiment" value={form.shopName} onChange={(e) => setForm({ ...form, shopName: e.target.value })} />
+                </div>
+                <div className="evd-form-group">
+                  <label>Email de la boutique</label>
+                  <input type="email" placeholder="contact@boutique.tn" value={form.shopEmail} onChange={(e) => setForm({ ...form, shopEmail: e.target.value })} />
+                </div>
+                <div className="evd-form-group">
+                  <label>Adresse de la boutique</label>
+                  <input placeholder="Rue, ville, governement" value={form.shopAddress} onChange={(e) => setForm({ ...form, shopAddress: e.target.value })} />
+                </div>
+                <div className="evd-form-group">
+                  <label>Telephone de la boutique</label>
+                  <input placeholder="XX XXX XXX" value={form.shopPhone} onChange={(e) => setForm({ ...form, shopPhone: e.target.value })} />
                 </div>
               </div>
               <div className="evd-form-actions">
@@ -342,7 +366,7 @@ export default function EquipmentVendorDashboard() {
                             <select className="evd-edit-select" value={editForm.qualityLevel} onChange={(e) => setEditForm({ ...editForm, qualityLevel: e.target.value })}>
                               {PACKAGES.map((p) => <option key={p.key} value={p.key}>{p.label}</option>)}
                             </select>
-                            <input className="evd-edit-input" type="number" value={editForm.price} placeholder="Prix" onChange={(e) => setEditForm({ ...editForm, price: e.target.value })} />
+                            <input className="evd-edit-input" type="number" min="0" step="0.01" value={editForm.price} placeholder="Prix" onChange={(e) => setEditForm({ ...editForm, price: e.target.value })} />
                           </div>
                           <div className="evd-edit-row">
                             <textarea style={{ width: "100%", padding: "6px 8px", border: `1px solid ${pkg?.color}`, borderRadius: 6, fontSize: 11, fontFamily: "inherit", resize: "vertical", minHeight: 50 }} value={editForm.description} placeholder="Description" onChange={(e) => setEditForm({ ...editForm, description: e.target.value })} />
