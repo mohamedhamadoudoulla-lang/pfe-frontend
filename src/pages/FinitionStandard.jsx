@@ -237,7 +237,7 @@ export default function FinitionStandard() {
 
       <div className="fin-container">
         <div className="fin-shop-summary" style={{ borderLeft: "4px solid #3b82f6", marginBottom: 16 }}>
-          <h3><Store size={16} /> Vendeur associe</h3>
+          <h3><Store size={16} /> Boutique associee</h3>
           <div className="fin-shop-item">
             <div style={{ width: 40, height: 40, borderRadius: 10, background: "#dbeafe", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontWeight: 700, color: "#2563eb", fontSize: 16 }}>DM</div>
             <div style={{ flex: 1 }}>

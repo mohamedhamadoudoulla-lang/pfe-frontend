@@ -237,7 +237,7 @@ export default function FinitionHautDeGamme() {
 
       <div className="fin-container">
         <div className="fin-shop-summary" style={{ borderLeft: "4px solid #7c3aed", marginBottom: 16 }}>
-          <h3><Store size={16} /> Vendeur associe</h3>
+          <h3><Store size={16} /> Boutique associee</h3>
           <div className="fin-shop-item">
             <div style={{ width: 40, height: 40, borderRadius: 10, background: "#ede9fe", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontWeight: 700, color: "#6d28d9", fontSize: 16 }}>DM</div>
             <div style={{ flex: 1 }}>

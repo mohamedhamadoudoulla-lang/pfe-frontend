@@ -549,6 +549,76 @@
 }
 .blog-link:hover { gap: 10px; }
 
+/* ─── BLOG CAROUSEL ──────────────────────────────────────── */
+.blog-carousel {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.blog-carousel-viewport {
+  overflow: hidden;
+  border-radius: 20px;
+}
+.blog-carousel-track {
+  display: flex;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.blog-carousel-slide {
+  min-width: 100%;
+  padding: 0 4px;
+}
+.blog-card-carousel {
+  height: 100%;
+}
+.blog-arrow {
+  position: absolute;
+  top: 40%;
+  transform: translateY(-50%);
+  z-index: 5;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1.5px solid #e2e8f0;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #334155;
+  transition: all 0.2s;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+.blog-arrow:hover {
+  background: #3b82f6;
+  color: #fff;
+  border-color: #3b82f6;
+  box-shadow: 0 6px 20px rgba(59,130,246,0.25);
+}
+.blog-arrow-left { left: -22px; }
+.blog-arrow-right { right: -22px; }
+.blog-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 24px;
+}
+.blog-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: none;
+  background: #cbd5e1;
+  cursor: pointer;
+  transition: all 0.3s;
+  padding: 0;
+}
+.blog-dot.active {
+  background: #3b82f6;
+  width: 28px;
+  border-radius: 10px;
+}
+
 /* ─── FAQ ──────────────────────────────────────────────── */
 .faq-section {
   padding: 100px 0;
@@ -699,7 +769,6 @@
   .hero-title { font-size: 48px; }
   .steps-list { grid-template-columns: repeat(2, 1fr); }
   .features-grid { grid-template-columns: repeat(2, 1fr); }
-  .blog-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 768px) {
   .hero-section { padding: 0 24px; }
@@ -713,7 +782,7 @@
   .steps-hero-content h2 { font-size: 34px; }
   .steps-list { grid-template-columns: 1fr; padding: 48px 24px; }
   .features-grid { grid-template-columns: 1fr; }
-  .blog-grid { grid-template-columns: 1fr; }
+  .blog-arrow { display: none; }
   .section-header h2 { font-size: 30px; }
   .cta-content h2 { font-size: 32px; }
   .testimonial-card { padding: 32px 24px; }

@@ -262,7 +262,7 @@ export default function FinitionEconomique() {
 
       <div className="fin-container">
         <div className="fin-shop-summary" style={{ borderLeft: "4px solid #10b981", marginBottom: 16 }}>
-          <h3><Store size={16} /> Vendeur associe</h3>
+          <h3><Store size={16} /> Boutique associee</h3>
           <div className="fin-shop-item">
             <div style={{ width: 40, height: 40, borderRadius: 10, background: "#d1fae5", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontWeight: 700, color: "#059669", fontSize: 16 }}>DM</div>
             <div style={{ flex: 1 }}>

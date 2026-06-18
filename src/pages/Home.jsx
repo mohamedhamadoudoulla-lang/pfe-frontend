@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { ArrowRight, ChevronDown, FileText, Calendar, Shield, Zap, Users, PenTool, Newspaper } from "lucide-react";
+import { ArrowRight, ChevronDown, FileText, Calendar, Shield, Zap, Users, PenTool, Newspaper, ChevronLeft, ChevronRight } from "lucide-react";
 
 import DemoModal from "../components/DemoModal";
 import ServicesSection from "../components/ServicesSection";
@@ -27,9 +27,26 @@ const faqs = [
 export default function Home() {
   const [isDemoOpen, setIsDemoOpen] = useState(false);
   const [openFaq, setOpenFaq] = useState(null);
+  const [blogIndex, setBlogIndex] = useState(0);
+  const blogTimer = useRef(null);
   const { user } = useAuth();
   const navigate = useNavigate();
   const handleStart = () => navigate(user ? "/devis-wizard" : "/login");
+
+  useEffect(() => {
+    blogTimer.current = setInterval(() => {
+      setBlogIndex((prev) => (prev + 1) % blogPosts.length);
+    }, 4000);
+    return () => clearInterval(blogTimer.current);
+  }, []);
+
+  const goToBlog = (idx) => {
+    clearInterval(blogTimer.current);
+    setBlogIndex(idx);
+    blogTimer.current = setInterval(() => {
+      setBlogIndex((prev) => (prev + 1) % blogPosts.length);
+    }, 4000);
+  };
 
   return (
     <div className="home">
@@ -140,7 +157,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ═══════════════ BLOG ═══════════════ */}
+      {/* ═══════════════ BLOG CAROUSEL ═══════════════ */}
       <section className="blog-section">
         <div className="section-container">
           <ScrollReveal direction="up">
@@ -151,24 +168,43 @@ export default function Home() {
             </div>
           </ScrollReveal>
 
-          <div className="blog-grid">
-            {blogPosts.map((post, i) => (
-              <ScrollReveal key={post.title} direction="up" delay={i * 0.1}>
-                <AnimatedCard className="blog-card" whileHover={{ scale: 1.02 }}>
-                  <div className="blog-image" style={{ backgroundImage: `url(${post.image})` }}>
-                    <span className="blog-tag">{post.tag}</span>
+          <div className="blog-carousel">
+            <button className="blog-arrow blog-arrow-left" onClick={() => goToBlog((blogIndex - 1 + blogPosts.length) % blogPosts.length)}>
+              <ChevronLeft size={22} />
+            </button>
+            <div className="blog-carousel-viewport">
+              <div className="blog-carousel-track" style={{ transform: `translateX(-${blogIndex * 100}%)` }}>
+                {blogPosts.map((post, i) => (
+                  <div className="blog-carousel-slide" key={post.title}>
+                    <AnimatedCard className="blog-card blog-card-carousel" whileHover={{ scale: 1.02 }}>
+                      <div className="blog-image" style={{ backgroundImage: `url(${post.image})` }}>
+                        <span className="blog-tag">{post.tag}</span>
+                      </div>
+                      <div className="blog-body">
+                        <span className="blog-date">{post.date}</span>
+                        <h3>{post.title}</h3>
+                        <p>{post.excerpt}</p>
+                        <Link to="/catalogue" className="blog-link">
+                          Lire l'article <ArrowRight size={14} />
+                        </Link>
+                      </div>
+                    </AnimatedCard>
                   </div>
-                  <div className="blog-body">
-                    <span className="blog-date">{post.date}</span>
-                    <h3>{post.title}</h3>
-                    <p>{post.excerpt}</p>
-                    <Link to="/catalogue" className="blog-link">
-                      Lire l'article <ArrowRight size={14} />
-                    </Link>
-                  </div>
-                </AnimatedCard>
-              </ScrollReveal>
-            ))}
+                ))}
+              </div>
+            </div>
+            <button className="blog-arrow blog-arrow-right" onClick={() => goToBlog((blogIndex + 1) % blogPosts.length)}>
+              <ChevronRight size={22} />
+            </button>
+            <div className="blog-dots">
+              {blogPosts.map((_, i) => (
+                <button
+                  key={i}
+                  className={`blog-dot ${i === blogIndex ? "active" : ""}`}
+                  onClick={() => goToBlog(i)}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </section>
