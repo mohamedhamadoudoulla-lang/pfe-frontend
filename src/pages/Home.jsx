@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { ArrowRight, ChevronDown, FileText, Calendar, Shield, Zap, Users, PenTool, Newspaper, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowRight, ChevronDown, FileText, Shield, Zap, Users, PenTool, Newspaper, ChevronLeft, ChevronRight } from "lucide-react";
 
 import DemoModal from "../components/DemoModal";
 import ServicesSection from "../components/ServicesSection";
-import { AnimatedButton, AnimatedCard, ScrollReveal } from "@/components/animate";
+import { AnimatedCard, ScrollReveal } from "@/components/animate";
 
 import "./Home.css";
 
@@ -30,8 +30,6 @@ export default function Home() {
   const [blogIndex, setBlogIndex] = useState(0);
   const blogTimer = useRef(null);
   const { user } = useAuth();
-  const navigate = useNavigate();
-  const handleStart = () => navigate(user ? "/devis-wizard" : "/login");
 
   useEffect(() => {
     blogTimer.current = setInterval(() => {
@@ -103,6 +101,9 @@ export default function Home() {
           <span className="steps-hero-tag">Comment ça marche</span>
           <h2>Quatre étapes simples</h2>
           <p>Transformez votre rêve en réalité en quatre étapes simples</p>
+          <button className="btn btn-secondary" style={{ marginTop: "16px" }} onClick={() => setIsDemoOpen(true)}>
+            Voir la démo
+          </button>
         </div>
       </section>
 
@@ -140,7 +141,6 @@ export default function Home() {
               { icon: Users, title: "Ingénieurs partenaires", desc: "Accédez à des professionnels vérifiés près de chez vous, avec avis et portfolios.", color: "#8b5cf6" },
               { icon: Shield, title: "Gratuit et sans engagement", desc: "Créez un compte et estimez votre budget sans frais cachés ni abonnement.", color: "#10b981" },
               { icon: FileText, title: "Devis PDF détaillé", desc: "Obtenez un devis complet et téléchargeable avec ventilation des coûts.", color: "#f59e0b" },
-              { icon: Calendar, title: "Suivi de projet", desc: "Planifiez et suivez l'avancement de votre projet étape par étape.", color: "#ec4899" },
               { icon: PenTool, title: "Plans prêts à l'emploi", desc: "Consultez des modèles de maison avec plans détaillés et visualisations.", color: "#06b6d4" },
             ].map((f, i) => (
               <ScrollReveal key={f.title} direction="up" delay={i * 0.08}>
@@ -234,31 +234,6 @@ export default function Home() {
                 </div>
               </ScrollReveal>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══════════════ CTA ═══════════════ */}
-      <section className="cta-section">
-        <div className="cta-bg-animation">
-          <div className="cta-bg-layer layer-1"></div>
-          <div className="cta-bg-layer layer-2"></div>
-          <div className="cta-bg-layer layer-3"></div>
-        </div>
-        <div className="cta-overlay"></div>
-
-        <div className="cta-content">
-          <h2>Prêt à construire votre maison de rêve ?</h2>
-          <p>Rejoignez les milliers d'utilisateurs qui font confiance à SmartBuild.</p>
-
-          <div className="cta-buttons">
-            <AnimatedButton className="btn btn-primary" onClick={handleStart}>
-              Obtenir un devis gratuit
-              <ArrowRight size={18} />
-            </AnimatedButton>
-            <AnimatedButton className="btn btn-outline" onClick={() => setIsDemoOpen(true)}>
-              Voir la démo
-            </AnimatedButton>
           </div>
         </div>
       </section>

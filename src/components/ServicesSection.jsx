@@ -1,4 +1,4 @@
-import { MapPin, Home, Sofa, Handshake, Ruler, BarChart3, ArrowRight } from "lucide-react";
+import { MapPin, Home, Sofa, Handshake, Ruler, ArrowRight } from "lucide-react";
 import { ScrollReveal } from "./animate";
 import { Link } from "react-router-dom";
 import "./ServicesSection.css";
@@ -29,7 +29,7 @@ const services = [
     desc: "Estimez le budget mobilier pour chaque pièce de votre maison. Accédez à notre catalogue d'équipements et meubles avec des prix actualisés pour un budget précis.",
     features: ["Catalogue intégré", "Budget par pièce", "Styles et gammes"],
     img: "/images/Apartment rent-pana.svg",
-    link: "/equipments/marketplace",
+    link: "/catalogue",
     cta: "Voir le catalogue",
   },
   {
@@ -50,16 +50,6 @@ const services = [
     img: "/images/Houses-bro.svg",
     link: "/catalogue",
     cta: "Voir les plans",
-  },
-  {
-    icon: BarChart3,
-    title: "Suivi de Budget",
-    desc: "Suivez l'évolution de votre budget projet avec des estimations en temps réel. Recevez des alertes et recommendations pour optimiser vos coûts à chaque étape.",
-    features: ["Tableau de bord", "Alertes budget", "Rapports détaillés"],
-    img: "/images/Investment data-amico.svg",
-    link: "/devis-wizard",
-    cta: "Commencer le suivi",
-    reverse: true,
   },
 ];
 

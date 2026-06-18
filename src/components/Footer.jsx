@@ -25,9 +25,9 @@ export default function Footer() {
             <FooterCol title="Services" links={[
               { label: "Estimation devis", to: "/devis-wizard" },
               { label: "Materiaux", to: "/recommandation-materiaux/estimation1" },
+              { label: "Catalogue", to: "/catalogue" },
               { label: "Marketplace terrains", to: "/terrains/marketplace" },
               { label: "Equipements pro", to: "/equipments/marketplace" },
-              { label: "Suivi de projet", to: "/mes-projets" },
             ]} />
 
             <FooterCol title="Vendeurs" links={[

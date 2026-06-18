@@ -11,6 +11,7 @@ import "leaflet-draw";
 import { getTerrains } from "../services/api";
 import API from "../services/api";
 import RainbowLines from "../components/RainbowLines";
+import { ArrowLeft } from "lucide-react";
 import "./TerrainLocation.css";
 
 delete L.Icon.Default.prototype._getIconUrl;
@@ -267,6 +268,22 @@ export default function TerrainLocation() {
   return (
     <div className="terrain-location-page">
       <RainbowLines variant="terrainLocation" />
+
+      <button
+        onClick={() => navigate(-1)}
+        style={{
+          position: "fixed", top: "90px", left: "24px", zIndex: 1000,
+          background: "rgba(255,255,255,0.92)", backdropFilter: "blur(6px)",
+          border: "1.5px solid #e2e8f0", borderRadius: "50%",
+          width: "42px", height: "42px", display: "flex", alignItems: "center",
+          justifyContent: "center", cursor: "pointer", color: "#334155",
+          boxShadow: "0 4px 12px rgba(0,0,0,0.08)", transition: "all 0.2s",
+        }}
+        onMouseEnter={(e) => { e.currentTarget.style.background = "#3b82f6"; e.currentTarget.style.color = "#fff"; }}
+        onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.92)"; e.currentTarget.style.color = "#334155"; }}
+      >
+        <ArrowLeft size={20} />
+      </button>
 
       <section className="tl-browse-section">
         <h2>🏗️ Parcourir les terrains disponibles</h2>
