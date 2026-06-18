@@ -136,7 +136,7 @@ export default function Home() {
       </section>
 
       {/* ═══════════════ SCROLLING WORDS 2 ═══════════════ */}
-      <ScrollingWords variant="estimation" />
+      <ScrollingWords />
 
       {/* ═══════════════ FAQ ═══════════════ */}
       <section className="faq-section">
