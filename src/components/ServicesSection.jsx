@@ -68,9 +68,13 @@ export default function ServicesSection() {
               <div className="ss-iphone-body">
                 <div className="ss-iphone-notch" />
                 <div className="ss-iphone-screen">
-                  <video autoPlay muted loop playsInline className="ss-iphone-video">
-                    <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4" />
-                  </video>
+                  <iframe
+                    src="https://app.heygen.com/embeds/01a51b594518400a874d9704bff8847f"
+                    title="SmartBuild Video"
+                    allow="encrypted-media; fullscreen;"
+                    frameBorder="0"
+                    style={{ width: "100%", height: "100%", border: "none" }}
+                  />
                 </div>
               </div>
             </div>

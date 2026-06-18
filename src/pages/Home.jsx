@@ -10,8 +10,6 @@ import { AnimatedCard, ScrollReveal } from "@/components/animate";
 
 import "./Home.css";
 
-const HEYGEN_URL = "https://app.heygen.com/embeds/01a51b594518400a874d9704bff8847f";
-
 const faqs = [
   { q: "Comment fonctionne l'estimation de devis ?", a: "Renseignez la surface, le nombre d'étages et le niveau de finition souhaité. Notre outil calcule instantanément un devis basé sur les prix du marché tunisien actualisés." },
   { q: "Est-ce que le service est vraiment gratuit ?", a: "Oui, l'estimation et la génération de devis sont entièrement gratuites. Vous ne payez que si vous faites appel à un ingénieur partenaire via la plateforme." },
@@ -63,20 +61,6 @@ export default function Home() {
               <Link to="/catalogue" className="btn btn-secondary">
                 Voir le catalogue
               </Link>
-            </div>
-          </div>
-
-          <div className="hero-phone">
-            <div className="phone-frame">
-              <div className="phone-notch" />
-              <div className="phone-screen">
-                <iframe
-                  src={HEYGEN_URL}
-                  title="SmartBuild Video"
-                  allow="encrypted-media; fullscreen;"
-                  frameBorder="0"
-                />
-              </div>
             </div>
           </div>
         </div>
