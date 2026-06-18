@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { getTerrains } from "../services/api";
-import ProduitCard from "../components/ProduitCard";
-import { ArrowLeft } from "lucide-react";
-import "./TerrainMarketplace.css";
+import PageShell from "../components/ui/PageShell";
+import SearchBar from "../components/ui/SearchBar";
+import TerrainCard from "../components/ui/TerrainCard";
+import { motion, AnimatePresence } from "framer-motion";
 
 const FALLBACK_TERRAINS = [
   {
@@ -73,12 +73,18 @@ const FALLBACK_TERRAINS = [
   },
 ];
 
+const SORT_OPTIONS = [
+  { value: "default", label: "Defaut" },
+  { value: "price-asc", label: "Prix croissant" },
+  { value: "price-desc", label: "Prix decroissant" },
+  { value: "surface", label: "Surface" },
+];
+
 export default function TerrainMarketplace() {
   const [terrains, setTerrains] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("default");
-  const navigate = useNavigate();
 
   useEffect(() => {
     getTerrains()
@@ -99,77 +105,91 @@ export default function TerrainMarketplace() {
       return 0;
     });
 
-  if (loading) return <div style={{ textAlign: "center", padding: 60, color: "#64748b" }}>Chargement des terrains...</div>;
+  const stats = [
+    { label: "Terrains disponibles", value: terrains.length, helper: "A vendre en Tunisie" },
+    { label: "Regions couvertes", value: new Set(terrains.map(t => t.region)).size, helper: "Partout en Tunisie" },
+    { label: "Vendeurs verifies", value: new Set(terrains.map(t => t.seller?.name)).size, helper: "Professionnels" },
+  ];
+
+  const handleChooseTerrain = (terrain) => {
+    localStorage.setItem("selectedTerrainId", terrain._id);
+    localStorage.setItem("selectedTerrain", JSON.stringify(terrain));
+    window.location.href = "/terrain-location";
+  };
+
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-[#fafafa]">
+        <div className="text-center">
+          <div className="mx-auto mb-4 h-10 w-10 animate-spin rounded-full border-4 border-gray-200 border-t-[#3b82f6]" />
+          <p className="text-sm text-gray-500">Chargement des terrains...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div style={{ minHeight: "100vh", background: "#f8fafc", fontFamily: "'Inter', sans-serif" }}>
-      <div style={{ background: "linear-gradient(135deg, #3b82f6, #1d4ed8)", padding: "32px 24px", color: "white" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <button onClick={() => navigate(-1)} style={{ background: "none", border: "none", color: "white", cursor: "pointer", fontSize: 14, marginBottom: 8, display: "flex", alignItems: "center", gap: 6 }}>
-            <ArrowLeft size={16} /> Retour
-          </button>
-          <h1 style={{ fontSize: 24, fontWeight: 800 }}>Terrains disponibles</h1>
-          <p style={{ fontSize: 14, opacity: 0.8, marginTop: 4 }}>Decouvrez tous les terrains a vendre en Tunisie</p>
-          <div style={{ display: "flex", gap: 16, marginTop: 12, fontSize: 13 }}>
-            <span>{terrains.length} terrains listes</span>
-            <span>•</span>
-            <span>{new Set(terrains.map(t => t.region)).size} regions</span>
-            <span>•</span>
-            <span>Vendeurs verifies</span>
-          </div>
-        </div>
-      </div>
-
-      <div style={{ maxWidth: 1100, margin: "0 auto", padding: "20px 16px 60px" }}>
-        <div style={{ display: "flex", gap: 10, marginBottom: 20, flexWrap: "wrap", alignItems: "center" }}>
-          <input
-            type="text"
-            placeholder="Rechercher par titre ou region..."
+    <PageShell
+      eyebrow="Marche immobilier"
+      title="Terrains disponibles"
+      subtitle="Decouvrez tous les terrains a vendre en Tunisie"
+      stats={stats}
+    >
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+        <div className="flex-1">
+          <SearchBar
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            style={{ flex: 1, minWidth: 200, padding: "10px 14px", border: "1px solid #e5e7eb", borderRadius: 8, fontSize: 14, outline: "none" }}
+            onChange={setSearch}
+            placeholder="Rechercher par titre ou region..."
           />
-          <select value={sort} onChange={(e) => setSort(e.target.value)} style={{ padding: "10px 14px", border: "1px solid #e5e7eb", borderRadius: 8, fontSize: 14 }}>
-            <option value="default">Trier par defaut</option>
-            <option value="price-asc">Prix/m2 croissant</option>
-            <option value="price-desc">Prix/m2 decroissant</option>
-            <option value="surface">Surface decroissante</option>
-          </select>
         </div>
-
-        <p style={{ fontSize: 13, color: "#9ca3af", marginBottom: 16 }}>{filtered.length} resultat(s)</p>
-
-        {filtered.length === 0 ? (
-          <div style={{ textAlign: "center", padding: "60px 20px", background: "white", borderRadius: 14, border: "2px dashed #e5e7eb" }}>
-            <p style={{ color: "#9ca3af", fontSize: 16 }}>Aucun terrain disponible</p>
-          </div>
-        ) : (
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 16 }}>
-            {filtered.map((terrain) => (
-              <ProduitCard
-                key={terrain._id}
-                produit={{
-                  _id: terrain._id,
-                  nom: terrain.title,
-                  titre: terrain.title,
-                  image: terrain.images?.[0],
-                  images: terrain.images,
-                  description: terrain.description,
-                  surface: terrain.surface,
-                  pricePerM2: terrain.pricePerM2,
-                  totalPrice: terrain.totalPrice || (terrain.surface * terrain.pricePerM2),
-                  city: terrain.city,
-                  region: terrain.region,
-                  seller: terrain.seller,
-                  isAvailable: terrain.isAvailable,
-                }}
-                type="terrain"
-                onAjoutPanier={() => {}}
-              />
-            ))}
-          </div>
-        )}
+        <div className="flex gap-2">
+          {SORT_OPTIONS.map((opt) => (
+            <button
+              key={opt.value}
+              onClick={() => setSort(opt.value)}
+              className={`rounded-full px-4 py-2 text-sm font-medium transition ${
+                sort === opt.value
+                  ? "bg-[#1f1f1f] text-white"
+                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+              }`}
+            >
+              {opt.label}
+            </button>
+          ))}
+        </div>
       </div>
-    </div>
+
+      <p className="mb-4 text-sm text-gray-400">
+        {filtered.length} resultat(s)
+      </p>
+
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={`${search}-${sort}`}
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -12 }}
+          transition={{ duration: 0.3 }}
+        >
+          {filtered.length === 0 ? (
+            <div className="flex flex-col items-center justify-center rounded-3xl border-2 border-dashed border-gray-200 bg-white/50 py-20">
+              <p className="text-base font-medium text-gray-500">Aucun terrain disponible</p>
+              <p className="mt-1 text-sm text-gray-400">Essayez d'elargir votre recherche</p>
+            </div>
+          ) : (
+            <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+              {filtered.map((terrain) => (
+                <TerrainCard
+                  key={terrain._id}
+                  terrain={terrain}
+                  onChoose={handleChooseTerrain}
+                />
+              ))}
+            </div>
+          )}
+        </motion.div>
+      </AnimatePresence>
+    </PageShell>
   );
 }
