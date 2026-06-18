@@ -1,7 +1,9 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { useState } from "react";
 import { Toaster } from "react-hot-toast";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 
+import SplashScreen from "./components/SplashScreen";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
@@ -152,12 +154,15 @@ const AppRoutes = () => (
 
 /* ── App principal ── */
 export default function App() {
+  const [splashDone, setSplashDone] = useState(false);
+
   return (
     <BrowserRouter>
       <AuthProvider>
-        <ScrollToTop />  {/* ← ici, une seule fois, au bon endroit */}
+        {!splashDone && <SplashScreen onFinish={() => setSplashDone(true)} />}
+        <ScrollToTop />
         <Toaster position="top-right" />
-        <AppRoutes />
+        {splashDone && <AppRoutes />}
       </AuthProvider>
     </BrowserRouter>
   );
