@@ -53,12 +53,18 @@ export default function FinitionStandard() {
   const region = state?.terrainInput?.region || "Tunis";
 
   useEffect(() => {
+    const isFakeProduct = (item) => {
+      const name = (item.name || "").toLowerCase();
+      const shop = (item.shopName || "").toLowerCase();
+      return name.includes("admin") || name.includes("test") || name.includes("cvcv") || name.includes("gt") || name.includes("fournisseur")
+        || shop.includes("admin") || shop.includes("test") || shop.includes("cvcv") || shop.includes("gt") || shop.includes("fournisseur");
+    };
     API.get(`/pricing/package?finition=standard&region=${encodeURIComponent(region)}`)
       .then((res) => {
-        const data = res.data.items || [];
+        const data = (res.data.items || []).filter((i) => !isFakeProduct(i));
         setItems(data);
         setSelectedIds(new Set(data.map((i) => i._id.toString())));
-        setTotal(res.data.total || 0);
+        setTotal(data.reduce((s, i) => s + i.price, 0));
       })
       .catch(() => {
         const fallback = FALLBACK_EQUIPMENT["standard"] || [];
@@ -230,6 +236,22 @@ export default function FinitionStandard() {
       </div>
 
       <div className="fin-container">
+        <div className="fin-shop-summary" style={{ borderLeft: "4px solid #3b82f6", marginBottom: 16 }}>
+          <h3><Store size={16} /> Vendeur associe</h3>
+          <div className="fin-shop-item">
+            <div style={{ width: 40, height: 40, borderRadius: 10, background: "#dbeafe", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontWeight: 700, color: "#2563eb", fontSize: 16 }}>DM</div>
+            <div style={{ flex: 1 }}>
+              <div className="fin-shop-name">Doulla Mohamed</div>
+              <div className="fin-shop-detail"><Mail size={10} /> doullamhmd@gmail.com</div>
+              <div className="fin-shop-detail"><MapPin size={10} /> Sousse, Tunisie</div>
+              <div className="fin-shop-detail"><Phone size={10} /> 55709086</div>
+            </div>
+            <a href="tel:+21655709086" style={{ padding: "8px 16px", background: "#3b82f6", color: "white", border: "none", borderRadius: 8, fontSize: 12, fontWeight: 600, cursor: "pointer", textDecoration: "none", display: "flex", alignItems: "center", gap: 4, flexShrink: 0 }}>
+              <Phone size={12} /> Appeler
+            </a>
+          </div>
+        </div>
+
         <div className="fin-construct-card">
           <div className="fin-construct-grid">
             <div className="fin-form-group">
@@ -336,24 +358,6 @@ export default function FinitionStandard() {
         </div>
       </div>
 
-      <div className="fin-container">
-        <div className="fin-shop-summary" style={{ borderLeft: "4px solid #3b82f6" }}>
-          <h3><Store size={16} /> Vendeur associe</h3>
-          <div className="fin-shop-item">
-            <div style={{ width: 40, height: 40, borderRadius: 10, background: "#dbeafe", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontWeight: 700, color: "#2563eb", fontSize: 16 }}>DM</div>
-            <div style={{ flex: 1 }}>
-              <div className="fin-shop-name">Doulla Mohamed</div>
-              <div className="fin-shop-detail"><Mail size={10} /> doullamhmd@gmail.com</div>
-              <div className="fin-shop-detail"><MapPin size={10} /> Sousse, Tunisie</div>
-              <div className="fin-shop-detail"><Phone size={10} /> 55709086</div>
-            </div>
-            <a href="tel:+21655709086" style={{ padding: "8px 16px", background: "#3b82f6", color: "white", border: "none", borderRadius: 8, fontSize: 12, fontWeight: 600, cursor: "pointer", textDecoration: "none", display: "flex", alignItems: "center", gap: 4, flexShrink: 0 }}>
-              <Phone size={12} /> Appeler
-            </a>
-          </div>
-        </div>
-      </div>
-
       {(() => {
         const selectedItems = items.filter((i) => selectedIds.has(i._id.toString()));
         const shops = [];
@@ -368,7 +372,7 @@ export default function FinitionStandard() {
         return (
           <div className="fin-container">
             <div className="fin-shop-summary">
-              <h3><Store size={16} /> Boutiques associees</h3>
+              <h3><Store size={16} /> Autres boutiques associees</h3>
               {shops.map((s, i) => (
                 <div key={i} className="fin-shop-item">
                   <div style={{ width: 36, height: 36, borderRadius: 8, background: "#eff6ff", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
