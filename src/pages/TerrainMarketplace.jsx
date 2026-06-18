@@ -212,9 +212,16 @@ export default function TerrainMarketplace() {
                   <button
                     className="select-btn"
                     onClick={() => {
-                      localStorage.setItem("selectedTerrainId", terrain._id);
-                      localStorage.setItem("selectedTerrain", JSON.stringify(terrain));
-                      window.location.href = "/terrain-location";
+                      navigate("/terrain/estimation", {
+                        state: {
+                          region: terrain.region,
+                          surface: terrain.surface,
+                          lat: terrain.location?.coordinates?.[1] || null,
+                          lng: terrain.location?.coordinates?.[0] || null,
+                          address: terrain.city || "",
+                          terrain: terrain,
+                        },
+                      });
                     }}
                   >
                     Choisir ce terrain
