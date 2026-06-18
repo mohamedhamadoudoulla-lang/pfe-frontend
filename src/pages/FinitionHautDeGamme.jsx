@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { Check, ArrowLeft, ArrowRight, Package, Loader, Image, Store, MapPin, Mail, Phone, ShoppingCart } from "lucide-react";
 import API from "../services/api";
 import { FALLBACK_EQUIPMENT } from "../data/fallbackEquipment";
+import { getImageProduit } from "../utils/imageAuto";
 import RainbowLines from "../components/RainbowLines";
 import "./Finition.css";
 
@@ -303,7 +304,7 @@ export default function FinitionHautDeGamme() {
           ) : (
             Object.entries(groupedItems).map(([cat, catItems]) => {
               const catTotal = catItems.reduce((s, i) => s + i.price, 0);
-              const catImg = catItems[0]?.image;
+              const catImg = getImageProduit(catItems[0], 'equipement');
               return (
                 <div key={cat} className="fin-cat-card">
                   <div className="fin-cat-header">
@@ -324,11 +325,7 @@ export default function FinitionHautDeGamme() {
                       return (
                         <div key={item._id} className={`fin-item-card ${isSelected ? "selected" : ""}`} onClick={() => toggleItem(item._id.toString())}>
                           <div className="fin-card-img-wrap">
-                            {item.image ? (
-                              <img className="fin-card-img" src={item.image} alt={item.name} loading="lazy" />
-                            ) : (
-                              <div className="fin-card-img-placeholder"><Image size={32} color="#7c3aed" /></div>
-                            )}
+                            <img className="fin-card-img" src={getImageProduit(item, 'equipement')} alt={item.name} loading="lazy" />
                             <div className="fin-card-check"><Check size={14} color="white" /></div>
                           </div>
                           <div className="fin-card-body">
