@@ -1,20 +1,13 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { ArrowRight, ChevronDown, Star, Quote, FileText, Calendar, Shield, Zap, Users, PenTool, Newspaper } from "lucide-react";
+import { ArrowRight, ChevronDown, FileText, Calendar, Shield, Zap, Users, PenTool, Newspaper } from "lucide-react";
 
 import DemoModal from "../components/DemoModal";
 import ServicesSection from "../components/ServicesSection";
 import { AnimatedButton, AnimatedCard, ScrollReveal } from "@/components/animate";
 
 import "./Home.css";
-
-const testimonials = [
-  { name: "Sami Ben Ahmed", role: "Propriétaire, Tunis", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80", text: "SmartBuild m'a fait gagner un temps précieux dans l'estimation de ma construction. Le devis était précis et j'ai pu trouver un ingénieur en quelques clics.", rating: 5 },
-  { name: "Nadia Kacem", role: "Architecte, Sfax", image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80", text: "Une plateforme exceptionnelle pour les professionnels du bâtiment. La mise en relation avec les clients est fluide et professionnelle.", rating: 5 },
-  { name: "Mehdi Jellali", role: "Investisseur, Sousse", image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=80", text: "J'ai utilisé SmartBuild pour estimer le budget de 3 projets. L'outil de devis m'a aidé à comparer les finitions et à optimiser mes coûts.", rating: 4 },
-  { name: "Ines Bouaziz", role: "Propriétaire, Monastir", image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&q=80", text: "Grâce à SmartBuild, j'ai pu planifier mon budget construction et ameublement avant même de commencer les travaux. Très utile !", rating: 5 },
-];
 
 const blogPosts = [
   { image: "https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=400&q=80", title: "Les tendances construction 2026 en Tunisie", excerpt: "Découvrez les nouvelles tendances éco-responsables et les matériaux innovants qui façonnent le secteur du bâtiment.", date: "10 Juin 2026", tag: "Construction" },
@@ -34,13 +27,9 @@ const faqs = [
 export default function Home() {
   const [isDemoOpen, setIsDemoOpen] = useState(false);
   const [openFaq, setOpenFaq] = useState(null);
-  const [testimonialIdx, setTestimonialIdx] = useState(0);
   const { user } = useAuth();
   const navigate = useNavigate();
   const handleStart = () => navigate(user ? "/devis-wizard" : "/login");
-
-  const nextTestimonial = () => setTestimonialIdx((i) => (i + 1) % testimonials.length);
-  const prevTestimonial = () => setTestimonialIdx((i) => (i - 1 + testimonials.length) % testimonials.length);
 
   return (
     <div className="home">
@@ -147,51 +136,6 @@ export default function Home() {
                 </AnimatedCard>
               </ScrollReveal>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══════════════ TESTIMONIALS ═══════════════ */}
-      <section className="testimonials-section">
-        <div className="section-container">
-          <ScrollReveal direction="up">
-            <div className="section-header">
-              <span className="section-tag">Témoignages</span>
-              <h2>Ce que disent nos clients</h2>
-              <p>Des milliers d'utilisateurs nous font confiance</p>
-            </div>
-          </ScrollReveal>
-
-          <div className="testimonials-carousel">
-            <div className="testimonial-card">
-              <Quote size={32} className="testimonial-quote-icon" />
-              <div className="testimonial-stars">
-                {Array.from({ length: testimonials[testimonialIdx].rating }).map((_, i) => (
-                  <Star key={i} size={16} fill="#f59e0b" color="#f59e0b" />
-                ))}
-              </div>
-              <p className="testimonial-text">"{testimonials[testimonialIdx].text}"</p>
-              <div className="testimonial-author">
-                <img src={testimonials[testimonialIdx].image} alt={testimonials[testimonialIdx].name} />
-                <div>
-                  <strong>{testimonials[testimonialIdx].name}</strong>
-                  <span>{testimonials[testimonialIdx].role}</span>
-                </div>
-              </div>
-            </div>
-            <div className="testimonial-controls">
-              <button onClick={prevTestimonial} className="testimonial-arrow" aria-label="Précédent">
-                <ArrowRight size={18} style={{ transform: "rotate(180deg)" }} />
-              </button>
-              <div className="testimonial-dots">
-                {testimonials.map((_, i) => (
-                  <span key={i} className={`dot ${i === testimonialIdx ? "active" : ""}`} onClick={() => setTestimonialIdx(i)} />
-                ))}
-              </div>
-              <button onClick={nextTestimonial} className="testimonial-arrow" aria-label="Suivant">
-                <ArrowRight size={18} />
-              </button>
-            </div>
           </div>
         </div>
       </section>
