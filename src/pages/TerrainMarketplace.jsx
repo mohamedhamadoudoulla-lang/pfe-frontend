@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { getTerrains } from "../services/api";
-import PageShell from "../components/ui/PageShell";
-import SearchBar from "../components/ui/SearchBar";
-import TerrainCard from "../components/ui/TerrainCard";
-import { motion, AnimatePresence } from "framer-motion";
+import { Search, ArrowLeft, MapPin, Maximize, DollarSign } from "lucide-react";
+import "./TerrainMarketplace.css";
 
 const FALLBACK_TERRAINS = [
   {
@@ -73,18 +72,17 @@ const FALLBACK_TERRAINS = [
   },
 ];
 
-const SORT_OPTIONS = [
-  { value: "default", label: "Defaut" },
-  { value: "price-asc", label: "Prix croissant" },
-  { value: "price-desc", label: "Prix decroissant" },
-  { value: "surface", label: "Surface" },
-];
+const getImage = (t) => {
+  if (t.images?.[0]) return t.images[0];
+  return `https://source.unsplash.com/600x400/?terrain,land&sig=${t._id}`;
+};
 
 export default function TerrainMarketplace() {
   const [terrains, setTerrains] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("default");
+  const navigate = useNavigate();
 
   useEffect(() => {
     getTerrains()
@@ -105,91 +103,134 @@ export default function TerrainMarketplace() {
       return 0;
     });
 
-  const stats = [
-    { label: "Terrains disponibles", value: terrains.length, helper: "A vendre en Tunisie" },
-    { label: "Regions couvertes", value: new Set(terrains.map(t => t.region)).size, helper: "Partout en Tunisie" },
-    { label: "Vendeurs verifies", value: new Set(terrains.map(t => t.seller?.name)).size, helper: "Professionnels" },
-  ];
-
-  const handleChooseTerrain = (terrain) => {
-    localStorage.setItem("selectedTerrainId", terrain._id);
-    localStorage.setItem("selectedTerrain", JSON.stringify(terrain));
-    window.location.href = "/terrain-location";
-  };
-
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#fafafa]">
-        <div className="text-center">
-          <div className="mx-auto mb-4 h-10 w-10 animate-spin rounded-full border-4 border-gray-200 border-t-[#3b82f6]" />
-          <p className="text-sm text-gray-500">Chargement des terrains...</p>
-        </div>
+      <div className="terrain-marketplace-page">
+        <div className="loading">Chargement des terrains...</div>
       </div>
     );
   }
 
   return (
-    <PageShell
-      eyebrow="Marche immobilier"
-      title="Terrains disponibles"
-      subtitle="Decouvrez tous les terrains a vendre en Tunisie"
-      stats={stats}
-    >
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-        <div className="flex-1">
-          <SearchBar
-            value={search}
-            onChange={setSearch}
-            placeholder="Rechercher par titre ou region..."
-          />
+    <div className="terrain-marketplace-page">
+      <div className="page-header">
+        <h1>Terrains disponibles</h1>
+        <p>Decouvrez tous les terrains a vendre en Tunisie</p>
+      </div>
+
+      <div className="tm-stats-bar">
+        <div className="tm-stat">
+          <strong>{terrains.length}</strong> terrains listes
         </div>
-        <div className="flex gap-2">
-          {SORT_OPTIONS.map((opt) => (
-            <button
-              key={opt.value}
-              onClick={() => setSort(opt.value)}
-              className={`rounded-full px-4 py-2 text-sm font-medium transition ${
-                sort === opt.value
-                  ? "bg-[#1f1f1f] text-white"
-                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-              }`}
-            >
-              {opt.label}
-            </button>
-          ))}
+        <div className="tm-stat">
+          <strong>{new Set(terrains.map((t) => t.region)).size}</strong> regions
+        </div>
+        <div className="tm-stat">
+          <strong>Vendeurs verifies</strong>
         </div>
       </div>
 
-      <p className="mb-4 text-sm text-gray-400">
-        {filtered.length} resultat(s)
-      </p>
-
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={`${search}-${sort}`}
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -12 }}
-          transition={{ duration: 0.3 }}
+      <div className="tm-filter-bar">
+        <div className="tm-search">
+          <Search size={16} />
+          <input
+            type="text"
+            placeholder="Rechercher par titre ou region..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
+        <select
+          className="tm-sort-select"
+          value={sort}
+          onChange={(e) => setSort(e.target.value)}
         >
-          {filtered.length === 0 ? (
-            <div className="flex flex-col items-center justify-center rounded-3xl border-2 border-dashed border-gray-200 bg-white/50 py-20">
-              <p className="text-base font-medium text-gray-500">Aucun terrain disponible</p>
-              <p className="mt-1 text-sm text-gray-400">Essayez d'elargir votre recherche</p>
-            </div>
-          ) : (
-            <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-              {filtered.map((terrain) => (
-                <TerrainCard
-                  key={terrain._id}
-                  terrain={terrain}
-                  onChoose={handleChooseTerrain}
-                />
-              ))}
-            </div>
-          )}
-        </motion.div>
-      </AnimatePresence>
-    </PageShell>
+          <option value="default">Trier par defaut</option>
+          <option value="price-asc">Prix/m2 croissant</option>
+          <option value="price-desc">Prix/m2 decroissant</option>
+          <option value="surface">Surface decroissante</option>
+        </select>
+      </div>
+
+      <p className="tm-results-count">{filtered.length} resultat(s)</p>
+
+      <div className="terrains-container">
+        {filtered.length === 0 ? (
+          <div className="empty-state">
+            <p>Aucun terrain disponible</p>
+          </div>
+        ) : (
+          <div className="terrains-grid">
+            {filtered.map((terrain) => {
+              const total = terrain.totalPrice || (terrain.surface * terrain.pricePerM2);
+              return (
+                <div key={terrain._id} className="terrain-card">
+                  <div className="terrain-card-img">
+                    <img
+                      className="terrain-card-image"
+                      src={getImage(terrain)}
+                      alt={terrain.title}
+                      onError={(e) => {
+                        e.target.src =
+                          "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&q=80";
+                      }}
+                    />
+                    <span className="terrain-region-tag">
+                      <MapPin size={11} /> {terrain.city || terrain.region}
+                    </span>
+                  </div>
+
+                  <div className="terrain-header">
+                    <h3>{terrain.title}</h3>
+                    <span className="region">{terrain.city || terrain.region}</span>
+                  </div>
+
+                  <div className="terrain-details">
+                    <div className="detail-row">
+                      <span><Maximize size={12} /> Surface</span>
+                      <strong>{terrain.surface} m²</strong>
+                    </div>
+                    <div className="detail-row">
+                      <span><DollarSign size={12} /> Prix/m²</span>
+                      <strong>{terrain.pricePerM2} DT</strong>
+                    </div>
+                    <div className="detail-row">
+                      <span><DollarSign size={12} /> Total</span>
+                      <strong>{total?.toLocaleString()} DT</strong>
+                    </div>
+                  </div>
+
+                  <p className="description">{terrain.description}</p>
+
+                  {terrain.seller && (
+                    <div className="seller-info">
+                      <span>{terrain.seller.name}</span>
+                      {terrain.seller.phone && <span>{terrain.seller.phone}</span>}
+                    </div>
+                  )}
+
+                  <button
+                    className="select-btn"
+                    onClick={() => {
+                      localStorage.setItem("selectedTerrainId", terrain._id);
+                      localStorage.setItem("selectedTerrain", JSON.stringify(terrain));
+                      window.location.href = "/terrain-location";
+                    }}
+                  >
+                    Choisir ce terrain
+                  </button>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+
+      <div className="back-button">
+        <button className="btn-back" onClick={() => navigate(-1)}>
+          <ArrowLeft size={14} style={{ marginRight: 6 }} /> Retour
+        </button>
+      </div>
+    </div>
   );
 }
