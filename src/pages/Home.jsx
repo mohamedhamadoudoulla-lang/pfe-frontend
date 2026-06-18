@@ -5,6 +5,7 @@ import { ArrowRight, ChevronDown, FileText, Shield, Zap, Users, PenTool, Newspap
 
 import DemoModal from "../components/DemoModal";
 import ServicesSection from "../components/ServicesSection";
+import ScrollingWords from "../components/ScrollingWords";
 import { AnimatedCard, ScrollReveal } from "@/components/animate";
 
 import "./Home.css";
@@ -87,6 +88,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* ═══════════════ SCROLLING WORDS ═══════════════ */}
+      <ScrollingWords />
 
       {/* ═══════════════ SERVICES ═══════════════ */}
       <ServicesSection />
