@@ -66,9 +66,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ═══════════════ SCROLLING WORDS ═══════════════ */}
-      <ScrollingWords />
-
       {/* ═══════════════ SERVICES ═══════════════ */}
       <ServicesSection />
 
