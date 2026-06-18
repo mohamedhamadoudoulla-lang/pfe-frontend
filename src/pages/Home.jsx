@@ -1,7 +1,7 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { ArrowRight, ChevronDown, FileText, Shield, Zap, Users, PenTool, Newspaper, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowRight, ChevronDown, FileText, Shield, Zap, Users, PenTool } from "lucide-react";
 
 import DemoModal from "../components/DemoModal";
 import ServicesSection from "../components/ServicesSection";
@@ -9,12 +9,6 @@ import ScrollingWords from "../components/ScrollingWords";
 import { AnimatedCard, ScrollReveal } from "@/components/animate";
 
 import "./Home.css";
-
-const blogPosts = [
-  { image: "https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=400&q=80", title: "Les tendances construction 2026 en Tunisie", excerpt: "Découvrez les nouvelles tendances éco-responsables et les matériaux innovants qui façonnent le secteur du bâtiment.", date: "10 Juin 2026", tag: "Construction" },
-  { image: "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=400&q=80", title: "Comment estimer son budget ameublement ?", excerpt: "Guide complet pour évaluer le coût de l'ameublement pièce par pièce selon vos goûts et votre budget.", date: "2 Juin 2026", tag: "Ameublement" },
-  { image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400&q=80", title: "Acheter un terrain : les points clés", excerpt: "Les critères essentiels à vérifier avant d'acheter un terrain constructible en Tunisie.", date: "25 Mai 2026", tag: "Terrain" },
-];
 
 const faqs = [
   { q: "Comment fonctionne l'estimation de devis ?", a: "Renseignez la surface, le nombre d'étages et le niveau de finition souhaité. Notre outil calcule instantanément un devis basé sur les prix du marché tunisien actualisés." },
@@ -28,24 +22,7 @@ const faqs = [
 export default function Home() {
   const [isDemoOpen, setIsDemoOpen] = useState(false);
   const [openFaq, setOpenFaq] = useState(null);
-  const [blogIndex, setBlogIndex] = useState(0);
-  const blogTimer = useRef(null);
   const { user } = useAuth();
-
-  useEffect(() => {
-    blogTimer.current = setInterval(() => {
-      setBlogIndex((prev) => (prev + 1) % blogPosts.length);
-    }, 4000);
-    return () => clearInterval(blogTimer.current);
-  }, []);
-
-  const goToBlog = (idx) => {
-    clearInterval(blogTimer.current);
-    setBlogIndex(idx);
-    blogTimer.current = setInterval(() => {
-      setBlogIndex((prev) => (prev + 1) % blogPosts.length);
-    }, 4000);
-  };
 
   return (
     <div className="home">
@@ -161,57 +138,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ═══════════════ BLOG CAROUSEL ═══════════════ */}
-      <section className="blog-section">
-        <div className="section-container">
-          <ScrollReveal direction="up">
-            <div className="section-header">
-              <span className="section-tag"><Newspaper size={14} /> Blog & Actualités</span>
-              <h2>Conseils et tendances</h2>
-              <p>Restez informé des dernières tendances en construction et ameublement</p>
-            </div>
-          </ScrollReveal>
-
-          <div className="blog-carousel">
-            <button className="blog-arrow blog-arrow-left" onClick={() => goToBlog((blogIndex - 1 + blogPosts.length) % blogPosts.length)}>
-              <ChevronLeft size={22} />
-            </button>
-            <div className="blog-carousel-viewport">
-              <div className="blog-carousel-track" style={{ transform: `translateX(-${blogIndex * 100}%)` }}>
-                {blogPosts.map((post, i) => (
-                  <div className="blog-carousel-slide" key={post.title}>
-                    <AnimatedCard className="blog-card blog-card-carousel" whileHover={{ scale: 1.02 }}>
-                      <div className="blog-image" style={{ backgroundImage: `url(${post.image})` }}>
-                        <span className="blog-tag">{post.tag}</span>
-                      </div>
-                      <div className="blog-body">
-                        <span className="blog-date">{post.date}</span>
-                        <h3>{post.title}</h3>
-                        <p>{post.excerpt}</p>
-                        <Link to="/catalogue" className="blog-link">
-                          Lire l'article <ArrowRight size={14} />
-                        </Link>
-                      </div>
-                    </AnimatedCard>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <button className="blog-arrow blog-arrow-right" onClick={() => goToBlog((blogIndex + 1) % blogPosts.length)}>
-              <ChevronRight size={22} />
-            </button>
-            <div className="blog-dots">
-              {blogPosts.map((_, i) => (
-                <button
-                  key={i}
-                  className={`blog-dot ${i === blogIndex ? "active" : ""}`}
-                  onClick={() => goToBlog(i)}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* ═══════════════ SCROLLING WORDS 2 ═══════════════ */}
+      <ScrollingWords variant="estimation" />
 
       {/* ═══════════════ FAQ ═══════════════ */}
       <section className="faq-section">

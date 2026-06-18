@@ -3,8 +3,8 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: 24px 0;
+  gap: 14px;
+  padding: 28px 0;
   background: #0a0a0a;
   position: relative;
 }
@@ -15,7 +15,7 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 120px;
+  width: 140px;
   z-index: 2;
   pointer-events: none;
 }
@@ -28,6 +28,16 @@
   background: linear-gradient(-90deg, #0a0a0a 0%, transparent 100%);
 }
 
+.scroll-section-estimation {
+  background: #111;
+}
+.scroll-section-estimation::before {
+  background: linear-gradient(90deg, #111 0%, transparent 100%);
+}
+.scroll-section-estimation::after {
+  background: linear-gradient(-90deg, #111 0%, transparent 100%);
+}
+
 .scroll-row {
   overflow: hidden;
   white-space: nowrap;
@@ -36,32 +46,31 @@
 
 .scroll-track {
   display: inline-flex;
-  gap: 40px;
+  gap: 48px;
   width: max-content;
   align-items: center;
 }
 
 .scroll-item {
-  font-size: 20px;
-  font-weight: 700;
-  color: #d8bc67;
+  font-size: 28px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
   white-space: nowrap;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
   font-family: 'Georgia', serif;
 }
 
 .scroll-item-outline {
   color: transparent;
-  -webkit-text-stroke: 1px rgba(216, 188, 103, 0.35);
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.2);
 }
 
 .scroll-left .scroll-track {
-  animation: marquee-left 30s linear infinite;
+  animation: marquee-left 35s linear infinite;
 }
 
 .scroll-right .scroll-track {
-  animation: marquee-right 35s linear infinite;
+  animation: marquee-right 40s linear infinite;
 }
 
 @keyframes marquee-left {
@@ -84,9 +93,9 @@
 
 @media (max-width: 768px) {
   .scroll-item {
-    font-size: 16px;
+    font-size: 20px;
   }
   .scroll-track {
-    gap: 24px;
+    gap: 28px;
   }
 }
