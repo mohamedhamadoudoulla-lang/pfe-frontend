@@ -1,7 +1,35 @@
+import { useState, useEffect, useRef } from "react";
 import { MapPin, Home, Sofa, Handshake, Ruler, ArrowRight } from "lucide-react";
 import { ScrollReveal } from "./animate";
 import { Link } from "react-router-dom";
 import "./ServicesSection.css";
+
+const HEYGEN_SRC = "https://app.heygen.com/embeds/01a51b594518400a874d9704bff8847f";
+
+function HeyGenLoop() {
+  const [key, setKey] = useState(0);
+
+  useEffect(() => {
+    const handler = (e) => {
+      if (typeof e.data === "string" && e.data.includes("ended")) {
+        setKey((k) => k + 1);
+      }
+    };
+    window.addEventListener("message", handler);
+    return () => window.removeEventListener("message", handler);
+  }, []);
+
+  return (
+    <iframe
+      key={key}
+      src={HEYGEN_SRC}
+      title="SmartBuild Video"
+      allow="encrypted-media; fullscreen;"
+      frameBorder="0"
+      style={{ width: "100%", height: "100%", border: "none" }}
+    />
+  );
+}
 
 const services = [
   {
@@ -68,13 +96,7 @@ export default function ServicesSection() {
               <div className="ss-iphone-body">
                 <div className="ss-iphone-notch" />
                 <div className="ss-iphone-screen">
-                  <iframe
-                    src="https://app.heygen.com/embeds/01a51b594518400a874d9704bff8847f"
-                    title="SmartBuild Video"
-                    allow="encrypted-media; fullscreen;"
-                    frameBorder="0"
-                    style={{ width: "100%", height: "100%", border: "none" }}
-                  />
+                  <HeyGenLoop />
                 </div>
               </div>
             </div>
