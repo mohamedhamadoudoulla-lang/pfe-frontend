@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getTerrains } from "../services/api";
 import { Search, ArrowLeft, MapPin, Maximize, DollarSign } from "lucide-react";
+import { getImageProduit } from "../utils/imageAuto";
 import "./TerrainMarketplace.css";
 
 const FALLBACK_TERRAINS = [
@@ -72,10 +73,7 @@ const FALLBACK_TERRAINS = [
   },
 ];
 
-const getImage = (t) => {
-  if (t.images?.[0]) return t.images[0];
-  return `https://source.unsplash.com/600x400/?terrain,land&sig=${t._id}`;
-};
+const FALLBACK_IMG = 'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&q=80';
 
 export default function TerrainMarketplace() {
   const [terrains, setTerrains] = useState([]);
@@ -168,11 +166,11 @@ export default function TerrainMarketplace() {
                   <div className="terrain-card-img">
                     <img
                       className="terrain-card-image"
-                      src={getImage(terrain)}
+                      src={getImageProduit(terrain, 'terrain')}
                       alt={terrain.title}
                       onError={(e) => {
-                        e.target.src =
-                          "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&q=80";
+                        e.target.onerror = null;
+                        e.target.src = FALLBACK_IMG;
                       }}
                     />
                     <span className="terrain-region-tag">

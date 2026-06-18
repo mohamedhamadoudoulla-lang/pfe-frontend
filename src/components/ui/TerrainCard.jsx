@@ -1,13 +1,11 @@
 import React from "react";
 import { MapPin, Maximize, DollarSign } from "lucide-react";
+import { getImageProduit } from "../../utils/imageAuto";
 
-const getImageAuto = (terrain) => {
-  if (terrain.images?.[0]) return terrain.images[0];
-  return `https://source.unsplash.com/600x400/?terrain,land,field&sig=${terrain._id || Math.random()}`;
-};
+const FALLBACK = 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&q=80';
 
 export default function TerrainCard({ terrain, onChoose }) {
-  const image = getImageAuto(terrain);
+  const image = getImageProduit(terrain, 'terrain');
   const total = terrain.totalPrice || (terrain.surface * terrain.pricePerM2);
 
   return (
@@ -17,7 +15,7 @@ export default function TerrainCard({ terrain, onChoose }) {
           src={image}
           alt={terrain.title}
           className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-          onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&q=80"; }}
+          onError={(e) => { e.target.onerror = null; e.target.src = FALLBACK; }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
         <div className="absolute bottom-4 left-4 flex items-center gap-2">

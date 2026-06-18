@@ -2,43 +2,16 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../services/api";
 import toast from "react-hot-toast";
+import { getImageProduit } from "../utils/imageAuto";
 
-const getImageAuto = (produit, type) => {
-  if (produit.image) return produit.image;
-
-  const keywords = {
-    terrain:    "terrain,land,field",
-    equipement: "construction,equipment,tools",
-    maison:     "house,villa,architecture",
-    materiau:   "cement,bricks,material",
-  };
-
-  const mot = keywords[type] || "construction";
-  return `https://source.unsplash.com/400x300/?${mot}&sig=${produit._id || Math.random()}`;
-};
-
-const IMAGES_TERRAIN = [
-  "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=400&q=80",
-  "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&q=80",
-  "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=80",
-];
-const IMAGES_EQUIPMENT = [
-  "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=400&q=80",
-  "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400&q=80",
-  "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80",
-];
+const FALLBACK = 'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=400&q=80';
 
 export default function ProduitCard({ produit, type, onAjoutPanier }) {
   const [ajoutEnCours, setAjoutEnCours] = useState(false);
   const [ajoute, setAjoute] = useState(false);
   const navigate = useNavigate();
 
-  const imageParDefaut =
-    type === "terrain"
-      ? IMAGES_TERRAIN[(produit._id?.charCodeAt(0) || 0) % 3]
-      : IMAGES_EQUIPMENT[(produit._id?.charCodeAt(0) || 0) % 3];
-
-  const imageSrc = getImageAuto(produit, type) || imageParDefaut;
+  const imageSrc = getImageProduit(produit, type);
 
   const handleAjoutPanier = async (e) => {
     e.stopPropagation();
@@ -105,7 +78,7 @@ export default function ProduitCard({ produit, type, onAjoutPanier }) {
           src={imageSrc}
           alt={produit.nom || produit.titre || produit.name}
           style={{ width: "100%", height: "100%", objectFit: "cover" }}
-          onError={(e) => { e.target.src = imageParDefaut; }}
+          onError={(e) => { e.target.onerror = null; e.target.src = FALLBACK; }}
         />
         <span
           style={{
