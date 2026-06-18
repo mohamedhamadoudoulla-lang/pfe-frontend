@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import API from "../services/api";
 import toast from "react-hot-toast";
 
@@ -16,6 +17,7 @@ const IMAGES_EQUIPMENT = [
 export default function ProduitCard({ produit, type, onAjoutPanier }) {
   const [ajoutEnCours, setAjoutEnCours] = useState(false);
   const [ajoute, setAjoute] = useState(false);
+  const navigate = useNavigate();
 
   const imageParDefaut =
     type === "terrain"
@@ -24,6 +26,13 @@ export default function ProduitCard({ produit, type, onAjoutPanier }) {
 
   const handleAjoutPanier = async (e) => {
     e.stopPropagation();
+    const token = localStorage.getItem("token");
+    if (!token) {
+      toast.error("Connectez-vous pour ajouter au panier");
+      navigate("/login");
+      return;
+    }
+
     setAjoutEnCours(true);
     try {
       await API.post("/panier/ajouter", {
@@ -40,7 +49,15 @@ export default function ProduitCard({ produit, type, onAjoutPanier }) {
       if (onAjoutPanier) onAjoutPanier();
       setTimeout(() => setAjoute(false), 3000);
     } catch (err) {
-      toast.error("Connectez-vous pour ajouter au panier");
+      const status = err.response?.status;
+      const msg = err.response?.data?.message || "Erreur lors de l'ajout";
+      if (status === 401) {
+        localStorage.removeItem("token");
+        toast.error("Session expiree, reconnectez-vous");
+        navigate("/login");
+      } else {
+        toast.error(msg);
+      }
     }
     setAjoutEnCours(false);
   };

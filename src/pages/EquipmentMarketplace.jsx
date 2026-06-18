@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import API from "../services/api";
 import ProduitCard from "../components/ProduitCard";
+import { ArrowLeft } from "lucide-react";
 import "./EquipmentMarketplace.css";
 
 const CATEGORIES = [
@@ -27,6 +29,7 @@ export default function EquipmentMarketplace() {
   const [filter, setFilter] = useState("all");
   const [quality, setQuality] = useState("all");
   const [search, setSearch] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     API.get("/equipment")
@@ -48,6 +51,9 @@ export default function EquipmentMarketplace() {
     <div style={{ minHeight: "100vh", background: "#f8fafc", fontFamily: "'Inter', sans-serif" }}>
       <div style={{ background: "linear-gradient(135deg, #3b82f6, #1d4ed8)", padding: "32px 24px", color: "white" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <button onClick={() => navigate(-1)} style={{ background: "none", border: "none", color: "white", cursor: "pointer", fontSize: 14, marginBottom: 8, display: "flex", alignItems: "center", gap: 6 }}>
+            <ArrowLeft size={16} /> Retour
+          </button>
           <h1 style={{ fontSize: 24, fontWeight: 800 }}>Equipements de construction</h1>
           <p style={{ fontSize: 14, opacity: 0.8, marginTop: 4 }}>Choisissez les equipements pour votre maison</p>
           <div style={{ display: "flex", gap: 16, marginTop: 12, fontSize: 13 }}>

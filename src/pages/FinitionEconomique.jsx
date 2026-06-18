@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Check, ArrowLeft, ArrowRight, Package, Loader, Image, Store, MapPin, Mail, Phone } from "lucide-react";
+import { Check, ArrowLeft, ArrowRight, Package, Loader, Image, Store, MapPin, Mail, Phone, ShoppingCart } from "lucide-react";
 import API from "../services/api";
 import { FALLBACK_EQUIPMENT } from "../data/fallbackEquipment";
 import RainbowLines from "../components/RainbowLines";
@@ -242,6 +242,9 @@ export default function FinitionEconomique() {
       `}</style>
 
       <div className="fin-hero">
+        <button onClick={() => navigate(-1)} style={{ position: "absolute", top: 16, left: 16, background: "rgba(255,255,255,0.2)", border: "none", color: "white", cursor: "pointer", fontSize: 13, padding: "8px 14px", borderRadius: 8, display: "flex", alignItems: "center", gap: 6, backdropFilter: "blur(4px)" }}>
+          <ArrowLeft size={14} /> Retour
+        </button>
         <h1>Finition Economique</h1>
         <p>Equipement complet pour une maison de qualite correcte</p>
         <div className="fin-badges">
@@ -282,6 +285,9 @@ export default function FinitionEconomique() {
           <div className="fin-pack-header">
             <div className="fin-pack-title">Pack equipement economique</div>
             <div className="fin-pack-actions">
+              <button className="fin-pack-btn" onClick={() => navigate("/equipments/marketplace")} style={{ marginRight: 4 }}>
+                <span style={{ display: "flex", alignItems: "center", gap: 4 }}><ShoppingCart size={12} /> Vers equipement</span>
+              </button>
               <button className="fin-pack-btn" onClick={selectAll}><span>Tout</span></button>
               <button className="fin-pack-btn" onClick={deselectAll}><span>Reset</span></button>
             </div>
@@ -354,6 +360,24 @@ export default function FinitionEconomique() {
               );
             })
           )}
+        </div>
+      </div>
+
+      <div className="fin-container">
+        <div className="fin-shop-summary" style={{ borderLeft: "4px solid #10b981" }}>
+          <h3><Store size={16} /> Vendeur associe</h3>
+          <div className="fin-shop-item">
+            <div style={{ width: 40, height: 40, borderRadius: 10, background: "#d1fae5", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontWeight: 700, color: "#059669", fontSize: 16 }}>DM</div>
+            <div style={{ flex: 1 }}>
+              <div className="fin-shop-name">Doulla Mohamed</div>
+              <div className="fin-shop-detail"><Mail size={10} /> doullamhmd@gmail.com</div>
+              <div className="fin-shop-detail"><MapPin size={10} /> Sousse, Tunisie</div>
+              <div className="fin-shop-detail"><Phone size={10} /> 55709086</div>
+            </div>
+            <a href="tel:+21655709086" style={{ padding: "8px 16px", background: "#10b981", color: "white", border: "none", borderRadius: 8, fontSize: 12, fontWeight: 600, cursor: "pointer", textDecoration: "none", display: "flex", alignItems: "center", gap: 4, flexShrink: 0 }}>
+              <Phone size={12} /> Appeler
+            </a>
+          </div>
         </div>
       </div>
 
