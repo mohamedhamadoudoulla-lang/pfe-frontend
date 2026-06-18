@@ -93,7 +93,7 @@ export default function PanierPage() {
           <div style={{ textAlign: "center", padding: "60px 20px", background: "white", borderRadius: 14, border: "2px dashed #e5e7eb" }}>
             <ShoppingCart size={48} style={{ opacity: 0.2, marginBottom: 12 }} />
             <p style={{ color: "#9ca3af", fontSize: 16 }}>Votre panier est vide</p>
-            <button onClick={() => navigate("/terrains/marketplace")} style={{ marginTop: 16, padding: "10px 20px", background: "#3b82f6", color: "white", border: "none", borderRadius: 8, fontSize: 14, cursor: "pointer" }}>
+            <button onClick={() => navigate("/equipments/marketplace")} style={{ marginTop: 16, padding: "10px 20px", background: "#3b82f6", color: "white", border: "none", borderRadius: 8, fontSize: 14, cursor: "pointer" }}>
               Explorer la marketplace
             </button>
           </div>

@@ -9,7 +9,7 @@ import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
 
 import Home from "./pages/Home";
-import PropertyCatalog from "./pages/PropertyCatalog";
+import Catalogue from "./pages/Catalogue";
 import PropertyDetail from "./pages/PropertyDetail";
 import HouseDetail from "./pages/HouseDetail";
 import TerrainDetail from "./pages/TerrainDetail";
@@ -99,7 +99,7 @@ const AppRoutes = () => (
     <Routes>
       {/* ── Public ── */}
       <Route path="/"               element={<Home />} />
-      <Route path="/catalogue"      element={<PropertyCatalog />} />
+      <Route path="/catalogue"      element={<Catalogue />} />
       <Route path="/services"      element={<Services />} />
       <Route path="/property/:id"   element={<PropertyDetail />} />
       <Route path="/maison/:id"     element={<HouseDetail />} />

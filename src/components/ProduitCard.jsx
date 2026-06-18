@@ -3,6 +3,20 @@ import { useNavigate } from "react-router-dom";
 import API from "../services/api";
 import toast from "react-hot-toast";
 
+const getImageAuto = (produit, type) => {
+  if (produit.image) return produit.image;
+
+  const keywords = {
+    terrain:    "terrain,land,field",
+    equipement: "construction,equipment,tools",
+    maison:     "house,villa,architecture",
+    materiau:   "cement,bricks,material",
+  };
+
+  const mot = keywords[type] || "construction";
+  return `https://source.unsplash.com/400x300/?${mot}&sig=${produit._id || Math.random()}`;
+};
+
 const IMAGES_TERRAIN = [
   "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=400&q=80",
   "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&q=80",
@@ -24,6 +38,8 @@ export default function ProduitCard({ produit, type, onAjoutPanier }) {
       ? IMAGES_TERRAIN[(produit._id?.charCodeAt(0) || 0) % 3]
       : IMAGES_EQUIPMENT[(produit._id?.charCodeAt(0) || 0) % 3];
 
+  const imageSrc = getImageAuto(produit, type) || imageParDefaut;
+
   const handleAjoutPanier = async (e) => {
     e.stopPropagation();
     const token = localStorage.getItem("token");
@@ -41,7 +57,7 @@ export default function ProduitCard({ produit, type, onAjoutPanier }) {
         quantite: 1,
         prixUnitaire: produit.totalPrice || produit.prix || produit.price || 0,
         nomProduit: produit.nom || produit.titre || produit.name || "Sans nom",
-        imageProduit: produit.image || produit.images?.[0] || imageParDefaut,
+        imageProduit: imageSrc,
         vendeurNom: produit.seller?.name || "",
       });
       setAjoute(true);
@@ -86,7 +102,7 @@ export default function ProduitCard({ produit, type, onAjoutPanier }) {
     >
       <div style={{ position: "relative", height: "200px", overflow: "hidden" }}>
         <img
-          src={produit.image || produit.images?.[0] || imageParDefaut}
+          src={imageSrc}
           alt={produit.nom || produit.titre || produit.name}
           style={{ width: "100%", height: "100%", objectFit: "cover" }}
           onError={(e) => { e.target.src = imageParDefaut; }}
