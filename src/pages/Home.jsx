@@ -10,6 +10,36 @@ import { AnimatedCard, ScrollReveal } from "@/components/animate";
 
 import "./Home.css";
 
+const HEYGEN_SRC = "https://app.heygen.com/embeds/01a51b594518400a874d9704bff8847f";
+
+function HeroIphone() {
+  const [key, setKey] = useState(0);
+  useEffect(() => {
+    const handler = (e) => {
+      if (typeof e.data === "string" && e.data.includes("ended")) setKey((k) => k + 1);
+    };
+    window.addEventListener("message", handler);
+    return () => window.removeEventListener("message", handler);
+  }, []);
+  return (
+    <div className="hero-phone">
+      <div className="hero-phone-body">
+        <div className="hero-phone-notch" />
+        <div className="hero-phone-screen">
+          <iframe
+            key={key}
+            src={HEYGEN_SRC}
+            title="SmartBuild Video"
+            allow="encrypted-media; fullscreen;"
+            frameBorder="0"
+            style={{ width: "100%", height: "100%", border: "none", pointerEvents: "none" }}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 const faqs = [
   { q: "Comment fonctionne l'estimation de devis ?", a: "Renseignez la surface, le nombre d'étages et le niveau de finition souhaité. Notre outil calcule instantanément un devis basé sur les prix du marché tunisien actualisés." },
   { q: "Est-ce que le service est vraiment gratuit ?", a: "Oui, l'estimation et la génération de devis sont entièrement gratuites. Vous ne payez que si vous faites appel à un ingénieur partenaire via la plateforme." },
@@ -63,6 +93,7 @@ export default function Home() {
               </Link>
             </div>
           </div>
+          <HeroIphone />
         </div>
       </section>
 
