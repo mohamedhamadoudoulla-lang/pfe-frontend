@@ -92,13 +92,11 @@ export default function ServicesSection() {
               <h2>Tout ce dont vous avez besoin pour votre projet</h2>
               <p>De l'estimation du terrain à la décoration intérieure, SmartBuild vous accompagne à chaque étape.</p>
             </div>
-            <div style={{ animation: "spin 6s linear infinite" }}>
-              <div className="ss-iphone">
-                <div className="ss-iphone-body">
-                  <div className="ss-iphone-notch" />
-                  <div className="ss-iphone-screen">
-                    <HeyGenLoop />
-                  </div>
+            <div className="ss-iphone">
+              <div className="ss-iphone-body">
+                <div className="ss-iphone-notch" />
+                <div className="ss-iphone-screen">
+                  <HeyGenLoop />
                 </div>
               </div>
             </div>

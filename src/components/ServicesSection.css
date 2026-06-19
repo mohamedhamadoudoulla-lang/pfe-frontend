@@ -273,8 +273,3 @@
   .ss-image-wrap { width: 160px; }
   .ss-iphone-body { width: 180px; height: 360px; }
 }
-
-@keyframes spin {
-  from { transform: rotateY(0deg); }
-  to { transform: rotateY(360deg); }
-}
