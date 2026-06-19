@@ -99,6 +99,31 @@ const CATEGORY_IMAGES = {
     'https://images.unsplash.com/photo-1585421514284-efb74c2b69ba?w=400&q=80',
     'https://images.unsplash.com/photo-1585421514284-efb74c2b69ba?w=400&q=80',
   ],
+  lavabo: [
+    'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=400&q=80',
+    'https://images.unsplash.com/photo-1507089947368-19c1da9775ae?w=400&q=80',
+    'https://images.unsplash.com/photo-1620626011761-996317b8d109?w=400&q=80',
+  ],
+  lit: [
+    'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=400&q=80',
+    'https://images.unsplash.com/photo-1540518614846-7eded433c457?w=400&q=80',
+    'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=400&q=80',
+  ],
+  refrigerateur: [
+    'https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=400&q=80',
+    'https://images.unsplash.com/photo-1584568694244-441fbef15d6a?w=400&q=80',
+    'https://images.unsplash.com/photo-1590794056226-79ef3a8147e1?w=400&q=80',
+  ],
+  machine_laver: [
+    'https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?w=400&q=80',
+    'https://images.unsplash.com/photo-1585515320310-259814833e62?w=400&q=80',
+    'https://images.unsplash.com/photo-1610557892470-55d9e80c0eb7?w=400&q=80',
+  ],
+  cuisiniere: [
+    'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80',
+    'https://images.unsplash.com/photo-1584568694244-441fbef15d6a?w=400&q=80',
+    'https://images.unsplash.com/photo-1590794056226-79ef3a8147e1?w=400&q=80',
+  ],
 };
 
 const TYPE_IMAGES = {
