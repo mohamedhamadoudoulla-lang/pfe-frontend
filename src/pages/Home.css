@@ -815,11 +815,6 @@
   background: rgba(255,255,255,0.1);
 }
 
-@keyframes spin {
-  from { transform: rotateY(0deg); }
-  to { transform: rotateY(360deg); }
-}
-
 /* ─── RESPONSIVE ────────────────────────────────────────── */
 @media (max-width: 1024px) {
   .hero-title { font-size: 48px; }

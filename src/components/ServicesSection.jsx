@@ -26,7 +26,7 @@ function HeyGenLoop() {
       title="SmartBuild Video"
       allow="encrypted-media; fullscreen;"
       frameBorder="0"
-      style={{ width: "100%", height: "100%", border: "none" }}
+      style={{ width: "100%", height: "100%", border: "none", pointerEvents: "none" }}
     />
   );
 }
@@ -92,11 +92,13 @@ export default function ServicesSection() {
               <h2>Tout ce dont vous avez besoin pour votre projet</h2>
               <p>De l'estimation du terrain à la décoration intérieure, SmartBuild vous accompagne à chaque étape.</p>
             </div>
-            <div className="ss-iphone">
-              <div className="ss-iphone-body">
-                <div className="ss-iphone-notch" />
-                <div className="ss-iphone-screen">
-                  <HeyGenLoop />
+            <div style={{ animation: "spin 6s linear infinite" }}>
+              <div className="ss-iphone">
+                <div className="ss-iphone-body">
+                  <div className="ss-iphone-notch" />
+                  <div className="ss-iphone-screen">
+                    <HeyGenLoop />
+                  </div>
                 </div>
               </div>
             </div>

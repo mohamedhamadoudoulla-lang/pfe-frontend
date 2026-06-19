@@ -71,11 +71,9 @@ export default function Home() {
 
       {/* ═══════════════ STEPS ═══════════════ */}
       <section className="steps-hero">
-        <div style={{ animation: "spin 6s linear infinite" }}>
-          <video autoPlay muted loop playsInline style={{ pointerEvents: "none" }} className="steps-video">
-            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4" />
-          </video>
-        </div>
+        <video autoPlay muted loop playsInline style={{ pointerEvents: "none" }} className="steps-video">
+          <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4" />
+        </video>
         <div className="steps-hero-overlay" />
         <div className="steps-hero-content">
           <span className="steps-hero-tag">Comment ça marche</span>
