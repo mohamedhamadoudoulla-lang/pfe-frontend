@@ -94,62 +94,64 @@ const SellerOnly = ({ children }) => {
 
 /* ── Routes ── */
 const AppRoutes = () => (
-  <>
+  <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
     <Navbar />
-    <Routes>
-      {/* ── Public ── */}
-      <Route path="/"               element={<Home />} />
-      <Route path="/catalogue"      element={<Catalogue3D />} />
-      <Route path="/services"      element={<Services />} />
-      <Route path="/property/:id"   element={<PropertyDetail />} />
-      <Route path="/maison/:id"     element={<HouseDetail />} />
-      <Route path="/terrain/:id"    element={<TerrainDetail />} />
-      <Route path="/ingenieurs"     element={<Engineers />} />
-      <Route path="/ingenieur/:id"  element={<EngineerProfile />} />
-      <Route path="/login"          element={<Login />} />
-<Route path="/register" element={<Register />} />
-      <Route path="/verify-email/:token" element={<VerifyEmail />} />
+    <div style={{ flex: 1 }}>
+      <Routes>
+        {/* ── Public ── */}
+        <Route path="/"               element={<Home />} />
+        <Route path="/catalogue"      element={<Catalogue3D />} />
+        <Route path="/services"      element={<Services />} />
+        <Route path="/property/:id"   element={<PropertyDetail />} />
+        <Route path="/maison/:id"     element={<HouseDetail />} />
+        <Route path="/terrain/:id"    element={<TerrainDetail />} />
+        <Route path="/ingenieurs"     element={<Engineers />} />
+        <Route path="/ingenieur/:id"  element={<EngineerProfile />} />
+        <Route path="/login"          element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/verify-email/:token" element={<VerifyEmail />} />
 
-      {/* ── Client ── */}
-      <Route path="/devis-wizard"          element={<ClientOnly><DevisWizard /></ClientOnly>} />
-      <Route path="/devis-wz2"             element={<ClientOnly><DevisWizard2 /></ClientOnly>} />
-      <Route path="/choisir-ingenieur"     element={<ClientOnly><ChooseEngineer /></ClientOnly>} />
-      <Route path="/terrain/localisation"  element={<ClientOnly><TerrainLocation /></ClientOnly>} />
-      <Route path="/terrain/estimation"    element={<ClientOnly><TerrainEstimation /></ClientOnly>} />
-      <Route path="/finition/economique"   element={<ClientOnly><FinitionEconomique /></ClientOnly>} />
-      <Route path="/finition/standard"     element={<ClientOnly><FinitionStandard /></ClientOnly>} />
-      <Route path="/finition/haut-de-gamme" element={<ClientOnly><FinitionHautDeGamme /></ClientOnly>} />
-      <Route path="/recommandation-materiaux/:estimationId" element={<ClientOnly><RecommandationMateriaux /></ClientOnly>} />
-      <Route path="/devis"                 element={<ClientOnly><Quote /></ClientOnly>} />
-      <Route path="/marketplace/:devisId"  element={<ClientOnly><RecommandationsMarketplace /></ClientOnly>} />
-      <Route path="/deposer-projet"        element={<ClientOnly><PostProject /></ClientOnly>} />
-      <Route path="/mes-projets"           element={<ClientOnly><MyProjects /></ClientOnly>} />
-      <Route path="/terrains/marketplace"  element={<ClientOnly><TerrainMarketplace /></ClientOnly>} />
-      <Route path="/equipments/marketplace" element={<ClientOnly><EquipmentMarketplace /></ClientOnly>} />
-      <Route path="/panier"                element={<PrivateRoute><PanierPage /></PrivateRoute>} />
+        {/* ── Client ── */}
+        <Route path="/devis-wizard"          element={<ClientOnly><DevisWizard /></ClientOnly>} />
+        <Route path="/devis-wz2"             element={<ClientOnly><DevisWizard2 /></ClientOnly>} />
+        <Route path="/choisir-ingenieur"     element={<ClientOnly><ChooseEngineer /></ClientOnly>} />
+        <Route path="/terrain/localisation"  element={<ClientOnly><TerrainLocation /></ClientOnly>} />
+        <Route path="/terrain/estimation"    element={<ClientOnly><TerrainEstimation /></ClientOnly>} />
+        <Route path="/finition/economique"   element={<ClientOnly><FinitionEconomique /></ClientOnly>} />
+        <Route path="/finition/standard"     element={<ClientOnly><FinitionStandard /></ClientOnly>} />
+        <Route path="/finition/haut-de-gamme" element={<ClientOnly><FinitionHautDeGamme /></ClientOnly>} />
+        <Route path="/recommandation-materiaux/:estimationId" element={<ClientOnly><RecommandationMateriaux /></ClientOnly>} />
+        <Route path="/devis"                 element={<ClientOnly><Quote /></ClientOnly>} />
+        <Route path="/marketplace/:devisId"  element={<ClientOnly><RecommandationsMarketplace /></ClientOnly>} />
+        <Route path="/deposer-projet"        element={<ClientOnly><PostProject /></ClientOnly>} />
+        <Route path="/mes-projets"           element={<ClientOnly><MyProjects /></ClientOnly>} />
+        <Route path="/terrains/marketplace"  element={<ClientOnly><TerrainMarketplace /></ClientOnly>} />
+        <Route path="/equipments/marketplace" element={<ClientOnly><EquipmentMarketplace /></ClientOnly>} />
+        <Route path="/panier"                element={<PrivateRoute><PanierPage /></PrivateRoute>} />
 
-      {/* ── Ingénieur ── */}
-      <Route path="/ingenieur/dashboard" element={<EngineerOnly><EngineerDashboard /></EngineerOnly>} />
-      <Route path="/ingenieur/projets"   element={<EngineerOnly><EngineerProjects /></EngineerOnly>} />
-      <Route path="/ingenieur/profil-creation" element={<EngineerOnly><EngineerProfileCreate /></EngineerOnly>} />
+        {/* ── Ingénieur ── */}
+        <Route path="/ingenieur/dashboard" element={<EngineerOnly><EngineerDashboard /></EngineerOnly>} />
+        <Route path="/ingenieur/projets"   element={<EngineerOnly><EngineerProjects /></EngineerOnly>} />
+        <Route path="/ingenieur/profil-creation" element={<EngineerOnly><EngineerProfileCreate /></EngineerOnly>} />
 
-      {/* ── Vendeur ── */}
-      <Route path="/vendeur/dashboard"    element={<EquipmentSellerOnly><SellerDashboard /></EquipmentSellerOnly>} />
-      <Route path="/vendeur/produits"     element={<EquipmentSellerOnly><VendorProducts /></EquipmentSellerOnly>} />
-      <Route path="/terrains/ajouter"     element={<SellerOnly><TerrainVendor /></SellerOnly>} />
-      <Route path="/equipments/dashboard" element={<EquipmentSellerOnly><VendorProducts /></EquipmentSellerOnly>} />
+        {/* ── Vendeur ── */}
+        <Route path="/vendeur/dashboard"    element={<EquipmentSellerOnly><SellerDashboard /></EquipmentSellerOnly>} />
+        <Route path="/vendeur/produits"     element={<EquipmentSellerOnly><VendorProducts /></EquipmentSellerOnly>} />
+        <Route path="/terrains/ajouter"     element={<SellerOnly><TerrainVendor /></SellerOnly>} />
+        <Route path="/equipments/dashboard" element={<EquipmentSellerOnly><VendorProducts /></EquipmentSellerOnly>} />
 
-      {/* ── Admin ── */}
-      <Route path="/admin/dashboard" element={<AdminOnly><AdminDashboard /></AdminOnly>} />
+        {/* ── Admin ── */}
+        <Route path="/admin/dashboard" element={<AdminOnly><AdminDashboard /></AdminOnly>} />
 
-      {/* ── Privé ── */}
-      <Route path="/profil"           element={<PrivateRoute><UserProfile /></PrivateRoute>} />
-      <Route path="/messages/:userId" element={<PrivateRoute><Messages /></PrivateRoute>} />
+        {/* ── Privé ── */}
+        <Route path="/profil"           element={<PrivateRoute><UserProfile /></PrivateRoute>} />
+        <Route path="/messages/:userId" element={<PrivateRoute><Messages /></PrivateRoute>} />
 
-      <Route path="*" element={<Navigate to="/" />} />
-    </Routes>
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+    </div>
     <Footer />
-  </>
+  </div>
 );
 
 /* ── App principal ── */
