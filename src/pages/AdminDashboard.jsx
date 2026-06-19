@@ -21,6 +21,19 @@ export default function AdminDashboard() {
 
   const REGIONS = ["Tunis","Sfax","Sousse","Kairouan","Bizerte","Gabes","Ariana","Monastir","Nabeul","Medenine","Kasserine","Beja","Jendouba","Gafsa"];
 
+  const getInitials = (name) => {
+    if (!name) return "?";
+    return name.split(" ").filter(Boolean).map(w => w[0]).slice(0, 2).join("").toUpperCase();
+  };
+
+  const stringToColor = (str) => {
+    if (!str) return "#6b7280";
+    const colors = ["#534AB7","#1D9E75","#D85A30","#378ADD","#dc2626","#7c3aed","#ea580c","#0891b2","#be185d"];
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    return colors[Math.abs(hash) % colors.length];
+  };
+
   useEffect(() => {
     const load = async () => {
       setLoading(true);
@@ -226,9 +239,15 @@ export default function AdminDashboard() {
 
         {activeTab === "users" && (
           <>
-            <div className="admin-section-header">
-              <h2>Gestion des utilisateurs</h2>
-              <p>{users.length} compte(s) enregistre(s)</p>
+            <div className="section-summary-card">
+              <div className="section-summary-icon" style={{ background: "#dcfce7" }}>
+                <Users size={22} style={{ color: "#1D9E75" }} />
+              </div>
+              <div className="section-summary-body">
+                <span className="section-summary-label">Gestion des utilisateurs</span>
+                <span className="section-summary-value">{users.length}</span>
+                <span className="section-summary-badge" style={{ background: "#dcfce7", color: "#1D9E75" }}>compte(s) enregistre(s)</span>
+              </div>
             </div>
             <div className="admin-table-wrapper">
               <table className="admin-table">
@@ -240,7 +259,14 @@ export default function AdminDashboard() {
                 <tbody>
                   {users.map(u => (
                     <tr key={u._id}>
-                      <td><strong>{u.name}</strong></td>
+                      <td>
+                        <div className="user-name-cell">
+                          <div className="avatar-circle" style={{ background: stringToColor(u.name) }}>
+                            {getInitials(u.name)}
+                          </div>
+                          <strong>{u.name}</strong>
+                        </div>
+                      </td>
                       <td>{u.email}</td>
                       <td><span className={`role-badge role-${u.role}`}>{roleLabel[u.role]}</span></td>
                       <td>{new Date(u.createdAt).toLocaleDateString("fr-TN")}</td>
@@ -262,9 +288,17 @@ export default function AdminDashboard() {
 
         {activeTab === "engineers" && (
           <>
-            <div className="admin-section-header">
-              <h2>Validation des ingenieurs</h2>
-              <p>{engineers.filter(e => !e.isVerified).length} en attente de validation</p>
+            <div className="section-summary-card">
+              <div className="section-summary-icon" style={{ background: "#ede9fe" }}>
+                <HardHat size={22} style={{ color: "#534AB7" }} />
+              </div>
+              <div className="section-summary-body">
+                <span className="section-summary-label">Validation des ingenieurs</span>
+                <span className="section-summary-value">{engineers.length}</span>
+                <span className="section-summary-badge" style={{ background: "#ede9fe", color: "#534AB7" }}>
+                  {engineers.filter(e => !e.isVerified).length} en attente de validation
+                </span>
+              </div>
             </div>
             <div className="engineers-admin-list">
               {engineers.length === 0 ? (
@@ -273,8 +307,8 @@ export default function AdminDashboard() {
                 <ScrollReveal key={eng._id} delay={i * 0.1} direction="up">
                   <AnimatedCard className="engineer-admin-card" whileHover={{ scale: 1.02 }}>
                     <div className="engineer-admin-info">
-                      <div className="eng-admin-avatar">
-                        <HardHat size={24} />
+                      <div className="avatar-circle avatar-lg" style={{ background: stringToColor(eng.user?.name || "E") }}>
+                        {getInitials(eng.user?.name)}
                       </div>
                       <div>
                         <h4>{eng.user?.name}</h4>
@@ -298,9 +332,15 @@ export default function AdminDashboard() {
 
         {activeTab === "estimations" && (
           <>
-            <div className="admin-section-header">
-              <h2>Gestion des estimations</h2>
-              <p>{estimations.length} estimation(s) au total</p>
+            <div className="section-summary-card">
+              <div className="section-summary-icon" style={{ background: "#eff6ff" }}>
+                <FileText size={22} style={{ color: "#378ADD" }} />
+              </div>
+              <div className="section-summary-body">
+                <span className="section-summary-label">Gestion des estimations</span>
+                <span className="section-summary-value">{estimations.length}</span>
+                <span className="section-summary-badge" style={{ background: "#eff6ff", color: "#378ADD" }}>estimation(s) au total</span>
+              </div>
             </div>
             <div className="admin-table-wrapper">
               <table className="admin-table">
@@ -335,9 +375,15 @@ export default function AdminDashboard() {
 
         {activeTab === "materials" && (
           <>
-            <div className="admin-section-header">
-              <h2>Règles de calcul des matériaux</h2>
-              <p>{materialRules.length} règle(s) définie(s)</p>
+            <div className="section-summary-card">
+              <div className="section-summary-icon" style={{ background: "#fff4ed" }}>
+                <Layers size={22} style={{ color: "#D85A30" }} />
+              </div>
+              <div className="section-summary-body">
+                <span className="section-summary-label">Regles de calcul des materiaux</span>
+                <span className="section-summary-value">{materialRules.length}</span>
+                <span className="section-summary-badge" style={{ background: "#fff4ed", color: "#D85A30" }}>regle(s) definie(s)</span>
+              </div>
             </div>
 
             <form className="price-form" onSubmit={handleSaveRule}>

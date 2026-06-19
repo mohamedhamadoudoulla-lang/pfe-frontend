@@ -179,6 +179,76 @@
   width: fit-content;
 }
 
+/* ── Section summary cards ── */
+.section-summary-card {
+  background: var(--ad-white);
+  border: 1px solid var(--ad-border);
+  border-radius: 10px;
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.section-summary-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.section-summary-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.section-summary-label {
+  font-size: 12px;
+  color: var(--ad-muted);
+  font-weight: 500;
+}
+.section-summary-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--ad-dark);
+  line-height: 1.1;
+}
+.section-summary-badge {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 50px;
+  margin-top: 2px;
+  width: fit-content;
+}
+
+/* ── Avatar circles ── */
+.avatar-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  flex-shrink: 0;
+  letter-spacing: 0.5px;
+}
+.avatar-circle.avatar-lg {
+  width: 48px;
+  height: 48px;
+  font-size: 16px;
+}
+.user-name-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 /* ── Table ── */
 .admin-table-wrapper {
   background: var(--ad-white);
@@ -284,14 +354,6 @@
 }
 .engineer-admin-card:hover { border-color: #d1d5db; }
 .engineer-admin-info { display: flex; align-items: center; gap: 12px; }
-.eng-admin-avatar {
-  width: 42px; height: 42px;
-  background: var(--ad-primary-light);
-  border-radius: 10px;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-  color: var(--ad-primary);
-}
 .engineer-admin-info h4 {
   font-size: 14px;
   font-weight: 600;
