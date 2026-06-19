@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Users, HardHat, FileText, Mountain, Sofa, Settings, Check, Trash2, Calculator, Layers, Plus, Edit2, X } from "lucide-react";
+import { Users, HardHat, FileText, Mountain, Sofa, Settings, Check, Trash2, Calculator, Layers, Plus, Edit2, X, Package } from "lucide-react";
 import API from "../services/api";
 import toast from "react-hot-toast";
 import { AnimatedButton, AnimatedCard, ScrollReveal } from "@/components/animate";
@@ -13,6 +13,7 @@ export default function AdminDashboard() {
   const [prices, setPrices]       = useState([]);
   const [estimations, setEstimations] = useState([]);
   const [materialRules, setMaterialRules] = useState([]);
+  const [products, setProducts]   = useState([]);
   const [loading, setLoading]     = useState(true);
   const [priceForm, setPriceForm] = useState({ region: "", pricePerM2: "" });
   const [ruleForm, setRuleForm] = useState({ type: "", nom: "", scenario: "standard", ratioParM2: "", unite: "" });
@@ -24,13 +25,14 @@ export default function AdminDashboard() {
     const load = async () => {
       setLoading(true);
       try {
-        const [s, u, e, p, est, mr] = await Promise.all([
+        const [s, u, e, p, est, mr, pr] = await Promise.all([
           API.get("/admin/stats"),
           API.get("/admin/users"),
           API.get("/engineers"),
           API.get("/region-prices"),
           API.get("/admin/estimations"),
           API.get("/admin/material-rules"),
+          API.get("/products").catch(() => ({ data: [] })),
         ]);
         setStats(s.data);
         setUsers(u.data);
@@ -38,6 +40,7 @@ export default function AdminDashboard() {
         setPrices(p.data);
         setEstimations(est.data);
         setMaterialRules(mr.data);
+        setProducts(pr.data);
       } catch (err) {
         toast.error("Erreur lors du chargement du dashboard");
       } finally {
@@ -159,11 +162,12 @@ export default function AdminDashboard() {
   if (loading) return <div className="loading">Chargement du dashboard...</div>;
 
   const statCards = [
-    { icon: Users, label: "Utilisateurs",  value: stats?.users      || 0, color: "#ede9fe", accent: "#534AB7" },
-    { icon: HardHat, label: "Ingenieurs",    value: stats?.engineers  || 0, color: "#dcfce7", accent: "#16a34a" },
-    { icon: FileText, label: "Estimations",  value: stats?.estimations|| 0, color: "#fff7ed", accent: "#ea580c" },
-    { icon: Mountain, label: "Terrains",     value: stats?.terrains   || 0, color: "#fef2f2", accent: "#dc2626" },
-    { icon: Sofa, label: "Meubles",          value: stats?.furniture  || 0, color: "#f5f3ff", accent: "#7c3aed" },
+    { icon: HardHat, label: "Ingenieurs",    value: stats?.engineers  || 0, bg: "#ede9fe", color: "#534AB7", badge: "inscrits" },
+    { icon: Users, label: "Utilisateurs",    value: stats?.users      || 0, bg: "#dcfce7", color: "#1D9E75", badge: "inscrits" },
+    { icon: Package, label: "Produits",      value: products.length,          bg: "#fff4ed", color: "#D85A30", badge: "disponibles" },
+    { icon: FileText, label: "Estimations",  value: stats?.estimations|| 0, bg: "#eff6ff", color: "#378ADD", badge: "total" },
+    { icon: Mountain, label: "Terrains",     value: stats?.terrains   || 0, bg: "#fef2f2", color: "#378ADD", badge: "annonces" },
+    { icon: Sofa, label: "Meubles",          value: stats?.furniture  || 0, bg: "#faf5ff", color: "#378ADD", badge: "catalogue" },
   ];
 
   return (
@@ -203,16 +207,17 @@ export default function AdminDashboard() {
             </div>
             <div className="stats-grid">
               {statCards.map((s, i) => (
-                <ScrollReveal key={i} delay={i * 0.1} direction="up">
-                  <AnimatedCard className="stat-card" whileHover={{ scale: 1.02 }}>
-                    <div className="stat-icon-wrap" style={{ background: s.color }}>
-                      <s.icon size={28} style={{ color: s.accent }} />
+                <ScrollReveal key={i} delay={i * 0.08} direction="up">
+                  <div className="stat-card">
+                    <div className="stat-icon-circle" style={{ background: s.bg }}>
+                      <s.icon size={22} style={{ color: s.color }} />
                     </div>
-                    <div className="stat-content">
-                      <p className="stat-value">{s.value}</p>
-                      <p className="stat-label">{s.label}</p>
+                    <div className="stat-body">
+                      <span className="stat-label">{s.label}</span>
+                      <span className="stat-value">{s.value}</span>
+                      <span className="stat-badge" style={{ background: s.bg, color: s.color }}>{s.badge}</span>
                     </div>
-                  </AnimatedCard>
+                  </div>
                 </ScrollReveal>
               ))}
             </div>
