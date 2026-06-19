@@ -28,11 +28,12 @@ export default function TerrainEstimation() {
       return;
     }
     if (state?.terrain) {
+      const tp = state.terrain.totalPrice || (state.terrain.surface * state.terrain.pricePerM2);
       setResult({
         region: state.terrain.region,
         surface: state.terrain.surface,
         avgPricePerM2: state.terrain.pricePerM2,
-        estimatedTotal: state.terrain.totalPrice,
+        estimatedTotal: tp,
         terrains: [state.terrain],
         source: "terrain_selected",
       });

@@ -105,7 +105,7 @@ export default function Quote() {
 
   const { terrain, terrainInput, construction, furnishing, selectedProducts, materiauxConstruction, totalMateriaux, estimationId } = state || {};
 
-  const terrainCost = terrain?.estimatedTotal || 0;
+  const terrainCost = terrain?.estimatedTotal || (terrainInput?.surface * terrain?.avgPricePerM2) || 0;
   const constructionCost = construction?.totalConstructionCost || 0;
   const furnishingCost = furnishing?.totalFurnishingCost || 0;
   const productsCost = selectedProducts?.reduce((sum, p) => sum + (p.price || 0), 0) || 0;
