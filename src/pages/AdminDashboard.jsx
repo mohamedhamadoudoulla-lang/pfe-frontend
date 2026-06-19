@@ -278,11 +278,7 @@ export default function AdminDashboard() {
                       </div>
                     </div>
                     <div className="engineer-admin-right">
-                      {eng.isVerified ? (
-                        <span className="verified-admin-badge">
-                           <Check size={16} /> Actif
-                        </span>
-                      ) : (
+                      {!eng.isVerified && (
                         <AnimatedButton className="btn-verify" variant="primary" onClick={() => handleVerifyEngineer(eng._id)}>
                           <Check size={16} /> Valider
                         </AnimatedButton>
