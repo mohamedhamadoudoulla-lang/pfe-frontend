@@ -253,10 +253,8 @@ export default function EngineerDashboard() {
           <div className="ed-user-avatar">{initial}</div>
           <div className="ed-user-name">{user?.name}</div>
           <div className="ed-user-email">{user?.email}</div>
-          {profile?.isVerified ? (
-            <div className="ed-badge verified"><CheckCircle size={12} /> Verifie</div>
-          ) : (
-            <div className="ed-badge pending"><Clock size={12} /> En attente</div>
+          {profile?.isVerified && (
+            <div className="ed-badge verified"><CheckCircle size={12} /> Profil actif</div>
           )}
         </div>
 

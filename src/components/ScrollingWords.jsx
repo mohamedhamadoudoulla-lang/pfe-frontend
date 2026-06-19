@@ -21,7 +21,7 @@ const words = [
   { text: "Finition Standard", icon: Award, color: "#2563eb" },
   { text: "Finition Haut de Gamme", icon: Gem, color: "#be185d" },
   { text: "Materiaux certifies", icon: Shield, color: "#854d0e" },
-  { text: "Ingenieurs verifies", icon: UserCheck, color: "#1d4ed8" },
+  { text: "Ingenieurs", icon: UserCheck, color: "#1d4ed8" },
   { text: "Export PDF gratuit", icon: FileText, color: "#b45309" },
 ];
 

@@ -13,7 +13,7 @@ import "./Home.css";
 const faqs = [
   { q: "Comment fonctionne l'estimation de devis ?", a: "Renseignez la surface, le nombre d'étages et le niveau de finition souhaité. Notre outil calcule instantanément un devis basé sur les prix du marché tunisien actualisés." },
   { q: "Est-ce que le service est vraiment gratuit ?", a: "Oui, l'estimation et la génération de devis sont entièrement gratuites. Vous ne payez que si vous faites appel à un ingénieur partenaire via la plateforme." },
-  { q: "Comment sont vérifiés les ingénieurs partenaires ?", a: "Chaque ingénieur passe par un processus de vérification de ses diplômes, certifications et références avant d'être approuvé sur la plateforme." },
+  { q: "Comment sont sélectionnés les ingénieurs partenaires ?", a: "Chaque ingénieur passe par un processus de sélection de ses diplômes, certifications et références avant d'être approuvé sur la plateforme." },
   { q: "Puis-je télécharger mon devis en PDF ?", a: "Absolument. Une fois votre devis généré, vous pouvez le télécharger en format PDF pour l'imprimer ou le partager avec vos partenaires." },
   { q: "Quels types de finition sont disponibles ?", a: "Nous proposons 3 gammes : Économique (standard), Standard (bonne qualité) et Haut de Gamme (premium) avec des matériaux et équipements adaptés à chaque budget." },
   { q: "Comment contacter un ingénieur ?", a: "Après avoir généré votre devis, vous pouvez choisir parmi nos ingénieurs vérifiés et les contacter directement via la messagerie intégrée." },
