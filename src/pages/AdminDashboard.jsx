@@ -159,11 +159,11 @@ export default function AdminDashboard() {
   if (loading) return <div className="loading">Chargement du dashboard...</div>;
 
   const statCards = [
-    { icon: Users, label: "Utilisateurs",  value: stats?.users      || 0, color: "#eff6ff", accent: "#3b82f6" },
-    { icon: HardHat, label: "Ingenieurs",    value: stats?.engineers  || 0, color: "#ecfdf5", accent: "#10b981" },
-    { icon: FileText, label: "Estimations",  value: stats?.estimations|| 0, color: "#fffbeb", accent: "#f59e0b" },
-    { icon: Mountain, label: "Terrains",     value: stats?.terrains   || 0, color: "#fef2f2", accent: "#ef4444" },
-    { icon: Sofa, label: "Meubles",          value: stats?.furniture  || 0, color: "#f5f3ff", accent: "#8b5cf6" },
+    { icon: Users, label: "Utilisateurs",  value: stats?.users      || 0, color: "#ede9fe", accent: "#534AB7" },
+    { icon: HardHat, label: "Ingenieurs",    value: stats?.engineers  || 0, color: "#dcfce7", accent: "#16a34a" },
+    { icon: FileText, label: "Estimations",  value: stats?.estimations|| 0, color: "#fff7ed", accent: "#ea580c" },
+    { icon: Mountain, label: "Terrains",     value: stats?.terrains   || 0, color: "#fef2f2", accent: "#dc2626" },
+    { icon: Sofa, label: "Meubles",          value: stats?.furniture  || 0, color: "#f5f3ff", accent: "#7c3aed" },
   ];
 
   return (
