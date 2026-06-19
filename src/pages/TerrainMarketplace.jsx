@@ -124,7 +124,7 @@ export default function TerrainMarketplace() {
           <strong>{new Set(terrains.map((t) => t.region)).size}</strong> regions
         </div>
         <div className="tm-stat">
-          <strong>Vendeurs verifies</strong>
+                          <strong>Vendeurs</strong>
         </div>
       </div>
 
