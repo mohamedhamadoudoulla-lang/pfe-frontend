@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SmartBuild - QR Code</title>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+  <style>
+    body { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; background: #f8fafc; font-family: 'Segoe UI', sans-serif; margin: 0; }
+    .card { background: white; border-radius: 16px; padding: 40px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); text-align: center; }
+    h1 { color: #1D9E75; font-size: 22px; margin-bottom: 4px; }
+    p { color: #64748b; font-size: 13px; margin-bottom: 24px; }
+    canvas { border-radius: 12px; }
+    .url { margin-top: 16px; font-size: 11px; color: #94a3b8; word-break: break-all; max-width: 300px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>SmartBuild</h1>
+    <p>Scannez pour acceder a l'application</p>
+    <canvas id="qr"></canvas>
+    <div class="url">https://pfe-frontend-mohamedhamadoudoulla-lang.vercel.app</div>
+  </div>
+  <script>
+    QRCode.toCanvas(document.getElementById('qr'), 'https://pfe-frontend-mohamedhamadoudoulla-lang.vercel.app', {
+      width: 280,
+      margin: 2,
+      color: { dark: '#1a1a1a', light: '#ffffff' }
+    });
+  </script>
+</body>
+</html>
