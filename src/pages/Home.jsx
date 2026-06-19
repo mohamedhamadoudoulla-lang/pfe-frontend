@@ -71,7 +71,7 @@ export default function Home() {
 
       {/* ═══════════════ STEPS ═══════════════ */}
       <section className="steps-hero">
-        <video autoPlay muted loop playsInline className="steps-video">
+        <video autoPlay muted loop playsInline style={{ pointerEvents: "none" }} className="steps-video">
           <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4" />
         </video>
         <div className="steps-hero-overlay" />

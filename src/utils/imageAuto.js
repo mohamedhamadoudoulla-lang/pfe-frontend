@@ -69,6 +69,36 @@ const CATEGORY_IMAGES = {
     'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80',
     'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80',
   ],
+  armoire: [
+    'https://images.unsplash.com/photo-1558997519-83ea9252edf8?w=400&q=80',
+    'https://images.unsplash.com/photo-1595428774223-ef52624120d2?w=400&q=80',
+    'https://images.unsplash.com/photo-1616627561839-074385245ff6?w=400&q=80',
+  ],
+  table_chevet: [
+    'https://images.unsplash.com/photo-1532372320572-cda25653a26d?w=400&q=80',
+    'https://images.unsplash.com/photo-1594026112284-02bb6f3352fe?w=400&q=80',
+    'https://images.unsplash.com/photo-1503602642458-232111445657?w=400&q=80',
+  ],
+  canape: [
+    'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&q=80',
+    'https://images.unsplash.com/photo-1540574163026-643ea20ade25?w=400&q=80',
+    'https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=400&q=80',
+  ],
+  douche_cuisine: [
+    'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80',
+    'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80',
+    'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80',
+  ],
+  equipement_cuisine: [
+    'https://images.unsplash.com/photo-1584568694244-441fbef15d6a?w=400&q=80',
+    'https://images.unsplash.com/photo-1590794056226-79ef3a8147e1?w=400&q=80',
+    'https://images.unsplash.com/photo-1585515320310-259814833e62?w=400&q=80',
+  ],
+  wc: [
+    'https://images.unsplash.com/photo-1585421514284-efb74c2b69ba?w=400&q=80',
+    'https://images.unsplash.com/photo-1585421514284-efb74c2b69ba?w=400&q=80',
+    'https://images.unsplash.com/photo-1585421514284-efb74c2b69ba?w=400&q=80',
+  ],
 };
 
 const TYPE_IMAGES = {

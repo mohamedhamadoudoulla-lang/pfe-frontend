@@ -128,7 +128,7 @@ export default function Navbar() {
             </Link>
             <Link to="/equipments/marketplace" className="navbar-link">
               <Package size={16} className="nav-icon" />
-              <span className="nav-label">Equipements</span>
+              <span className="nav-label">Boutique</span>
             </Link>
             <Link to="/panier" className="navbar-link" style={{ position: "relative" }}>
               <ShoppingCart size={16} className="nav-icon" />

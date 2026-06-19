@@ -262,22 +262,6 @@ export default function FinitionEconomique() {
       </div>
 
       <div className="fin-container">
-        <div className="fin-shop-summary" style={{ borderLeft: "4px solid #10b981", marginBottom: 16 }}>
-          <h3><Store size={16} /> Boutique associee</h3>
-          <div className="fin-shop-item">
-            <div style={{ width: 40, height: 40, borderRadius: 10, background: "#d1fae5", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontWeight: 700, color: "#059669", fontSize: 16 }}>DM</div>
-            <div style={{ flex: 1 }}>
-              <div className="fin-shop-name">Doulla Mohamed</div>
-              <div className="fin-shop-detail"><Mail size={10} /> doullamhmd@gmail.com</div>
-              <div className="fin-shop-detail"><MapPin size={10} /> Sousse, Tunisie</div>
-              <div className="fin-shop-detail"><Phone size={10} /> 55709086</div>
-            </div>
-            <a href="tel:+21655709086" style={{ padding: "8px 16px", background: "#10b981", color: "white", border: "none", borderRadius: 8, fontSize: 12, fontWeight: 600, cursor: "pointer", textDecoration: "none", display: "flex", alignItems: "center", gap: 4, flexShrink: 0 }}>
-              <Phone size={12} /> Appeler
-            </a>
-          </div>
-        </div>
-
         <div className="fin-construct-card">
           <div className="fin-construct-grid">
             <div className="fin-form-group">

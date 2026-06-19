@@ -54,7 +54,7 @@ export default function EquipmentMarketplace() {
           <button onClick={() => navigate(-1)} style={{ background: "none", border: "none", color: "white", cursor: "pointer", fontSize: 14, marginBottom: 8, display: "flex", alignItems: "center", gap: 6 }}>
             <ArrowLeft size={16} /> Retour
           </button>
-          <h1 style={{ fontSize: 24, fontWeight: 800 }}>Equipements de construction</h1>
+          <h1 style={{ fontSize: 24, fontWeight: 800 }}>Boutique</h1>
           <p style={{ fontSize: 14, opacity: 0.8, marginTop: 4 }}>Choisissez les equipements pour votre maison</p>
           <div style={{ display: "flex", gap: 16, marginTop: 12, fontSize: 13 }}>
             <span>{items.length} produits disponibles</span>
