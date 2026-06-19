@@ -4,7 +4,7 @@ import { ScrollReveal } from "./animate";
 import { Link } from "react-router-dom";
 import "./ServicesSection.css";
 
-const HEYGEN_SRC = "https://app.heygen.com/embeds/01a51b594518400a874d9704bff8847f";
+const HEYGEN_SRC = "https://app.heygen.com/embeds/01a51b594518400a874d9704bff8847f?autoplay=1";
 
 function HeyGenLoop() {
   const [key, setKey] = useState(0);
@@ -17,6 +17,11 @@ function HeyGenLoop() {
     };
     window.addEventListener("message", handler);
     return () => window.removeEventListener("message", handler);
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => setKey((k) => k + 1), 30000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
