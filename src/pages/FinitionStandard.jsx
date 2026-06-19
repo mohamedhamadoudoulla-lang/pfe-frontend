@@ -235,8 +235,22 @@ export default function FinitionStandard() {
           <span className="fin-badge">Photos reelles</span>
         </div>
       </div>
-
       <div className="fin-container">
+
+        <div className="fin-shop-summary" style={{ borderLeft: "4px solid #3b82f6", marginBottom: 16 }}>
+          <h3><Store size={16} /> Boutique associee</h3>
+          <div className="fin-shop-item">
+            <div style={{ width: 40, height: 40, borderRadius: 10, background: "#dbeafe", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: 14, color: "#1e40af" }}>DM</div>
+            <div style={{ flex: 1 }}>
+              <div className="fin-shop-name">Doulla Mohamed</div>
+              <div className="fin-shop-detail"><Mail size={10} /> doullamhmd@gmail.com</div>
+              <div className="fin-shop-detail"><MapPin size={10} /> Sousse, Tunisie</div>
+              <div className="fin-shop-detail"><Phone size={10} /> 55709086</div>
+            </div>
+            <a href="tel:+21655709086" style={{ display: "inline-flex", alignItems: "center", gap: 4, background: "#3b82f6", color: "white", padding: "6px 12px", borderRadius: 8, fontSize: 12, fontWeight: 600, textDecoration: "none" }}><Phone size={12} /> Appeler</a>
+          </div>
+        </div>
+
         <div className="fin-construct-card">
           <div className="fin-construct-grid">
             <div className="fin-form-group">

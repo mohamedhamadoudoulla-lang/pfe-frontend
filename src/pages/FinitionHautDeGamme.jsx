@@ -235,8 +235,22 @@ export default function FinitionHautDeGamme() {
           <span className="fin-badge">Photos reelles</span>
         </div>
       </div>
-
       <div className="fin-container">
+
+        <div className="fin-shop-summary" style={{ borderLeft: "4px solid #7c3aed", marginBottom: 16 }}>
+          <h3><Store size={16} /> Boutique associee</h3>
+          <div className="fin-shop-item">
+            <div style={{ width: 40, height: 40, borderRadius: 10, background: "#ede9fe", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: 14, color: "#4c1d95" }}>DM</div>
+            <div style={{ flex: 1 }}>
+              <div className="fin-shop-name">Doulla Mohamed</div>
+              <div className="fin-shop-detail"><Mail size={10} /> doullamhmd@gmail.com</div>
+              <div className="fin-shop-detail"><MapPin size={10} /> Sousse, Tunisie</div>
+              <div className="fin-shop-detail"><Phone size={10} /> 55709086</div>
+            </div>
+            <a href="tel:+21655709086" style={{ display: "inline-flex", alignItems: "center", gap: 4, background: "#7c3aed", color: "white", padding: "6px 12px", borderRadius: 8, fontSize: 12, fontWeight: 600, textDecoration: "none" }}><Phone size={12} /> Appeler</a>
+          </div>
+        </div>
+
         <div className="fin-construct-card">
           <div className="fin-construct-grid">
             <div className="fin-form-group">
